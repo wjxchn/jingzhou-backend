@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package jingzhou.Controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
