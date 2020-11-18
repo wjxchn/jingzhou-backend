@@ -20,6 +20,7 @@ where "mid" is MAG entity ID and "aid" is AMiner entity ID.
 
 
 | **Field Name** | **Field Type** | **Description** | **Example** |
+
 | -------------- | -------------- | --------------- | ----------- |
 | id             | string | venue id | 5bf574641c5a1dcdd96f817b |
 | JournalId      | string | journal id | 137773608 |
