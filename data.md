@@ -30,7 +30,7 @@ where "mid" is MAG entity ID and "aid" is AMiner entity ID.
 ### paper（MAG/Aminer各种论文）
 
 | **Field Name** | **Field**      | **Description**    | **Example**|
-| -------------  | -------------- | ------------------ | ----------- | -------- |
+| -------------  | -------------- | ------------------ | ----------- |
 |id              | string         | paper ID           | 53e9ab9eb7602d970354a97e|
 |title           | string         | paper title        | Data mining: concepts and techniques|
 | authors.name   | string         | author name        |  Jiawei Han|
