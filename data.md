@@ -38,7 +38,7 @@ where "mid" is MAG entity ID and "aid" is AMiner entity ID.
 | author.id      | string    | author ID                   | 53f42f36dabfaedce54dcd0c|
 | venue.id       | string    | paper venue ID              | 53e17f5b20f7dfbc07e8ac6e|
 | venue.raw      | string    paper venue                   Inteligencia Artificial, Revista Iberoamericana de| name     | Inteligencia Artificial|
-|year             |int         | published year             | 2000||
+|year             |int         | published year             | 2000|
 | keywords       | list of   strings   | keywords |["data mining", "structured data", "world wide web", "social network", "relational data"]|
 | citation   | int  | citation number  |   40829|
 | page_start    | string    | page start           | 11|
