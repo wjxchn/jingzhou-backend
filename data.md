@@ -34,10 +34,10 @@ where "mid" is MAG entity ID and "aid" is AMiner entity ID.
 |id              | string         | paper ID           | 53e9ab9eb7602d970354a97e|
 |title           | string         | paper title        | Data mining: concepts and techniques|
 | authors.name   | string         | author name        |  Jiawei Han|
-| author.org     | string         | author             | Department of Computer Science, University of Illinois at  affiliation  Urbana-Champaign|
+| author.org     | string         | author             | Department of Computer Science, University of Illinois at affiliation Urbana-Champaign|
 | author.id      | string         | author ID          | 53f42f36dabfaedce54dcd0c|
 | venue.id       | string         | paper venue ID     | 53e17f5b20f7dfbc07e8ac6e|
-| venue.raw      | string         |paper venue         |Inteligencia Artificial, Revista Iberoamericana de| name     | Inteligencia Artificial|
+| venue.raw      | string         |paper venue         |Inteligencia Artificial, Revista Iberoamericana de， Inteligencia Artificial|
 |year            |int             | published year     | 2000|
 | keywords       | list of strings| keywords           |["data mining", "structured data", "world wide web", "social network", "relational data"]|
 | citation       | int            | citation number    |   40829|
