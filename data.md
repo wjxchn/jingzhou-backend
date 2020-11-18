@@ -20,7 +20,6 @@ where "mid" is MAG entity ID and "aid" is AMiner entity ID.
 
 
 | **Field Name** | **Field Type** | **Description** | **Example** |
-
 | -------------- | -------------- | --------------- | ----------- |
 | id             | string | venue id | 5bf574641c5a1dcdd96f817b |
 | JournalId      | string | journal id | 137773608 |
@@ -32,18 +31,18 @@ where "mid" is MAG entity ID and "aid" is AMiner entity ID.
 
 | **Field Name** | **Field** | **Description** | **Example**|
 | ------------- | --------- | --------------- | ----------- | -------- |
-|id      | string      | paper ID          | 53e9ab9eb7602d970354a97e||
-|title              | string      | paper title       | Data mining: concepts and techniques||
-| authors.name   | string    | author name |  Jiawei Han||
-| author.org     | string   | author   | Department of Computer Science, University of Illinois at  affiliation  Urbana-Champaign||
-| author.id      | string    | author ID                   | 53f42f36dabfaedce54dcd0c||
-| venue.id       | string    | paper venue ID              | 53e17f5b20f7dfbc07e8ac6e||
-| venue.raw      | string    paper venue                   Inteligencia Artificial, Revista Iberoamericana de| name     | Inteligencia Artificial||
+|id      | string      | paper ID          | 53e9ab9eb7602d970354a97e|
+|title              | string      | paper title       | Data mining: concepts and techniques|
+| authors.name   | string    | author name |  Jiawei Han|
+| author.org     | string   | author   | Department of Computer Science, University of Illinois at  affiliation  Urbana-Champaign|
+| author.id      | string    | author ID                   | 53f42f36dabfaedce54dcd0c|
+| venue.id       | string    | paper venue ID              | 53e17f5b20f7dfbc07e8ac6e|
+| venue.raw      | string    paper venue                   Inteligencia Artificial, Revista Iberoamericana de| name     | Inteligencia Artificial|
 |year             |int         | published year             | 2000||
-| keywords       | list of   strings   | keywords |["data mining", "structured data", "world wide web", "social network", "relational data"]||
-| citation   | int  | citation number  |   40829||
-| page_start    | string    | page start           | 11||
-| page_end      | string    | page end             |18||
+| keywords       | list of   strings   | keywords |["data mining", "structured data", "world wide web", "social network", "relational data"]|
+| citation   | int  | citation number  |   40829|
+| page_start    | string    | page start           | 11|
+| page_end      | string    | page end             |18|
 | doc_type      | string    | paper type: journal, book, title…|book|
 |lang           | string    | detected  language |  en|
 | publisher     | string    | publisher     | Elsevier|
