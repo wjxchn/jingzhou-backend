@@ -16,7 +16,7 @@ example
 
 where "mid" is MAG entity ID and "aid" is AMiner entity ID.
 
-### venue （期刊）
+### venue （期刊/领域）
 
 
 | **Field Name** | **Field Type** | **Description** | **Example** |
