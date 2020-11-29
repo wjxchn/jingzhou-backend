@@ -19,23 +19,48 @@ public class PaperController {
     /*
     * 可用
     * 通过mongodb的[_id]字段查找
+    * 精确查询
     * */
     @RequestMapping("/api/paper/byid")
     private Paper findPaperById(@RequestParam("id") String id){
 
         System.out.println("------try to get paper:"+id);
         Paper paper = paperService.getById(id);
-        //System.out.println("------id:"+paper.get_id());
         return paper;
     }
 
-    /*不可用*/
+    /*精确查询
+    * 可用
+    * 通过title获取paper
+    * */
     @RequestMapping("/api/paper/bytitle")
     private Paper findPaperByTitle(@RequestParam("title") String title){
 
         System.out.println("------try to get paper:"+title);
-        Paper paper = paperService.getById(title);
-        //System.out.println("------id:"+paper.get_id());
+        Paper paper = paperService.getByTitle(title);
+        return paper;
+    }
+
+
+    @RequestMapping("/api/paper/byfuzzytitle")
+    private Paper findPaperByTitleFuzzy(@RequestParam("title") String title){
+
+        /*
+        * //完全匹配
+Pattern pattern = Pattern.compile("^hzb$", Pattern.CASE_INSENSITIVE);
+//右匹配
+Pattern pattern = Pattern.compile("^.*hzb$", Pattern.CASE_INSENSITIVE);
+//左匹配
+Pattern pattern = Pattern.compile("^hzb.*$", Pattern.CASE_INSENSITIVE);
+//模糊匹配
+Pattern pattern = Pattern.compile("^.*hzb.*$", Pattern.CASE_INSENSITIVE);
+Query query = Query.query(Criteria.where(fieldName).regex(pattern));
+        List<StorageBO> storages = mongoTemplate.find(query, StorageBO.class, collectionName);
+        return storages;
+        * */
+
+        System.out.println("------try to get paper:"+title);
+        Paper paper = paperService.getByTitle(title);
         return paper;
     }
 }
