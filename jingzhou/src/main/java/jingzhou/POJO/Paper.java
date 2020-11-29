@@ -22,11 +22,13 @@ public class Paper implements Serializable {
     private String title;
 
     @Field("authors")
-    private ArrayList<Author>authors;
+    private ArrayList<Paper_Author>authors;
 
-    private String[] venue;
+    private Paper_venue venue;
 
     private int year;
+
+    ArrayList<String> keywords;
 
     private int n_citation;
 

@@ -16,6 +16,10 @@ public class PaperController {
     @Autowired
     PaperServiceImpl paperService;
 
+    /*
+    * 可用
+    * 通过mongodb的[_id]字段查找
+    * */
     @RequestMapping("/api/paper/byid")
     private Paper findPaperById(@RequestParam("id") String id){
 
@@ -25,6 +29,7 @@ public class PaperController {
         return paper;
     }
 
+    /*不可用*/
     @RequestMapping("/api/paper/bytitle")
     private Paper findPaperByTitle(@RequestParam("title") String title){
 

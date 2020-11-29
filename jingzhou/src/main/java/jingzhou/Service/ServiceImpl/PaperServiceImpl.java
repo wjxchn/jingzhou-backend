@@ -19,7 +19,7 @@ public class PaperServiceImpl implements PaperService {
     @Override
     public Paper getById(String id) {
 
-        Query  query = new Query(Criteria.where("id").is(id));
+        Query  query = new Query(Criteria.where("_id").is(id));
         Paper paper = mongoTemplate.findOne(query, Paper.class);
         return paper;
 
