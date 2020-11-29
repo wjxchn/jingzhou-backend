@@ -16,7 +16,7 @@ example
 
 where "mid" is MAG entity ID and "aid" is AMiner entity ID.
 
-### venue （期刊）
+### venue （会场）
 
 
 | **Field Name** | **Field Type** | **Description** | **Example** |
@@ -61,11 +61,11 @@ where "mid" is MAG entity ID and "aid" is AMiner entity ID.
 | -------------- | -------------- | --------------- | ----------- |
 |id|string|author id| 53f42f36dabfaedce54dcd0c|
 |name|string|author name| Jiawei Han|
-|normalized_name |  string| normalized author name   | jiawei han|
-|orgs| list of strings   | author affiliations|["Department of Computer Science, University of Illinois  at Urbana-Champaign"] |
+|~~normalized_name~~ |  string| normalized author name   | jiawei han|
+|~~orgs~~| list of strings   | author affiliations|["Department of Computer Science, University of Illinois  at Urbana-Champaign"] |
 |org|string| last known affiliation   | Department of Computer Science, University of Illinois at Urbana-Champaign|
 | position|string   | author position|professor|
-|pubs.i |int|the number of author       |1217  publications|
+|~~pubs.i~~ |int|the number of author       |1217  publications|
 |citation|int| author citation count    |191526|
 |index|int| author h-index|175|
 |tags.t|string| research interests       | "data mining"|
