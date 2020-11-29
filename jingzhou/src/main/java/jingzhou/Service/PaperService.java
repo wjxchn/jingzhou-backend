@@ -5,5 +5,11 @@ import org.bson.types.ObjectId;
 
 public interface PaperService {
 
-    Paper getById(ObjectId id);
+    //根据论文ID精确查找
+    Paper getById(String id);
+
+    //根据论文title模糊查找
+    Paper getByTitle(String title);
+
+
 }

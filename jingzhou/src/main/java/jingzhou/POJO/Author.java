@@ -2,16 +2,12 @@ package jingzhou.POJO;
 
 import lombok.Data;
 import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 @Data
 @Document(collection = "mag_author_0_1")
 public class Author implements Serializable {

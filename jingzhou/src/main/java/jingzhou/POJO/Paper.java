@@ -2,8 +2,6 @@ package jingzhou.POJO;
 
 import lombok.Data;
 import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.aggregation.VariableOperators;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.MongoId;
@@ -14,7 +12,7 @@ import java.util.ArrayList;
 @Data
 @Document(collection = "aminer_paper_0")
 public class Paper implements Serializable {
-    @Id
+    @MongoId
     private ObjectId _id;
 
     @Field("id")
@@ -27,7 +25,6 @@ public class Paper implements Serializable {
     private ArrayList<Author>authors;
 
     private String[] venue;
-
 
     private int year;
 
@@ -48,7 +45,5 @@ public class Paper implements Serializable {
     private String isbn;
 
     private ArrayList<String> url;
-
-
 
 }
