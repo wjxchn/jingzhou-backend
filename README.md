@@ -2,14 +2,18 @@
 
 这是径舟学术的后端。
 
+## 说明
+
+MySQL需要先建表才能够使用。
+
 ## 版本
 
 2020/11/10 v0.01 Springboot初始内容，额外多出两个Controller。
+
+2020/12/1 v0.02 MySQL和MongoDB已配置
 
 ## 未来技术安排
 
 swagger: 制作API文档
 
-mysql需要配置
-
-登录相关的内容
+API的具体编写
