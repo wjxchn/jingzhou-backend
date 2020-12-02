@@ -1,6 +1,5 @@
 package jingzhou.Service.ServiceImpl;
 
-import jingzhou.Dao.AuthorDao;
 import jingzhou.POJO.Author;
 import jingzhou.Service.AuthorService;
 import org.bson.types.ObjectId;
@@ -16,13 +15,13 @@ import javax.annotation.Resource;
 @Service
 public class AuthorServiceImpl implements AuthorService {
 
-    @Resource
-    private MongoTemplate mongoTemplate;
     @Autowired
-    private AuthorDao authorDao;
-    @Override
+    private MongoTemplate mongoTemplate;
+
     public Author getByName(String name) {
-        return authorDao.getAllByName(name);
+        Query query = new Query(Criteria.where("name").is(name));
+
+        return mongoTemplate.findOne(query,Author.class);
     }
 
     @Override

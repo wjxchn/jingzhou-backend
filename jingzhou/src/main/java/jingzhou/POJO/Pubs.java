@@ -10,7 +10,7 @@ import java.io.Serializable;
 * 这个类用于承接Author数据中的 论文-作者顺序
 * */
 @Data
-public class pubs implements Serializable {
+public class Pubs implements Serializable {
 
     //论文id
     @Field("i")

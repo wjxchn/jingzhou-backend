@@ -19,7 +19,7 @@ public class Author implements Serializable {
     private long id;
 
     @Field("pubs")
-    private ArrayList<pubs> pubsList;
+    private ArrayList<Pubs> pubsList;
 
     //发表总数
     @Field("n_pubs")

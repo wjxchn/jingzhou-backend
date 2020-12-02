@@ -11,7 +11,8 @@ public class AuthUser {
     private String achievements;
     private String researchfield;
     private String realname;
-    private int authorid;
+    //nosql中的author id字段比较长
+    private String authorid;
     private int userid;
 
     public int getAuthuserid() {
@@ -54,11 +55,11 @@ public class AuthUser {
         this.realname = realname;
     }
 
-    public int getAuthorid() {
+    public String getAuthorid() {
         return authorid;
     }
 
-    public void setAuthorid(int authorid) {
+    public void setAuthorid(String authorid) {
         this.authorid = authorid;
     }
 

@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
 /*
 * @Description 用于处理nosql数据中的[paper]数据请求
 * */
@@ -21,7 +24,7 @@ public class PaperController {
     * 通过mongodb的[_id]字段查找
     * 精确查询
     * */
-    @RequestMapping("/api/paper/byid")
+    @RequestMapping("/api/paper/id")
     private Paper findPaperById(@RequestParam("id") String id){
 
         System.out.println("------try to get paper:"+id);
@@ -33,7 +36,7 @@ public class PaperController {
     * 可用
     * 通过title获取paper
     * */
-    @RequestMapping("/api/paper/bytitle")
+    @RequestMapping("/api/paper/title")
     private Paper findPaperByTitle(@RequestParam("title") String title){
 
         System.out.println("------try to get paper:"+title);
@@ -42,25 +45,11 @@ public class PaperController {
     }
 
 
-    @RequestMapping("/api/paper/byfuzzytitle")
-    private Paper findPaperByTitleFuzzy(@RequestParam("title") String title){
-
-        /*
-        * //完全匹配
-Pattern pattern = Pattern.compile("^hzb$", Pattern.CASE_INSENSITIVE);
-//右匹配
-Pattern pattern = Pattern.compile("^.*hzb$", Pattern.CASE_INSENSITIVE);
-//左匹配
-Pattern pattern = Pattern.compile("^hzb.*$", Pattern.CASE_INSENSITIVE);
-//模糊匹配
-Pattern pattern = Pattern.compile("^.*hzb.*$", Pattern.CASE_INSENSITIVE);
-Query query = Query.query(Criteria.where(fieldName).regex(pattern));
-        List<StorageBO> storages = mongoTemplate.find(query, StorageBO.class, collectionName);
-        return storages;
-        * */
+    @RequestMapping("/api/paper/fuzzytitle")
+    private List<Paper> findPaperByTitleFuzzy(@RequestParam("title") String title){
 
         System.out.println("------try to get paper:"+title);
-        Paper paper = paperService.getByTitle(title);
-        return paper;
+        List<Paper> papers = paperService.getByFuzzyTitle(title);
+        return papers;
     }
 }
