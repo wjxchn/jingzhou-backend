@@ -12,8 +12,8 @@ MySQL需要先建表才能够使用。
 
 2020/12/1 v0.02 MySQL和MongoDB已配置
 
+2020/12/2 v0.03 Swagger2已配置
+
 ## 未来技术安排
 
-swagger: 制作API文档
-
-API的具体编写
+API的具体编写和完善
