@@ -1,6 +1,8 @@
 package jingzhou.Controller;
 
+import jingzhou.MySQLTable.Follow;
 import jingzhou.MySQLTable.User;
+import jingzhou.repository.FollowRepository;
 import jingzhou.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,6 +18,9 @@ import java.util.Map;
 public class UserController {
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private FollowRepository followRepository;
 
     @ApiOperation(value = "注册接口")
     @PostMapping("register")
@@ -47,6 +52,50 @@ public class UserController {
     }
 
 
+    /**关注相关的接口**/
+    @ApiOperation(value = "关注用户")
+    @PostMapping("follow")
+    public Map<String,Object> follow(@RequestParam("followername") String followername, @RequestParam("researchername") String researchername){
+        HashMap<String,Object> result = new HashMap<>();
+        User follower = userRepository.findUserByUsername(followername);
+        User researcher = userRepository.findUserByUsername(researchername);
+        if (followRepository.findFollowByFollowerAndAndResearcher(follower.getId(),researcher.getId()) == null){
+            Follow follow = new Follow();
+            follow.setFollower(follower.getId());
+            follow.setResearcher(researcher.getId());
+            followRepository.save(follow);
+
+            result.put("code",200);
+            result.put("msg","关注成功");
+            return result;
+        }
+        else {
+            result.put("code",400);
+            result.put("msg","关注失败");
+            return result;
+        }
+    }
+
+    @ApiOperation(value = "取消关注用户")
+    @PostMapping("unfollow")
+    public Map<String,Object> unfollow(@RequestParam("followername") String followername, @RequestParam("researchername") String researchername){
+        HashMap<String,Object> result = new HashMap<>();
+        User follower = userRepository.findUserByUsername(followername);
+        User researcher = userRepository.findUserByUsername(researchername);
+        Follow follow = followRepository.findFollowByFollowerAndAndResearcher(follower.getId(),researcher.getId());
+        if (follow != null){
+            followRepository.delete(follow);
+
+            result.put("code",200);
+            result.put("msg","取消关注成功");
+            return result;
+        }
+        else {
+            result.put("code",400);
+            result.put("msg","取消关注失败");
+            return result;
+        }
+    }
 
 
 
