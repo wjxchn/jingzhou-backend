@@ -6,7 +6,7 @@ import javax.persistence.Id;
 @Entity
 public class AuthUser {
     @Id
-    private int authuserid;
+    private String authusername;
     private String institutionid;
     private String achievements;
     private String researchfield;
@@ -15,12 +15,12 @@ public class AuthUser {
     private String authorid;
     private int userid;
 
-    public int getAuthuserid() {
-        return authuserid;
+    public String getAuthuserid() {
+        return authusername;
     }
 
     public void setAuthuserid(int authuserid) {
-        this.authuserid = authuserid;
+        this.authusername = authusername;
     }
 
     public String getInstitutionid() {
