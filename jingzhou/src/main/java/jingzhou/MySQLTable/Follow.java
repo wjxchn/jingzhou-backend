@@ -11,24 +11,24 @@ import javax.persistence.IdClass;
 @IdClass(FollowId.class)
 public class Follow {
     @Id
-    private int follower;
+    private String follower;
 
     @Id
-    private int researcher;
+    private String researcher;
 
-    public int getFollower() {
+    public String getFollower() {
         return follower;
     }
 
-    public void setFollower(int follower) {
+    public void setFollower(String follower) {
         this.follower = follower;
     }
 
-    public int getResearcher() {
+    public String getResearcher() {
         return researcher;
     }
 
-    public void setResearcher(int researcher) {
+    public void setResearcher(String researcher) {
         this.researcher = researcher;
     }
 

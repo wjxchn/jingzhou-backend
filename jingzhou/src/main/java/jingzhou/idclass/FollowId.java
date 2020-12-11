@@ -3,22 +3,22 @@ package jingzhou.idclass;
 import java.io.Serializable;
 
 public class FollowId implements Serializable {
-    private int follower;
-    private int researcher;
+    private String follower;
+    private String researcher;
 
-    public int getFollower() {
+    public String getFollower() {
         return follower;
     }
 
-    public void setFollower(int follower) {
+    public void setFollower(String follower) {
         this.follower = follower;
     }
 
-    public int getResearcher() {
+    public String getResearcher() {
         return researcher;
     }
 
-    public void setResearcher(int researcher) {
+    public void setResearcher(String researcher) {
         this.researcher = researcher;
     }
 
