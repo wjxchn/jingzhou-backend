@@ -6,26 +6,26 @@ import javax.persistence.Id;
 @Entity
 public class PaperRank {
     @Id
-    private int id;
-    private int citation;
+    private Integer id;
+    private Integer citation;
     private String paperid;
     private String authorid;
     private String papername;
     private String field;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public int getCitation() {
+    public Integer getCitation() {
         return citation;
     }
 
-    public void setCitation(int citation) {
+    public void setCitation(Integer citation) {
         this.citation = citation;
     }
 

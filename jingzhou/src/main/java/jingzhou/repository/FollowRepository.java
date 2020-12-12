@@ -1,11 +1,13 @@
 package jingzhou.repository;
 
 import jingzhou.MySQLTable.Follow;
-import jingzhou.MySQLTable.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import javax.transaction.Transactional;
+import java.util.List;
 
-public interface FollowRepository extends JpaRepository<Follow,Long> {
-    Follow findFollowByFollowerAndAndResearcher(int follower, int researcher);
+@Repository
+public interface FollowRepository extends JpaRepository<Follow,String> {
+    Follow getFollowByFollowerAndResearcher(String follower,String researcher);
+    List<Follow> getFollowsByResearcher(String researcher);
 }

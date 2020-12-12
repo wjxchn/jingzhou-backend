@@ -5,29 +5,29 @@ import javax.persistence.Id;
 
 @Entity
 public class AuthUser {
+    //这里的username和user表中的username相同
     @Id
-    private int authuserid;
-    private String institutionid;
+    private String username;
+    private Integer institutionid;
     private String achievements;
     private String researchfield;
     private String realname;
     //nosql中的author id字段比较长
     private String authorid;
-    private int userid;
 
-    public int getAuthuserid() {
-        return authuserid;
+    public String getUsername() {
+        return username;
     }
 
-    public void setAuthuserid(int authuserid) {
-        this.authuserid = authuserid;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getInstitutionid() {
+    public Integer getInstitutionid() {
         return institutionid;
     }
 
-    public void setInstitutionid(String institutionid) {
+    public void setInstitutionid(Integer institutionid) {
         this.institutionid = institutionid;
     }
 
@@ -61,14 +61,6 @@ public class AuthUser {
 
     public void setAuthorid(String authorid) {
         this.authorid = authorid;
-    }
-
-    public int getUserid() {
-        return userid;
-    }
-
-    public void setUserid(int userid) {
-        this.userid = userid;
     }
 
 }

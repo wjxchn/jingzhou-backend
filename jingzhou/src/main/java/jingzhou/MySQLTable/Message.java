@@ -6,32 +6,32 @@ import javax.persistence.Id;
 @Entity
 public class Message {
     @Id
-    private int messageid;
-    private int sender;
-    private int receiver;
+    private Integer messageid;
+    private String sender;
+    private String receiver;
     private String content;
 
-    public int getMessageid() {
+    public Integer getMessageid() {
         return messageid;
     }
 
-    public void setMessageid(int messageid) {
+    public void setMessageid(Integer messageid) {
         this.messageid = messageid;
     }
 
-    public int getSender() {
+    public String getSender() {
         return sender;
     }
 
-    public void setSender(int sender) {
+    public void setSender(String sender) {
         this.sender = sender;
     }
 
-    public int getReceiver() {
+    public String getReceiver() {
         return receiver;
     }
 
-    public void setReceiver(int receiver) {
+    public void setReceiver(String receiver) {
         this.receiver = receiver;
     }
 

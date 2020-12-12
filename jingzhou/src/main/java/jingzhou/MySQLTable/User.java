@@ -6,22 +6,19 @@ import java.util.Date;
 
 @Entity
 public class User {
+    //用户名
     @Id
-    private int id;
-    private String password;
-    private int isauth;
-    private int downloadauth;
     private String username;
+    //密码
+    private String password;
+    //是否为认证用户，0无权限，1有权限
+    private int isauth;
+    //是否有下载权限，0无权限，1有权限
+    private int downloadauth;
+    //邮箱
     private String email;
+    //注册时间
     private Date time;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public String getPassword() {
         return password;
