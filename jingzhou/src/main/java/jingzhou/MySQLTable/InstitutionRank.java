@@ -10,16 +10,16 @@ import javax.persistence.IdClass;
 @IdClass(InstitutionRankId.class)
 public class InstitutionRank {
     @Id
-    private int institution;
+    private Integer institution;
     @Id
     private String type;
     int amount;
 
-    public int getInstitution() {
+    public Integer getInstitution() {
         return institution;
     }
 
-    public void setInstitution(int institution) {
+    public void setInstitution(Integer institution) {
         this.institution = institution;
     }
 

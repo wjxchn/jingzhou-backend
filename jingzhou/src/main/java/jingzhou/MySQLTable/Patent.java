@@ -7,7 +7,7 @@ import java.util.Date;
 @Entity
 public class Patent {
     @Id
-    int patentid;
+    Integer patentid;
     String inventor;
     Date pubdate;
     String name;
@@ -19,11 +19,11 @@ public class Patent {
     String abstractcontent;
     Date appdate;
 
-    public int getPatentid() {
+    public Integer getPatentid() {
         return patentid;
     }
 
-    public void setPatentid(int patentid) {
+    public void setPatentid(Integer patentid) {
         this.patentid = patentid;
     }
 

@@ -1,19 +1,21 @@
 package jingzhou.MySQLTable;
 
+import io.swagger.models.auth.In;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
 @Entity
 public class Institution {
     @Id
-    int instituteid;
+    Integer instituteid;
     String name;
 
-    public int getInstituteid() {
+    public Integer getInstituteid() {
         return instituteid;
     }
 
-    public void setInstituteid(int instituteid) {
+    public void setInstituteid(Integer instituteid) {
         this.instituteid = instituteid;
     }
 

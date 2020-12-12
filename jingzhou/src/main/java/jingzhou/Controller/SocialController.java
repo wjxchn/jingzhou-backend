@@ -7,9 +7,7 @@ import jingzhou.MySQLTable.Message;
 import jingzhou.repository.FollowRepository;
 import jingzhou.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
@@ -43,14 +41,25 @@ public class SocialController {
         Iterator<Follow> followIterator = followList.iterator();
         while(followIterator.hasNext()){
             Message message = new Message();
-            message.setMessageid();
+            message.setMessageid(messageRepository.getMaxId()+1);
             message.setSender(sender);
             message.setReceiver(followIterator.next().getFollower());
             message.setContent(content);
+            messageRepository.save(message);
         }
-        messageRepository.save(messageList);
         result.put("code",200);
         result.put("msg","生成动态成功");
+        return result;
+    }
+
+    @ApiOperation(value = "接收动态")
+    @GetMapping("receivemessage/{receiver}")
+    public Map<String, Object> receivemessage(@PathVariable("receiver") String receiver){
+        HashMap<String, Object> result = new HashMap<>();
+        List<Message> messages = messageRepository.findMessagesByReceiver(receiver);
+        result.put("code", 200);
+        result.put("msg","接收动态成功");
+        result.put("message",messages);
         return result;
     }
 
