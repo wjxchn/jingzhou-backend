@@ -8,7 +8,7 @@ public class AuthUser {
     //这里的username和user表中的username相同
     @Id
     private String username;
-    private String institutionid;
+    private Integer institutionid;
     private String achievements;
     private String researchfield;
     private String realname;
@@ -23,11 +23,11 @@ public class AuthUser {
         this.username = username;
     }
 
-    public String getInstitutionid() {
+    public Integer getInstitutionid() {
         return institutionid;
     }
 
-    public void setInstitutionid(String institutionid) {
+    public void setInstitutionid(Integer institutionid) {
         this.institutionid = institutionid;
     }
 

@@ -9,7 +9,8 @@ import javax.persistence.Id;
 public class Institution {
     @Id
     Integer instituteid;
-    String name;
+
+    String institutionname;
 
     public Integer getInstituteid() {
         return instituteid;
@@ -19,12 +20,12 @@ public class Institution {
         this.instituteid = instituteid;
     }
 
-    public String getName() {
-        return name;
+    public String getInstitutionname() {
+        return institutionname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setInstitutionname(String institutionname) {
+        this.institutionname = institutionname;
     }
 
 }
