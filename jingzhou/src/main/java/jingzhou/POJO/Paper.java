@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 @Data
-@Document(collection = "aminer_paper_0")
+@Document(collection = "paper")
 public class Paper implements Serializable {
     @MongoId
     private ObjectId _id;

@@ -27,7 +27,7 @@ public class GovernController {
         HashMap<String, Object> result = new HashMap<>();
         AuthUser authUser = new AuthUser();
         authUser.setUsername(username);
-        authUser.setInstitutionid(institutionRepository.findInstitutionByInstitutionname(institutionname).getInstituteid());
+        authUser.setInstitutionid(institutionRepository.findInstitutionByInstitutionname(institutionname).getInstitutionid());
         authUser.setResearchfield(researchfield);
         authUser.setRealname(realname);
         authUserRepository.save(authUser);

@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface InstitutionRepository extends JpaRepository<Institution, Integer> {
-    Institution findInstitutionByInstituteid(Integer instituteid);
+    Institution findInstitutionByInstitutionid(Integer instituteid);
     Institution findInstitutionByInstitutionname(String institutionname);
 }

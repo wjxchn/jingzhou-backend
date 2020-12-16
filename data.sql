@@ -1,62 +1,72 @@
-/*
- Navicat Premium Data Transfer
+create table authuser(
+authuserid int primary key auto_increment,
+userid int,
+username varchar(200),
+institutionid int,
+achievements varchar(2000),
+researchfield varchar(500),
+realname varchar(100),
+authorid varchar(50));
 
- Source Server         : local
- Source Server Type    : MySQL
- Source Server Version : 80021
- Source Host           : localhost:3306
- Source Schema         : data
+create table follow(
+followid int primary key auto_increment,
+followerid int ,
+researcherid int);
 
- Target Server Type    : MySQL
- Target Server Version : 80021
- File Encoding         : 65001
+create table institution(
+institutionid int primary key auto_increment,
+institutionname varchar(200));
 
- Date: 17/11/2020 09:20:01
-*/
+create table institutionrank(
+rankid int primary key auto_increment,
+institutionit int,
+type varchar(100),
+amount int);
 
-SET NAMES utf8mb4;
-SET FOREIGN_KEY_CHECKS = 0;
 
--- ----------------------------
--- Table structure for authuser
--- ----------------------------
-DROP TABLE IF EXISTS `authuser`;
-CREATE TABLE `authuser`  (
-  `authid` int NOT NULL AUTO_INCREMENT,
-  `userid` int NOT NULL,
-  `userstatus` tinyint NULL DEFAULT NULL,
-  `gatewaystatus` tinyint NULL DEFAULT NULL,
-  `institutionid` int NULL DEFAULT NULL,
-  `field` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `realname` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`authid`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+create table massage(
+massageid int primary key auto_increment,
+senderid int,
+receiverid int,
+content varchar(2000));
 
--- ----------------------------
--- Table structure for gateway
--- ----------------------------
-DROP TABLE IF EXISTS `gateway`;
-CREATE TABLE `gateway`  (
-  `gatewayid` int NOT NULL,
-  `userid` int NULL DEFAULT NULL,
-  `information` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`gatewayid`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+create table paperrank(
+rankid int primary key auto_increment,
+citation int,
+paperid varchar(100),
+authorid varchar(100),
+papername varchar(200),
+field varchar(100));
 
--- ----------------------------
--- Table structure for user
--- ----------------------------
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE `user`  (
-  `userid` int NOT NULL,
-  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `authenticate` int NULL DEFAULT 0,
-  `downloadauth` int NULL DEFAULT 0,
-  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `regtime` datetime(0) NULL DEFAULT NULL,
-  `information` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`userid`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+create table patent(
+patentid int primary key auto_increment,
+inventor varchar(100),
+pubdate date,
+patentname varchar(200),
+pubnumber varchar(100),
+patentnumber varchar(100),
+applicant varchar(100),
+address varchar(100),
+classification varchar(100),
+abstractcontent varchar(1000),
+appdate date);
 
-SET FOREIGN_KEY_CHECKS = 1;
+create table project(
+projectid int primary key auto_increment,
+journal varchar(100),
+introduction varchar(200),
+typr varchar(100),
+projectname varchar(100),
+institution varchar(100),
+researcher varchar(100),
+time date);
+
+create table user (
+userid int primary key auto_increment,
+username varchar(100),
+password varchar(100),
+isauth int,
+downloadauth int,
+email varchar(300),
+time date,
+phone varchar(30));

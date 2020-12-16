@@ -6,6 +6,14 @@
 
 MySQL需要先建表才能够使用。
 
+建表语句见data.sql
+
+mongoDB配置
+
+![MONGODB配置](/mongodb设置.png)
+
+要运行项目，请先安装lombok插件（plugin），resource/application.property文件中配置好本地mysql数据相关信息
+
 ## 版本
 
 2020/11/10 v0.01 Springboot初始内容，额外多出两个Controller。
