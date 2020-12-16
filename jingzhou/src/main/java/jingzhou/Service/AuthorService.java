@@ -27,9 +27,4 @@ public class AuthorService {
         return mongoTemplate.findOne(query,Author.class);
     }
 
-
-    public Author getById(ObjectId _id) {
-        System.out.println("get author at authorserviceimpl");
-        return mongoTemplate.findById(_id,Author.class);
-    }
 }

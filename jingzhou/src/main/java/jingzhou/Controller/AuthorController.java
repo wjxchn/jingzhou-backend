@@ -28,18 +28,6 @@ public class AuthorController {
     }
 
     /*精确查找
-    * @Param id:mongodb生成的_id项
-    * */
-    @GetMapping("/api/author/byid")
-    @ApiOperation(value = "通过mongodb_ID精确查询author")
-    private Author findAuthorById(@RequestParam("id") String id){
-        ObjectId objectId = new ObjectId(id);
-        System.out.println("------try to get author with id: "+id);
-        Author author = authorService.getById(objectId);
-        return author;
-    }
-
-    /*精确查找
     * @Param id:数据自带的id项
     * */
     @GetMapping("/api/author/byrealid")

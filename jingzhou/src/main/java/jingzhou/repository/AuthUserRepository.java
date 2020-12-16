@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface AuthUserRepository extends JpaRepository<AuthUser,String> {
     AuthUser findAuthUserByUsername(String username);
+    AuthUser findByUserid(int userid);
 }

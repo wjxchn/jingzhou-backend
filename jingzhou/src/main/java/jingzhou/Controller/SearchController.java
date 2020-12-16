@@ -4,12 +4,20 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jingzhou.MySQLTable.AuthUser;
 import jingzhou.MySQLTable.Institution;
+import jingzhou.MySQLTable.User;
+import jingzhou.POJO.Author;
+import jingzhou.POJO.Result;
+import jingzhou.Service.AuthorService;
+import jingzhou.Service.InstitutionService;
+import jingzhou.Service.UserService;
 import jingzhou.repository.AuthUserRepository;
 import jingzhou.repository.InstitutionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import sun.net.www.protocol.http.AuthScheme;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,30 +26,35 @@ import java.util.Map;
 @RestController
 public class SearchController {
     @Autowired
-    private AuthUserRepository authUserRepository;
+    private UserService userService;
 
     @Autowired
-    private InstitutionRepository institutionRepository;
+    private InstitutionService institutionService;
+
+    @Autowired
+
+    private AuthorService authorService;
 
     @ApiOperation(value = "获取科研人员信息接口")
-    @GetMapping("showauthuser/{username}")
-    public Map<String, Object> showauhtuser(@PathVariable("username") String username){
-        HashMap<String, Object> result = new HashMap<>();
-        AuthUser authuserobject = authUserRepository.findAuthUserByUsername(username);
-        result.put("code",200);
-        result.put("msg","获取科研人员信息成功");
-        result.put("authuser",authuserobject);
+    @GetMapping("showauthuser")
+    public Result showauhtuser(@RequestParam("userid") int userid){
+
+        AuthUser authuserobject = userService.getAuthUserByUserID(userid);
+        Author author = authorService.getByRealId(authuserobject.getAuthorid());
+        Result result = new Result("获取信息成功", 200);
+        User user = userService.getUserById(userid);
+        result.getData().put("user", user);
+        result.getData().put("author",author);
         return result;
     }
 
     @ApiOperation(value = "获取科研机构信息接口")
-    @GetMapping("showinstitution/{instituteid}")
-    public Map<String, Object> showinstitution(@PathVariable("instituteid") String instituteid){
-        HashMap<String, Object> result = new HashMap<>();
-        Institution institutionobject = institutionRepository.findInstitutionByInstituteid(Integer.parseInt(instituteid));
-        result.put("code",200);
-        result.put("msg","获取科研机构信息成功");
-        result.put("authuser",institutionobject);
+    @GetMapping("showinstitution")
+    public Result showinstitution(@RequestParam("institutionid") int instituteid){
+
+        Institution institutionobject = institutionService.getByID(instituteid);
+        Result result = new Result();
+        result.getData().put("institution",institutionobject);
         return result;
     }
 
