@@ -4,9 +4,10 @@ import lombok.Data;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 @Entity @Data
-public class AuthUser {
+public class AuthUser implements Serializable {
     //这里的username和user表中的username相同
     @Id
     private int authuserid;

@@ -4,6 +4,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jingzhou.MySQLTable.Follow;
 import jingzhou.MySQLTable.Message;
+import jingzhou.POJO.Result;
+import jingzhou.Service.FollowService;
+import jingzhou.Service.MessageService;
 import jingzhou.repository.FollowRepository;
 import jingzhou.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,53 +16,52 @@ import java.util.*;
 
 @Api(value = "社交子系统")
 @RestController
+@RequestMapping("/community/")
 public class SocialController {
     @Autowired
-    private FollowRepository followRepository;
+    private FollowService followService;
 
     @Autowired
-    private MessageRepository messageRepository;
+    private MessageService messageService;
 
     @ApiOperation(value = "关注接口")
     @PostMapping("follow")
-    public Map<String, Object> follow(@RequestParam("followerusername") String follower, @RequestParam("researchersuername") String researcher){
-        HashMap<String,Object> result = new HashMap<>();
-        Follow followobject = new Follow();
-        followobject.setFollowerid();
-        followobject.setResearcherid();
-        followRepository.save(followobject);
-        result.put("code",200);
-        result.put("msg","关注成功");
-        return result;
+    public Result follow(@RequestBody Map<String, Object> map){
+        int follower = Integer.parseInt(map.get("followerid").toString());
+        int researcher = Integer.parseInt(map.get("researcherid").toString());
+        Follow follow = new Follow(follower,researcher);
+        followService.follows(follow);
+        return new Result("关注成功", 200);
     }
 
-    @ApiOperation(value = "生成动态")
+    @ApiOperation(value = "生成消息")
     @PostMapping("generatemessage")
-    public Map<String, Object> generatemessage(@RequestParam("sender") String sender, @RequestParam("content") String content){
-        HashMap<String,Object> result = new HashMap<>();
-        List<Follow> followList = followRepository.getFollowsByResearcher(sender);
+    public Result generatemessage(@RequestBody Map<String,Object> map){
+        int sender = Integer.parseInt(map.get("sender").toString());
+        String content = map.get("content").toString();
+        //作者发布消息，对所有的followers都操作
+        List<Follow> followList = followService.getByResearcherID(sender);
         Iterator<Follow> followIterator = followList.iterator();
+        List<Message> messageList = new ArrayList<>();
         while(followIterator.hasNext()){
             Message message = new Message();
-            message.setMessageid(messageRepository.getMaxId()+1);
-            message.setSender(sender);
-            message.setReceiver(followIterator.next().getFollower());
+            message.setSenderid(sender);
+            message.setReceiverid(followIterator.next().getFollowerid());
             message.setContent(content);
-            messageRepository.save(message);
+            //一条一条插入数据会增大数据库压力，采用批量插入
+            messageList.add(message);
         }
-        result.put("code",200);
-        result.put("msg","生成动态成功");
-        return result;
+        messageService.insertMessageList(messageList);
+        return new Result("发布消息成功", 200);
     }
 
     @ApiOperation(value = "接收动态")
-    @GetMapping("receivemessage/{receiver}")
-    public Map<String, Object> receivemessage(@PathVariable("receiver") String receiver){
-        HashMap<String, Object> result = new HashMap<>();
-        List<Message> messages = messageRepository.findMessagesByReceiver(receiver);
-        result.put("code", 200);
-        result.put("msg","接收动态成功");
-        result.put("message",messages);
+    @GetMapping("receivemessage")
+    public Result receivemessage(@RequestParam("receiver") int receiver){
+        Result result = new Result("查看消息成功", 200);
+        List<Message> messages = messageService.getMessagesByReceiver(receiver);
+
+        result.getData().put("message",messages);
         return result;
     }
 

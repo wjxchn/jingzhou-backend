@@ -8,7 +8,6 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@Table(name = "follow")
 public class Follow {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,4 +16,10 @@ public class Follow {
     private int followerid;
 
     private int researcherid;
+
+    public Follow(){}
+    public Follow(int follow, int researcher){
+        followerid=follow;
+        researcherid=researcher;
+    }
 }

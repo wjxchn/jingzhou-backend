@@ -10,4 +10,6 @@ import java.util.List;
 public interface FollowRepository extends JpaRepository<Follow,String> {
     Follow getByFolloweridAndResearcherid(int followerid, int researcherid);
     List<Follow> getFollowsByResearcherid(int researcherid);
+    void removeByFolloweridAndResearcherid(int followerid, int researcherid);
+    List<Follow> getFollowsByFollowerid(int follower);
 }

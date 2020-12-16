@@ -15,11 +15,8 @@ public class Result implements Serializable {
     public Result(String msg, int code){
         this.msg=msg;
         this.code=code;
+        this.data = new HashMap<String, Object>();
     }
 
-    public Result(){
-        this.code=200;
-        this.msg=null;
-        this.data = new HashMap<String,Object>();
-    }
+    public Result(){}
 }
