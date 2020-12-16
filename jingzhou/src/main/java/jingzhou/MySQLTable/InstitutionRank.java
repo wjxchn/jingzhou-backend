@@ -1,42 +1,15 @@
 package jingzhou.MySQLTable;
 
-import jingzhou.idclass.InstitutionRankId;
+import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
+import javax.persistence.*;
 
-@Entity
-@IdClass(InstitutionRankId.class)
+@Entity @Data
 public class InstitutionRank {
-    @Id
-    private Integer institution;
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int rankid;
+    private Integer institutionid;
     private String type;
     int amount;
-
-    public Integer getInstitution() {
-        return institution;
-    }
-
-    public void setInstitution(Integer institution) {
-        this.institution = institution;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public int getAmount() {
-        return amount;
-    }
-
-    public void setAmount(int amount) {
-        this.amount = amount;
-    }
 
 }

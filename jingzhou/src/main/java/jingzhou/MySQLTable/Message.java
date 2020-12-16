@@ -1,46 +1,19 @@
 package jingzhou.MySQLTable;
 
+import lombok.Data;
+
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity
+@Entity @Data
 public class Message {
-    @Id
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer messageid;
-    private String sender;
-    private String receiver;
+    private int senderid;
+    private int receiverid;
     private String content;
 
-    public Integer getMessageid() {
-        return messageid;
-    }
-
-    public void setMessageid(Integer messageid) {
-        this.messageid = messageid;
-    }
-
-    public String getSender() {
-        return sender;
-    }
-
-    public void setSender(String sender) {
-        this.sender = sender;
-    }
-
-    public String getReceiver() {
-        return receiver;
-    }
-
-    public void setReceiver(String receiver) {
-        this.receiver = receiver;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
 
 }

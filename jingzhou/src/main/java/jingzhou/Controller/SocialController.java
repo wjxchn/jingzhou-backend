@@ -25,8 +25,8 @@ public class SocialController {
     public Map<String, Object> follow(@RequestParam("followerusername") String follower, @RequestParam("researchersuername") String researcher){
         HashMap<String,Object> result = new HashMap<>();
         Follow followobject = new Follow();
-        followobject.setFollower(follower);
-        followobject.setResearcher(researcher);
+        followobject.setFollowerid();
+        followobject.setResearcherid();
         followRepository.save(followobject);
         result.put("code",200);
         result.put("msg","关注成功");

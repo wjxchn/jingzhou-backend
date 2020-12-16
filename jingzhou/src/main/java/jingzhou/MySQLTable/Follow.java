@@ -1,35 +1,20 @@
 package jingzhou.MySQLTable;
 
-import jingzhou.idclass.FollowId;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
+import lombok.Data;
+
+import javax.persistence.*;
 
 
 @Entity
-@IdClass(FollowId.class)
+@Data
+@Table(name = "follow")
 public class Follow {
     @Id
-    private String follower;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int followid;
 
-    @Id
-    private String researcher;
+    private int followerid;
 
-    public String getFollower() {
-        return follower;
-    }
-
-    public void setFollower(String follower) {
-        this.follower = follower;
-    }
-
-    public String getResearcher() {
-        return researcher;
-    }
-
-    public void setResearcher(String researcher) {
-        this.researcher = researcher;
-    }
-
+    private int researcherid;
 }

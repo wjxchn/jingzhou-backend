@@ -1,31 +1,18 @@
 package jingzhou.MySQLTable;
 
 import io.swagger.models.auth.In;
+import lombok.Data;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity
+@Entity @Data
 public class Institution {
-    @Id
-    Integer instituteid;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Integer institutionid;
 
     String institutionname;
-
-    public Integer getInstituteid() {
-        return instituteid;
-    }
-
-    public void setInstituteid(Integer instituteid) {
-        this.instituteid = instituteid;
-    }
-
-    public String getInstitutionname() {
-        return institutionname;
-    }
-
-    public void setInstitutionname(String institutionname) {
-        this.institutionname = institutionname;
-    }
 
 }
