@@ -10,7 +10,7 @@ MySQL需要先建表才能够使用。
 
 mongoDB配置
 
-![](/mongodb设置.jpg)
+![MONGODB配置](/mongodb设置.jpg)
 
 要运行项目，请先安装lombok插件（plugin），resource/application.property文件中配置好本地mysql数据相关信息
 
