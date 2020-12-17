@@ -12,6 +12,8 @@ import java.util.Date;
 public class Project {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int projectid;
+    //成果名
+    private String projectname;
     //完成人
     private String researcher;
     //第一完成单位
