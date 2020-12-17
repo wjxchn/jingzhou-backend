@@ -21,16 +21,16 @@ public class AuthorController {
     AuthorService authorService;
 
     /*精确查找*/
-    @GetMapping("/api/author/{name}")
+    @GetMapping("author/byname")
     @ApiOperation(value = "通过name精确查询author")
-    private Author findByName(@PathVariable("name") String name){
+    private Author findByName(@RequestParam("name") String name){
         return authorService.getByName(name);
     }
 
     /*精确查找
     * @Param id:数据自带的id项
     * */
-    @GetMapping("/api/author/byrealid")
+    @GetMapping("author/byrealid")
     @ApiOperation(value = "通过数据集自带id精确查询author")
     private Author findAuthorByRealId(@RequestParam("id") String id){
 

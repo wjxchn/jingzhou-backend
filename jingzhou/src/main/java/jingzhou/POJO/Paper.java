@@ -36,16 +36,25 @@ public class Paper implements Serializable {
 
     private String page_end;
 
+    private String doc_type;
+
     private String lang;
+
+    private String publisher;
 
     private String volume;
 
     private String issue;
 
-    private String doi;
+    private String issn;
 
     private String isbn;
 
+    private String doi;
+
     private ArrayList<String> url;
 
+    private String pdf;
+
+    private String abstracts;
 }

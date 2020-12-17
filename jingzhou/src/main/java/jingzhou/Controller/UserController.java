@@ -45,7 +45,6 @@ public class UserController {
         String password = map.get("password").toString();
         if(userService.login(username,password)!=null)
             return new Result("登录成功",200);
-
         else return new Result("登陆失败",400);
     }
 
@@ -84,7 +83,7 @@ public class UserController {
     @ApiOperation(value = "修改用户邮箱")
     @PostMapping("changeuserinfo/email")
     public Result changeuseremail(@RequestBody Map<String, Object> map){
-        String email = map.get("password1").toString();
+        String email = map.get("email").toString();
         int userid = Integer.parseInt(map.get("userid").toString());
 
         User user = userService.getUserById(userid);

@@ -10,6 +10,7 @@ import jingzhou.repository.PaperRankRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -18,6 +19,7 @@ import java.util.Map;
 
 @Api(value = "热点信息管理子系统")
 @RestController
+@RequestMapping("/trend/")
 public class HotController {
     @Autowired
     private InstitutionRankRepository institutionRankRepository;
@@ -26,7 +28,7 @@ public class HotController {
     private PaperRankRepository paperRankRepository;
 
     @ApiOperation(value = "获取热点论文排名接口")
-    @GetMapping("showpaperrank")
+    @GetMapping("paperrank")
     public Result PaperRank(){
         List<PaperRank> allpaperrank = paperRankRepository.findAll();
 
@@ -36,7 +38,7 @@ public class HotController {
     }
 
     @ApiOperation(value = "获取科研成果排名接口")
-    @GetMapping("showinstitutionrank/{type}")
+    @GetMapping("institutionrank/{type}")
     public Result showinstitutionrank(@PathVariable("type") String type){
         List<InstitutionRank> institutionrankselected = institutionRankRepository.findAllByType(type);
 

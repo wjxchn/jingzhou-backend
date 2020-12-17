@@ -1,6 +1,7 @@
 package jingzhou.Service;
 
 import jingzhou.POJO.Paper;
+import jingzhou.mongodbdao.PaperDao;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -10,6 +11,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -19,7 +21,8 @@ public class PaperService {
     @Autowired
     MongoTemplate mongoTemplate;
 
-
+    @Autowired
+    PaperDao paperDao;
 
     public Paper getById(String id) {
 
@@ -61,6 +64,33 @@ public class PaperService {
 
         List<Paper> papers = mongoTemplate.find(query, Paper.class);
         return papers;
-
     }
+
+    public List<Paper> getByKeyword(String keyword, int pagenum){
+
+        System.out.println("service : get by keyword");
+        Criteria criteria = new Criteria();
+        Query query = new Query();
+
+        List<String> list=new ArrayList<String>();
+        list.add(keyword);
+        query.addCriteria(Criteria.where("keywords").in(list));
+        //50为一页的数量
+    /*    if (pagenum != 1){
+            int num = (pagenum-1)*20;
+            query.limit(num);
+            List<Paper> lastpapers = mongoTemplate.find(query, Paper.class);
+            Paper last = lastpapers.get(lastpapers.size()-1);
+            ObjectId _id = last.get_id();
+            System.out.println("--------_id: "+_id);
+            criteria.and("_id").gt(_id);
+
+        }
+
+        query.addCriteria(criteria).limit(20);*/
+        List<Paper> papers = mongoTemplate.find(query, Paper.class);
+
+        return papers;
+    }
+
 }

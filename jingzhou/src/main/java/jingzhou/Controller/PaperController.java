@@ -7,6 +7,7 @@ import jingzhou.POJO.Paper;
 import jingzhou.Service.PaperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,6 +18,7 @@ import java.util.List;
 * */
 @Api(value = "检索系统-Paper")
 @RestController
+@RequestMapping("/data/")
 public class PaperController {
 
     @Autowired
@@ -27,7 +29,7 @@ public class PaperController {
     * 通过mongodb的[_id]字段查找
     * 精确查询
     * */
-    @GetMapping("/api/paper/id")
+    @GetMapping("paper/id")
     @ApiOperation(value = "通过ID精确查询paper")
     private Paper findPaperById(@RequestParam("id") String id){
 
@@ -40,7 +42,7 @@ public class PaperController {
     * 可用
     * 通过title获取paper
     * */
-    @GetMapping("/api/paper/title")
+    @GetMapping("paper/title")
     @ApiOperation(value = "通过title精确查询paper")
     private Paper findPaperByTitle(@RequestParam("title") String title){
 
@@ -49,14 +51,19 @@ public class PaperController {
         return paper;
     }
 
-
-    @GetMapping("/api/paper/fuzzytitle")
+    @GetMapping("paper/fuzzytitle")
     @ApiOperation(value = "通过title模糊查询paper")
     private List<Paper> findPaperByTitleFuzzy(@RequestParam("title") String title, @RequestParam("pagenum") int pagenum){
-
         System.out.println("------try to get paper with title: "+title);
         List<Paper> papers = paperService.getByFuzzyTitle(title, pagenum);
         return papers;
     }
 
+    @GetMapping("paper/keyword")
+    @ApiOperation(value = "通过keyword模糊查询paper")
+    private List<Paper> findPaperByKeyword(@RequestParam("keyword") String keyword, @RequestParam("pagenum") int pagenum){
+        System.out.println("------try to get paper with keyword: "+keyword);
+        List<Paper> papers = paperService.getByKeyword(keyword, pagenum);
+        return papers;
+    }
 }

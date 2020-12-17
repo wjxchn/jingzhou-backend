@@ -1,9 +1,6 @@
 package jingzhou.Service;
 
 import jingzhou.POJO.Author;
-import jingzhou.repository.AuthUserRepository;
-import org.bson.types.ObjectId;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -26,5 +23,6 @@ public class AuthorService {
 
         return mongoTemplate.findOne(query,Author.class);
     }
+
 
 }

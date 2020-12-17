@@ -18,4 +18,7 @@ public class Paper_Author {
 
     @Field("id")
     private String id;
+
+    @Field("org")
+    private String affiliation;
 }
