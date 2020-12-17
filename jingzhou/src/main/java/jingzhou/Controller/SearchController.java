@@ -7,6 +7,7 @@ import jingzhou.MySQLTable.Institution;
 import jingzhou.MySQLTable.User;
 import jingzhou.POJO.Author;
 import jingzhou.POJO.Result;
+import jingzhou.Service.AuthUserService;
 import jingzhou.Service.AuthorService;
 import jingzhou.Service.InstitutionService;
 import jingzhou.Service.UserService;
@@ -31,14 +32,16 @@ public class SearchController {
     private InstitutionService institutionService;
 
     @Autowired
-
     private AuthorService authorService;
+
+    @Autowired
+    private AuthUserService authUserService;
 
     @ApiOperation(value = "获取科研人员信息接口")
     @GetMapping("showauthuser")
     public Result showauhtuser(@RequestParam("userid") int userid){
 
-        AuthUser authuserobject = userService.getAuthUserByUserID(userid);
+        AuthUser authuserobject = authUserService.getAuthUserByUserID(userid);
         Author author = authorService.getByRealId(authuserobject.getAuthorid());
         Result result = new Result("获取信息成功", 200);
         User user = userService.getUserById(userid);

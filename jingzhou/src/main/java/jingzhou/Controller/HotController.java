@@ -4,6 +4,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jingzhou.MySQLTable.InstitutionRank;
 import jingzhou.MySQLTable.PaperRank;
+import jingzhou.POJO.Result;
 import jingzhou.repository.InstitutionRankRepository;
 import jingzhou.repository.PaperRankRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,23 +27,21 @@ public class HotController {
 
     @ApiOperation(value = "获取热点论文排名接口")
     @GetMapping("showpaperrank")
-    public Map<String, Object> PaperRank(){
-        HashMap<String, Object> result = new HashMap<>();
+    public Result PaperRank(){
         List<PaperRank> allpaperrank = paperRankRepository.findAll();
-        result.put("code",200);
-        result.put("msg","获取热点论文排名成功");
-        result.put("allpaperrank", allpaperrank);
+
+        Result result = new Result("获取热点论文排名成功",200);
+        result.getData().put("allpaperrank", allpaperrank);
         return result;
     }
 
     @ApiOperation(value = "获取科研成果排名接口")
     @GetMapping("showinstitutionrank/{type}")
-    public Map<String, Object> showinstitutionrank(@PathVariable("type") String type){
-        HashMap<String, Object> result = new HashMap<>();
+    public Result showinstitutionrank(@PathVariable("type") String type){
         List<InstitutionRank> institutionrankselected = institutionRankRepository.findAllByType(type);
-        result.put("code",200);
-        result.put("msg","获取科研成果排名成功");
-        result.put("instituionrankselected",institutionrankselected);
+
+        Result result = new Result("获取科研成果排名成功",200);
+        result.getData().put("instituionrankselected",institutionrankselected);
         return result;
     }
 }

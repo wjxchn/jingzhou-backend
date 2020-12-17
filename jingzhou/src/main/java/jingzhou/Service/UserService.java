@@ -12,8 +12,6 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    @Autowired
-    AuthUserRepository authUserRepository;
     public User login(String username, String password){
         return userRepository.findUserByUsernameAndPassword(username,password);
     }
@@ -34,7 +32,5 @@ public class UserService {
         userRepository.saveAndFlush(user);
     }
 
-    public AuthUser getAuthUserByUserID(int userid){
-        return authUserRepository.findByUserid(userid);
-    }
+
 }
