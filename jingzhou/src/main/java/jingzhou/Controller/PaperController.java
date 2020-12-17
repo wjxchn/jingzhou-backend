@@ -52,10 +52,10 @@ public class PaperController {
 
     @GetMapping("/api/paper/fuzzytitle")
     @ApiOperation(value = "通过title模糊查询paper")
-    private List<Paper> findPaperByTitleFuzzy(@RequestParam("title") String title){
+    private List<Paper> findPaperByTitleFuzzy(@RequestParam("title") String title, @RequestParam("pagenum") int pagenum){
 
         System.out.println("------try to get paper with title: "+title);
-        List<Paper> papers = paperService.getByFuzzyTitle(title);
+        List<Paper> papers = paperService.getByFuzzyTitle(title, pagenum);
         return papers;
     }
 

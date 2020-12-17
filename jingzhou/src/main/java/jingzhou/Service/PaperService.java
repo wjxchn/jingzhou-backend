@@ -1,7 +1,10 @@
 package jingzhou.Service;
 
 import jingzhou.POJO.Paper;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -20,7 +23,7 @@ public class PaperService {
 
     public Paper getById(String id) {
 
-        Query query = new Query(Criteria.where("_id").is(id));
+        Query query = new Query(Criteria.where("id").is(id));
         Paper paper = mongoTemplate.findOne(query, Paper.class);
         return paper;
 
@@ -34,10 +37,28 @@ public class PaperService {
     }
 
 
-    public List<Paper> getByFuzzyTitle(String title) {
+    public List<Paper> getByFuzzyTitle(String title, int pagenum) {
 
-        Pattern pattern = Pattern.compile("^.*" + title + ".*$", Pattern.CASE_INSENSITIVE);
-        Query query = Query.query(Criteria.where(title).regex(pattern));
+        String titles="^.*"+title+".*$";
+        Criteria criteria = new Criteria();
+        criteria.and("title").regex(titles);
+
+        Query query = new Query();
+        query.addCriteria(Criteria.where("title").regex(titles));
+        //50为一页的数量
+        if (pagenum != 1){
+            int num = (pagenum-1)*20;
+            query.limit(num);
+            List<Paper> lastpapers = mongoTemplate.find(query, Paper.class);
+            Paper last = lastpapers.get(lastpapers.size()-1);
+            ObjectId _id = last.get_id();
+            System.out.println("--------_id: "+_id);
+            criteria.and("_id").gt(_id);
+
+        }
+
+        query.addCriteria(criteria).limit(20);
+
         List<Paper> papers = mongoTemplate.find(query, Paper.class);
         return papers;
 
