@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PatentRepository extends JpaRepository<Patent, Integer>{
+    Patent getPatentByPatentid(Integer patentid);
 }
