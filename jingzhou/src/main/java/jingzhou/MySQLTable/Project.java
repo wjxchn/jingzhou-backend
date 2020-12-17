@@ -12,13 +12,26 @@ import java.util.Date;
 public class Project {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int projectid;
-    private String journal;
-    private String introduction;
-    private String type;
-    private String projectname;
-    private String institution;
+    //完成人
     private String researcher;
-    private Date time;
-
-
+    //第一完成单位
+    private String institution;
+    //关键词
+    private String keywords;
+    //中图分类号
+    private String booktype;
+    //学科分类号
+    private String subjecttype;
+    //成果简介
+    private String briefintro;
+    //成果类别
+    private String type;
+    //成果水平
+    private String level;
+    //研究起止时间
+    private String startandfinishtime;
+    //评价形式
+    private String eveluatetype;
+    //成果入库时间
+    private String intime;
 }
