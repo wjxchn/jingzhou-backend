@@ -2,6 +2,7 @@ package jingzhou.Controller;
 
 import jingzhou.MySQLTable.User;
 import jingzhou.POJO.Result;
+import jingzhou.Service.SessionService;
 import jingzhou.Service.UserService;
 import jingzhou.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import io.swagger.annotations.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,6 +21,9 @@ import java.util.Map;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private SessionService sessionService;
 
     @ApiOperation(value = "注册接口")
     @PostMapping("register")
@@ -40,12 +45,22 @@ public class UserController {
 
     @ApiOperation(value = "登录接口")
     @PostMapping("login")
-    public Result login(@RequestBody Map<String, Object> map){
+    public Result login(@RequestBody Map<String, Object> map, HttpServletRequest request){
         String username = map.get("username").toString();
         String password = map.get("password").toString();
-        if(userService.login(username,password)!=null)
+        User user = userService.login(username,password);
+        if(user != null){
+            sessionService.setCurrentUser(request, user);
             return new Result("登录成功",200);
+        }
         else return new Result("登陆失败",400);
+    }
+
+    @ApiOperation(value = "登出接口")
+    @PostMapping("logout")
+    public Result logout(HttpServletRequest request){
+        sessionService.removeCurrentUser(request);
+        return new Result("登出成功", 200);
     }
 
     @ApiOperation(value = "用户信息显示接口")
