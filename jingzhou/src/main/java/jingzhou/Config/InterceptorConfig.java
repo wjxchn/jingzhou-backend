@@ -19,13 +19,20 @@ public class InterceptorConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 
-        //暂时需要商量
-//        if (isCheck) {
-//            registry.addInterceptor(loginInterceptor).
-//                    addPathPatterns("/api/view/user/login").
-//                    excludePathPatterns("/api/view/user/logout");
-//
-//        }
+
+        if (isCheck) {
+            registry.addInterceptor(loginInterceptor).
+                    addPathPatterns("/api/view/user/login").
+                    addPathPatterns("/user/showuserinfo").
+                    addPathPatterns("/user/changeuserinfo/password").
+                    addPathPatterns("/user/changeuserinfo/email").
+                    addPathPatterns("community/generatemessage").
+                    addPathPatterns("communitu/follow").
+                    addPathPatterns("community/receivemessage").
+                    addPathPatterns("/govern/claimportal").
+                    addPathPatterns("/govern/changeportal/{changetype}");
+
+        }
 
     }
 

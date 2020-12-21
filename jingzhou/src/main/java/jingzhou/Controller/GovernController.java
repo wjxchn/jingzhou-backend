@@ -9,16 +9,14 @@ import jingzhou.Service.InstitutionService;
 import jingzhou.repository.AuthUserRepository;
 import jingzhou.repository.InstitutionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Api(value = "门户与学术管理子系统")
 @RestController
+@RequestMapping("/govern/")
 public class GovernController {
     @Autowired
     AuthUserService authUserService;
