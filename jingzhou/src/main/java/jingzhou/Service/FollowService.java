@@ -33,7 +33,7 @@ public class FollowService {
 
     //获取我关注的人数
     public int getFollowNum(int follow){
-        return followRepository.getFollowNum(follow);
+        return followRepository.countByFollowerid(follow);
     }
 
     //我关注的列表
@@ -43,7 +43,7 @@ public class FollowService {
 
     //被关注的人数
     public int getFollowerNum(int researcher){
-        return followRepository.getFollowerNum(researcher);
+        return followRepository.countByResearcherid(researcher);
     }
 
     public List<User> getFollowerList(int researcher){
