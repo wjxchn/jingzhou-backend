@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
 @Data
-@Document(collection = "aminer_venue")
+@Document(collection = "venue")
 public class Venue {
     @MongoId
     ObjectId _id;

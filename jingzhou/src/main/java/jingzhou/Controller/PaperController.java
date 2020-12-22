@@ -60,10 +60,18 @@ public class PaperController {
     }
 
     @GetMapping("paper/keyword")
-    @ApiOperation(value = "通过keyword模糊查询paper")
+    @ApiOperation(value = "通过keyword精确查询paper")
     private List<Paper> findPaperByKeyword(@RequestParam("keyword") String keyword, @RequestParam("pagenum") int pagenum){
         System.out.println("------try to get paper with keyword: "+keyword);
         List<Paper> papers = paperService.getByKeyword(keyword, pagenum);
+        return papers;
+    }
+
+    @GetMapping("paper/authorname")
+    @ApiOperation(value = "通过authorname精确查询paper")
+    private List<Paper> findPaperByauthorname(@RequestParam("authorname") String author, @RequestParam("pagenum") int pagenum){
+        System.out.println("------try to get paper with keyword: "+author);
+        List<Paper> papers = paperService.getByAuthor(author, pagenum);
         return papers;
     }
 }

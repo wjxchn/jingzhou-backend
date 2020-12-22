@@ -9,7 +9,7 @@ import org.springframework.data.mongodb.core.mapping.MongoId;
 import java.io.Serializable;
 import java.util.ArrayList;
 @Data
-@Document(collection = "mag_author_0_1")
+@Document(collection = "author")
 public class Author implements Serializable {
 
     @MongoId

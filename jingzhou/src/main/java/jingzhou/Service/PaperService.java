@@ -71,12 +71,9 @@ public class PaperService {
         System.out.println("service : get by keyword");
         Criteria criteria = new Criteria();
         Query query = new Query();
-
-        List<String> list=new ArrayList<String>();
-        list.add(keyword);
-        query.addCriteria(Criteria.where("keywords").in(list));
+        query.addCriteria(Criteria.where("keywords").is(keyword)).limit(20);
         //50为一页的数量
-    /*    if (pagenum != 1){
+      if (pagenum != 1){
             int num = (pagenum-1)*20;
             query.limit(num);
             List<Paper> lastpapers = mongoTemplate.find(query, Paper.class);
@@ -87,10 +84,33 @@ public class PaperService {
 
         }
 
-        query.addCriteria(criteria).limit(20);*/
+        query.addCriteria(criteria).limit(20);
         List<Paper> papers = mongoTemplate.find(query, Paper.class);
 
         return papers;
     }
 
+    public List<Paper> getByAuthor(String auhtorname, int pagenum){
+
+        System.out.println("service : get by keyword");
+        Criteria criteria = new Criteria();
+        Query query = new Query();
+        query.addCriteria(Criteria.where("authors.name").is(auhtorname)).limit(20);
+        //50为一页的数量
+        if (pagenum != 1){
+            int num = (pagenum-1)*20;
+            query.limit(num);
+            List<Paper> lastpapers = mongoTemplate.find(query, Paper.class);
+            Paper last = lastpapers.get(lastpapers.size()-1);
+            ObjectId _id = last.get_id();
+            System.out.println("--------_id: "+_id);
+            criteria.and("_id").gt(_id);
+
+        }
+
+        query.addCriteria(criteria).limit(20);
+        List<Paper> papers = mongoTemplate.find(query, Paper.class);
+
+        return papers;
+    }
 }
