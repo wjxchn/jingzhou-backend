@@ -2,18 +2,16 @@ package jingzhou.Service;
 
 import jingzhou.POJO.Paper;
 import jingzhou.mongodbdao.PaperDao;
-import org.bson.types.ObjectId;
+import jingzhou.repository.PaperRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 @Service
 public class PaperService {
@@ -22,95 +20,135 @@ public class PaperService {
     MongoTemplate mongoTemplate;
 
     @Autowired
+    ElasticsearchRestTemplate elasticsearchRestTemplate;
+
+    @Autowired
     PaperDao paperDao;
+
+    @Autowired
+    PaperRepository paperRepository;
 
     public Paper getById(String id) {
 
-        Query query = new Query(Criteria.where("id").is(id));
-        Paper paper = mongoTemplate.findOne(query, Paper.class);
-        return paper;
+//        Query query = new Query(Criteria.where("id").is(id));
+//        Paper paper = mongoTemplate.findOne(query, Paper.class);
+//        return paper;
+
+        return paperRepository.findById(id).orElse(new Paper());
 
     }
 
 
     public Paper getByTitle(String title) {
-        Query query = new Query(Criteria.where("title").is(title));
-        Paper paper = mongoTemplate.findOne(query, Paper.class);
-        return paper;
+//        Query query = new Query(Criteria.where("title").is(title));
+//        Paper paper = mongoTemplate.findOne(query, Paper.class);
+//        return paper;
+        return paperRepository.findByTitle(title);
     }
 
+
+//    public List<Paper> getByFuzzyTitle(String title, int pagenum) {
+//
+//        String titles="^.*"+title+".*$";
+//        Criteria criteria = new Criteria();
+//        criteria.and("title").regex(titles);
+//
+//        Query query = new Query();
+//        query.addCriteria(Criteria.where("title").regex(titles));
+//        //50为一页的数量
+//        if (pagenum != 1){
+//            int num = (pagenum-1)*20;
+//            query.limit(num);
+//            List<Paper> lastpapers = mongoTemplate.find(query, Paper.class);
+//            Paper last = lastpapers.get(lastpapers.size()-1);
+//            ObjectId _id = last.get_id();
+//            System.out.println("--------_id: "+_id);
+//            criteria.and("_id").gt(_id);
+//
+//        }
+//
+//        query.addCriteria(criteria).limit(20);
+//
+//        List<Paper> papers = mongoTemplate.find(query, Paper.class);
+//        return papers;
+//    }
 
     public List<Paper> getByFuzzyTitle(String title, int pagenum) {
 
-        String titles="^.*"+title+".*$";
-        Criteria criteria = new Criteria();
-        criteria.and("title").regex(titles);
+        // 第一个参数是页数page，第二个参数是每页数据数量pageSize
+        Pageable pageable = PageRequest.of(pagenum, 20);
 
-        Query query = new Query();
-        query.addCriteria(Criteria.where("title").regex(titles));
-        //50为一页的数量
-        if (pagenum != 1){
-            int num = (pagenum-1)*20;
-            query.limit(num);
-            List<Paper> lastpapers = mongoTemplate.find(query, Paper.class);
-            Paper last = lastpapers.get(lastpapers.size()-1);
-            ObjectId _id = last.get_id();
-            System.out.println("--------_id: "+_id);
-            criteria.and("_id").gt(_id);
+        Page<Paper> paperPage = paperRepository.findAllByTitleLike(title, pageable);
 
-        }
+        return paperPage.getContent();
 
-        query.addCriteria(criteria).limit(20);
-
-        List<Paper> papers = mongoTemplate.find(query, Paper.class);
-        return papers;
     }
+
+
+
+//    public List<Paper> getByKeyword(String keyword, int pagenum){
+//
+//        System.out.println("service : get by keyword");
+//        Criteria criteria = new Criteria();
+//        Query query = new Query();
+//        query.addCriteria(Criteria.where("keywords").is(keyword)).limit(20);
+//        //50为一页的数量
+//      if (pagenum != 1){
+//            int num = (pagenum-1)*20;
+//            query.limit(num);
+//            List<Paper> lastpapers = mongoTemplate.find(query, Paper.class);
+//            Paper last = lastpapers.get(lastpapers.size()-1);
+//            ObjectId _id = last.get_id();
+//            System.out.println("--------_id: "+_id);
+//            criteria.and("_id").gt(_id);
+//
+//        }
+//
+//        query.addCriteria(criteria).limit(20);
+//        List<Paper> papers = mongoTemplate.find(query, Paper.class);
+//
+//        return papers;
+//    }
 
     public List<Paper> getByKeyword(String keyword, int pagenum){
+        // 第一个参数是页数page，第二个参数是每页数据数量pageSize
+        Pageable pageable = PageRequest.of(pagenum, 20);
 
-        System.out.println("service : get by keyword");
-        Criteria criteria = new Criteria();
-        Query query = new Query();
-        query.addCriteria(Criteria.where("keywords").is(keyword)).limit(20);
-        //50为一页的数量
-      if (pagenum != 1){
-            int num = (pagenum-1)*20;
-            query.limit(num);
-            List<Paper> lastpapers = mongoTemplate.find(query, Paper.class);
-            Paper last = lastpapers.get(lastpapers.size()-1);
-            ObjectId _id = last.get_id();
-            System.out.println("--------_id: "+_id);
-            criteria.and("_id").gt(_id);
+        Page<Paper> paperPage = paperRepository.findAllByKeywordsLike(keyword, pageable);
 
-        }
-
-        query.addCriteria(criteria).limit(20);
-        List<Paper> papers = mongoTemplate.find(query, Paper.class);
-
-        return papers;
+        return paperPage.getContent();
     }
 
+//    public List<Paper> getByAuthor(String auhtorname, int pagenum){
+//
+//        System.out.println("service : get by keyword");
+//        Criteria criteria = new Criteria();
+//        Query query = new Query();
+//        query.addCriteria(Criteria.where("authors.name").is(auhtorname)).limit(20);
+//        //50为一页的数量
+//        if (pagenum != 1){
+//            int num = (pagenum-1)*20;
+//            query.limit(num);
+//            List<Paper> lastpapers = mongoTemplate.find(query, Paper.class);
+//            Paper last = lastpapers.get(lastpapers.size()-1);
+//            ObjectId _id = last.get_id();
+//            System.out.println("--------_id: "+_id);
+//            criteria.and("_id").gt(_id);
+//
+//        }
+//
+//        query.addCriteria(criteria).limit(20);
+//        List<Paper> papers = mongoTemplate.find(query, Paper.class);
+//
+//        return papers;
+//    }
+
     public List<Paper> getByAuthor(String auhtorname, int pagenum){
+        // 第一个参数是页数page，第二个参数是每页数据数量pageSize
+        Pageable pageable = PageRequest.of(pagenum, 20);
 
-        System.out.println("service : get by keyword");
-        Criteria criteria = new Criteria();
-        Query query = new Query();
-        query.addCriteria(Criteria.where("authors.name").is(auhtorname)).limit(20);
-        //50为一页的数量
-        if (pagenum != 1){
-            int num = (pagenum-1)*20;
-            query.limit(num);
-            List<Paper> lastpapers = mongoTemplate.find(query, Paper.class);
-            Paper last = lastpapers.get(lastpapers.size()-1);
-            ObjectId _id = last.get_id();
-            System.out.println("--------_id: "+_id);
-            criteria.and("_id").gt(_id);
+        Page<Paper> paperPage = paperRepository.findAllByAuthorsLike(auhtorname, pageable);
 
-        }
-
-        query.addCriteria(criteria).limit(20);
-        List<Paper> papers = mongoTemplate.find(query, Paper.class);
-
-        return papers;
+        return paperPage.getContent();
     }
 }

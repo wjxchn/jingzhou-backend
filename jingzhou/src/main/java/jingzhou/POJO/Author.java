@@ -18,7 +18,8 @@ public class Author implements Serializable {
     @Id
     private ObjectId _id;
 
-    private long id;
+    @Field(analyzer = "ik_smart", type = FieldType.Text)
+    private String id;
 
     private ArrayList<Pubs> pubsList;
 

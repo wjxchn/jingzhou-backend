@@ -5,13 +5,13 @@ import lombok.Data;
 import org.bson.types.ObjectId;
 import org.hibernate.annotations.FetchProfile;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.FieldType;
-import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.mongodb.core.mapping.MongoId;
 
 @Data
-@Document(collection = "venue")
+@Document(indexName = "testdoct", indexStoreType = "venue")
 public class Venue {
     @Id
     ObjectId _id;

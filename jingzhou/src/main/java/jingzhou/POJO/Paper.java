@@ -6,13 +6,12 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
-import org.springframework.data.mongodb.core.mapping.MongoId;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
 @Data
-@Document(indexName = "testdoct", indexStoreType = "author")
+@Document(indexName = "testdoct", indexStoreType = "paper")
 public class Paper implements Serializable {
     @Id
     private ObjectId _id;
@@ -30,6 +29,7 @@ public class Paper implements Serializable {
 
     private int year;
 
+    @Field(analyzer = "ik_smart", type = FieldType.Text)
     ArrayList<String> keywords;
 
     private int n_citation;
