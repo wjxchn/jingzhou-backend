@@ -5,7 +5,7 @@
       <paths name="jingzhou-aliyun">
         <serverdata>
           <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/jingzhou" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
