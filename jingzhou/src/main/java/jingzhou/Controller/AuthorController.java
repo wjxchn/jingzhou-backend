@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Api(value = "检索系统-Author")
 @RestController
+@RequestMapping("/data/")
 public class AuthorController {
 
     @Autowired
