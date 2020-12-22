@@ -22,5 +22,15 @@ public class AuthUser implements Serializable {
     //nosql中的author id字段比较长
     private String authorid;
 
+    private int fans;
+    //个人简介
+    private String intro;
+    //组织
+    private String organization;
+    //发表论文数
+    private int papers;
+    //研究领域
+    private String field;
 
+    private String realname;
 }

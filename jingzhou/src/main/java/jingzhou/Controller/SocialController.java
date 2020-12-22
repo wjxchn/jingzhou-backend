@@ -4,7 +4,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jingzhou.MySQLTable.Follow;
 import jingzhou.MySQLTable.Message;
-import jingzhou.MySQLTable.User;
 import jingzhou.POJO.Result;
 import jingzhou.Service.FollowService;
 import jingzhou.Service.MessageService;
@@ -33,6 +32,41 @@ public class SocialController {
         Follow follow = new Follow(follower,researcher);
         followService.follows(follow);
         return new Result("关注成功", 200);
+    }
+
+    @ApiOperation(value = "取消关注接口")
+    @PostMapping("cancelfollow")
+    public Result cancelfollow(@RequestBody Map<String, Object> map)
+    {
+        int followername = Integer.parseInt(map.get("followerid").toString());
+        int researcher = Integer.parseInt(map.get("researcherid").toString());
+        Follow follow = new Follow(follower,researcher);
+        followService.disfollows(follow);
+        return new Result("关注成功", 200);
+    }
+
+    @ApiOperation(value = "判断是否已关注接口")
+    @PostMapping("isfollow")
+    public Result isfollow(@RequestBody Map<String, Object> map)
+    {
+        int followername = Integer.parseInt(map.get("followerid").toString());
+        int researcher = Integer.parseInt(map.get("researcherid").toString());
+        Follow follow = new Follow(follower,researcher);
+        if(follow != null){
+            return new Result("已关注", 1);
+        }
+        else return new Result("已关注", 0);
+    }
+
+    @ApiOperation(value = "获取个人主页数据")
+    @PostMapping("getpersonalinfo")
+    public Result getpersonalinfo(@RequestBody Map<String, Object> map)
+    {
+        int id = Integer.parseInt(map.get("userid").toString()),
+        AuthUser user = AuthUserService.getAuthUserByUserID(id);
+
+        Result result = new Result("获取成功",200);
+        result.getData().put("user",user);
     }
 
     @ApiOperation(value = "生成消息")
@@ -65,46 +99,5 @@ public class SocialController {
         result.getData().put("message",messages);
         return result;
     }
-
-    @ApiOperation(value = "关注人数")
-    @GetMapping("follow/num")
-    public Result followNum(@RequestParam("userid") int follower){
-        Result result = new Result("查看关注成功", 200);
-        //关注的人的人数
-        int num = followService.getFollowNum(follower);
-        result.getData().put("cnt",num);
-        return result;
-    }
-
-    @ApiOperation(value = "被关注人数")
-    @GetMapping("follower/num")
-    public Result followerNum(@RequestParam("userid") int follow){
-        Result result = new Result("返回人数", 200);
-        //粉丝人数
-        int num = followService.getFollowerNum(follow);
-        result.getData().put("cnt",num);
-        return result;
-    }
-
-    @ApiOperation(value = "关注列表")
-    @GetMapping("follow/list")
-    public Result myFollow(@RequestParam("userid") int follow){
-        Result result = new Result("查看消息成功", 200);
-        //user关注的列表
-        List<User> userList = followService.getResearcherList(follow);
-        result.getData().put("researcherlist",userList);
-        return result;
-    }
-
-    @ApiOperation(value = "被关注列表")
-    @GetMapping("follower/list")
-    public Result myResearchers(@RequestParam("userid") int follow){
-        Result result = new Result("查看消息成功", 200);
-        //获取关注我的人
-        List<User> userList = followService.getFollowerList(follow);
-        result.getData().put("followerlist",userList);
-        return result;
-    }
-
 
 }
