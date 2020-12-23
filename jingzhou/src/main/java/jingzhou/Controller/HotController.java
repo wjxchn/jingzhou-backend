@@ -2,7 +2,7 @@ package jingzhou.Controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import jingzhou.MySQLTable.PaperRank;
+import jingzhou.MySQLTable.Paperrank;
 import jingzhou.POJO.Paper;
 import jingzhou.POJO.Result;
 import jingzhou.Service.PaperService;
@@ -31,9 +31,9 @@ public class HotController {
     @ApiOperation(value = "获取论文点击次数排名接口")
     @GetMapping("paperamountrank")
     public Result PaperRank(){
-        List<PaperRank> allpaperrank = paperRankRepository.findAll();
+        List<Paperrank> allpaperrank = paperRankRepository.findAll();
         List<Paper> paperlist = new ArrayList<>();
-        for(PaperRank paperrank : allpaperrank){
+        for(Paperrank paperrank : allpaperrank){
             String paper_id = paperrank.getPaperid();
             Paper paper = paperservice.getById(paper_id);
             paperlist.add(paper);

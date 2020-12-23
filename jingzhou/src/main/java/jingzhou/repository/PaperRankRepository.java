@@ -1,10 +1,10 @@
 package jingzhou.repository;
 
-import jingzhou.MySQLTable.PaperRank;
+import jingzhou.MySQLTable.Paperrank;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PaperRankRepository extends JpaRepository<PaperRank, Integer> {
+public interface PaperRankRepository extends JpaRepository<Paperrank, Integer> {
 
 }
