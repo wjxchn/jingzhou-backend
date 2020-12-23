@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
 import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
@@ -208,5 +209,19 @@ public class PaperService {
         request.add(secondSearchRequest);
 
         return client.msearch(request, RequestOptions.DEFAULT);
+    }
+
+    public SearchResponse getByCitation(int pagenum) throws IOException {
+        RestHighLevelClient client = new RestHighLevelClient(
+                RestClient.builder(
+                        new HttpHost("106.14.12.11", 9200, "http")));
+        System.out.println("new client");
+        SearchRequest searchRequest = new SearchRequest("jingzhou.paper");
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        System.out.println("new searchbuilder");
+        searchSourceBuilder.query(QueryBuilders.matchAllQuery()).from(pagenum*20).size(20).sort("n_citation", SortOrder.DESC);
+        searchRequest.source(searchSourceBuilder);
+        System.out.println("in getByCitation in paperservice");
+        return client.search(searchRequest,RequestOptions.DEFAULT);
     }
 }
