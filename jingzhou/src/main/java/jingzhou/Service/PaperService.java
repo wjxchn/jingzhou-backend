@@ -2,28 +2,14 @@ package jingzhou.Service;
 
 import jingzhou.POJO.Paper;
 import jingzhou.repository.PaperRepository;
-import org.apache.http.HttpHost;
-import org.elasticsearch.action.search.SearchRequest;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.RestClient;
-import org.elasticsearch.client.RestHighLevelClient;
-import org.elasticsearch.index.query.QueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.builder.SearchSourceBuilder;
-import org.elasticsearch.search.sort.SortBuilders;
-import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
-import org.springframework.data.elasticsearch.core.query.NativeSearchQuery;
-import org.springframework.data.elasticsearch.core.query.NativeSearchQueryBuilder;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -120,33 +106,42 @@ public class PaperService {
 //        return papers;
 //    }
 
-    public List<Paper> getByKeyword(String keyword, int pagenum) throws IOException {
+    public List<Paper> getByKeyword(String keyword, int pagenum){
 
-        RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(
-                new HttpHost("localhost", 8443, "http")));
-
-        QueryBuilder queryBuilder = QueryBuilders.boolQuery().should(QueryBuilders.termQuery("keywords", keyword));
-        NativeSearchQuery nativeSearchQuery = new NativeSearchQueryBuilder()
-                .withQuery(queryBuilder)
-                .withSort(SortBuilders.fieldSort("id").order(SortOrder.DESC))
-                .withPageable(PageRequest.of(pagenum, 20))
-                .build();
-
-
-
-            SearchRequest searchRequest = new SearchRequest("jingzhou.paper");
-        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-        searchSourceBuilder.query(queryBuilder).from(pagenum).size(20);
-        searchRequest.source(searchSourceBuilder);
-
-        SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
+//        RestHighLevelClient client = new RestHighLevelClient(RestClient.builder(
+//                new HttpHost("localhost", 8443, "http")));
+//
+//        QueryBuilder queryBuilder = QueryBuilders.boolQuery().should(QueryBuilders.termQuery("keywords", keyword));
+//        NativeSearchQuery nativeSearchQuery = new NativeSearchQueryBuilder()
+//                .withQuery(queryBuilder)
+//                .withSort(SortBuilders.fieldSort("id").order(SortOrder.DESC))
+//                .withPageable(PageRequest.of(pagenum, 20))
+//                .build();
+//
+//
+//
+//            SearchRequest searchRequest = new SearchRequest("jingzhou.paper");
+//        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+//        searchSourceBuilder.query(queryBuilder).from(pagenum).size(20);
+//        searchRequest.source(searchSourceBuilder);
+//
+//        SearchResponse searchResponse = client.search(searchRequest, RequestOptions.DEFAULT);
 
 
 
         // 第一个参数是页数page，第二个参数是每页数据数量pageSize
         Pageable pageable = PageRequest.of(pagenum, 20);
 
-        Page<Paper> paperPage = paperRepository.findAllByKeywordsLike(keyword, pageable);
+        Page<Paper> paperPage;
+
+        if (keyword.contains(" ")){
+            String[] key = keyword.split(" ");
+           paperPage = paperRepository.findAllByKeywordsLikeAndKeywordsLike(key[0], key[1], pageable);
+        }
+        else {
+            paperPage = paperRepository.findAllByKeywordsLike(keyword, pageable);
+        }
+
 
         return paperPage.getContent();
     }
