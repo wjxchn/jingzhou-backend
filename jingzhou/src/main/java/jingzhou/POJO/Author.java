@@ -1,35 +1,34 @@
 package jingzhou.POJO;
 
 import lombok.Data;
-import org.bson.types.ObjectId;
-import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
-import org.springframework.data.mongodb.core.mapping.MongoId;
+import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
+import org.springframework.data.elasticsearch.annotations.FieldType;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+
+//import org.springframework.data.mongodb.core.mapping.Field;
 @Data
-@Document(collection = "author")
+@Document(indexName = "jingzhou.author")
 public class Author implements Serializable {
 
-    @MongoId
-    private ObjectId _id;
 
-    @Field("id")
-    private long id;
+    @Field(name = "id", analyzer = "ik_smart", type = FieldType.Text)
+    private String authorid;
 
-    @Field("pubs")
+    @Field(name = "pubs")
     private ArrayList<Pubs> pubsList;
 
     //发表总数
-    @Field("n_pubs")
+    @Field(name = "n_pubs")
     private int pubnum;
 
-    @Field("name")
+    @Field(analyzer = "ik_smart", type = FieldType.Text)
     private String name;
 
+    @Field(analyzer = "ik_smart", type = FieldType.Text)
     private String normalized_name;
 
-    @Field("n_citation")
     private int n_citation;
 }

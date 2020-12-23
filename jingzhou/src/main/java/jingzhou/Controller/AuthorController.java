@@ -4,7 +4,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jingzhou.POJO.Author;
 import jingzhou.Service.AuthorService;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,7 +35,7 @@ public class AuthorController {
     private Author findAuthorByRealId(@RequestParam("id") String id){
 
         Author author = authorService.getByRealId(id);
-        System.out.println("------id:"+author.getId());
+        //System.out.println("------id:"+author.getAuthorid());
         return author;
     }
 }

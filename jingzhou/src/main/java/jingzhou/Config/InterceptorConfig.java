@@ -13,7 +13,6 @@ public class InterceptorConfig implements WebMvcConfigurer {
     @Autowired
     private LoginInterceptor loginInterceptor;
 
-
     private boolean isCheck;
 
     @Override
