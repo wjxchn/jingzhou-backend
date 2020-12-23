@@ -202,7 +202,24 @@ public class PaperService {
         searchSourceBuilder.size(20);
         searchSourceBuilder.timeout(new TimeValue(30, TimeUnit.SECONDS));
         searchRequest.source(searchSourceBuilder);
-        MatchQueryBuilder matchQueryBuilder = new MatchQueryBuilder("keywords", keyword).fuzziness(Fuzziness.AUTO).maxExpansions(10);
+        MatchQueryBuilder matchQueryBuilder = new MatchQueryBuilder("keywords", keyword).fuzziness(Fuzziness.AUTO).maxExpansions(3);
+        searchSourceBuilder.query(matchQueryBuilder);
+        SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
+        return searchResponse;
+    }
+
+    public SearchResponse getByAuthorname(String name, int pagenum) throws IOException {
+
+        RestHighLevelClient client = new RestHighLevelClient(
+                RestClient.builder(
+                        new HttpHost("106.14.12.11", 9200, "http")));
+        SearchRequest searchRequest = new SearchRequest("jingzhou.paper");
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        searchSourceBuilder.from(pagenum*20);
+        searchSourceBuilder.size(20);
+        searchSourceBuilder.timeout(new TimeValue(30, TimeUnit.SECONDS));
+        searchRequest.source(searchSourceBuilder);
+        MatchQueryBuilder matchQueryBuilder = new MatchQueryBuilder("authors.name", name).fuzziness(Fuzziness.AUTO).maxExpansions(3);
         searchSourceBuilder.query(matchQueryBuilder);
         SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
         return searchResponse;

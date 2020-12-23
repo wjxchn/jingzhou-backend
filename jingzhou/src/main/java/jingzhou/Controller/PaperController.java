@@ -116,4 +116,32 @@ public class PaperController {
 
         return result;
     }
+
+    @GetMapping("paper/authorfuzzyname")
+    @ApiOperation(value = "通过authorname模糊查询paper")
+    private Result elasticsearchAuthorName(@RequestParam("author") String name, @RequestParam("pagenum") int pagenum) throws IOException {
+        Result result = new Result();
+        SearchResponse searchResponse = paperService.getByAuthorname(name,pagenum);
+        if (searchResponse.status() != RestStatus.OK)
+            return new Result("没有搜索结果", 400);
+        SearchHits hits = searchResponse.getHits();
+        TotalHits totalHits = hits.getTotalHits();
+        result.getData().put("total",totalHits.value);
+        List<Paper>  paperList= new ArrayList<Paper>();
+        SearchHit[] searchHits = hits.getHits();
+        int i = 1;
+        for (SearchHit hit:searchHits
+        ) {
+            Map<String,Object> map = hit.getSourceAsMap();
+            String jsonString = JSON.toJSONString(map, SerializerFeature.WriteMapNullValue,SerializerFeature.WriteNullListAsEmpty);
+            jsonString = jsonString.replace("\\", "").replace("\"{", "{").replace("}\"", "}");
+            Paper paper = JSON.parseObject(jsonString,Paper.class);
+
+            paperList.add(paper);
+        }
+        result.getData().put("paperlist",paperList);
+        if (paperList == null || paperList.size()==0)return new Result("没有搜索结果", 400);
+
+        return result;
+    }
 }
