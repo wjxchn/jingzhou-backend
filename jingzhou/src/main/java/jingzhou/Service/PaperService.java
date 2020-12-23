@@ -113,4 +113,11 @@ public class PaperService {
 
         return papers;
     }
+
+    public List<Paper> getByCitation(){
+        Query query = new Query();
+        query.with(new Sort(Sort.Direction.DESC, "n_citation")).limit(20);
+        List<Paper> paperlist = mongoTemplate.find(query, Paper.class);
+        return paperlist;
+    }
 }

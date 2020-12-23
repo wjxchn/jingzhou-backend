@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiOperation;
 import jingzhou.MySQLTable.InstitutionRank;
 import jingzhou.MySQLTable.PaperRank;
 import jingzhou.POJO.Result;
+import jingzhou.POJO.Paper;
+import jingzhou.Service.PaperService;
 import jingzhou.repository.InstitutionRankRepository;
 import jingzhou.repository.PaperRankRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,23 +29,30 @@ public class HotController {
     @Autowired
     private PaperRankRepository paperRankRepository;
 
-    @ApiOperation(value = "获取热点论文排名接口")
-    @GetMapping("paperrank")
+    PaperService paperservice;
+
+    @ApiOperation(value = "获取论文点击次数排名接口")
+    @GetMapping("paperamountrank")
     public Result PaperRank(){
         List<PaperRank> allpaperrank = paperRankRepository.findAll();
-
+        List<Paper> paperlist = new List<Paper>();
+        for(PaperRank paperrank : allpaperrank){
+            String paper_id = paperrank.getPaperid();
+            Paper paper = paperservice.getById(paper_id);
+            paperlist.add(paper);
+        }
         Result result = new Result("获取热点论文排名成功",200);
-        result.getData().put("allpaperrank", allpaperrank);
+        result.getData().put("paperlist", paperlist);
         return result;
     }
 
-    @ApiOperation(value = "获取科研成果排名接口")
-    @GetMapping("institutionrank/{type}")
-    public Result showinstitutionrank(@PathVariable("type") String type){
-        List<InstitutionRank> institutionrankselected = institutionRankRepository.findAllByType(type);
+    @ApiOperation(value = "获取论文被引次数排名接口")
+    @GetMapping("papercitationrank")
+    public Result Papercitationrank(){
+        List<Paper> paperlist = paperservice.getByCitation();
 
-        Result result = new Result("获取科研成果排名成功",200);
-        result.getData().put("instituionrankselected",institutionrankselected);
+        Result result = new Result("获取论文被引次数排名成功",200);
+        result.getData().put("paperlist", paperlist);
         return result;
     }
 }
