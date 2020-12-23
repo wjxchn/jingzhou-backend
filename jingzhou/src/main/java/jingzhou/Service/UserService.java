@@ -1,8 +1,6 @@
 package jingzhou.Service;
 
-import jingzhou.MySQLTable.AuthUser;
 import jingzhou.MySQLTable.User;
-import jingzhou.repository.AuthUserRepository;
 import jingzhou.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

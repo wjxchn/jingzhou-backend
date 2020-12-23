@@ -5,13 +5,9 @@
 
 package jingzhou.Controller;
 
-import jingzhou.MySQLTable.AuthUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import jingzhou.MySQLTable.AuthUser;
 import jingzhou.MySQLTable.Follow;
 import jingzhou.MySQLTable.Message;
 import jingzhou.MySQLTable.User;
@@ -20,12 +16,12 @@ import jingzhou.Service.AuthUserService;
 import jingzhou.Service.FollowService;
 import jingzhou.Service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 @Api("社交子系统")
 @RestController
