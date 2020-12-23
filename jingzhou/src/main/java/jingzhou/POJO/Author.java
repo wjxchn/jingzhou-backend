@@ -2,24 +2,25 @@ package jingzhou.POJO;
 
 import lombok.Data;
 import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
-//import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
-import org.springframework.data.mongodb.core.mapping.MongoId;
 
+import javax.persistence.Column;
 import java.io.Serializable;
 import java.util.ArrayList;
+
+//import org.springframework.data.mongodb.core.mapping.Field;
 @Data
 @Document(indexName = "testdoct", indexStoreType = "author")
 public class Author implements Serializable {
 
-    @Id
-    private ObjectId _id;
+
+    private ObjectId document;
 
     @Field(analyzer = "ik_smart", type = FieldType.Text)
-    private String id;
+    @Column(name = "id")
+    private String authorid;
 
     private ArrayList<Pubs> pubsList;
 

@@ -1,7 +1,6 @@
 package jingzhou.Service;
 
 import jingzhou.POJO.Paper;
-import jingzhou.mongodbdao.PaperDao;
 import jingzhou.repository.PaperRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,9 +22,6 @@ public class PaperService {
     ElasticsearchRestTemplate elasticsearchRestTemplate;
 
     @Autowired
-    PaperDao paperDao;
-
-    @Autowired
     PaperRepository paperRepository;
 
     public Paper getById(String id) {
@@ -34,7 +30,7 @@ public class PaperService {
 //        Paper paper = mongoTemplate.findOne(query, Paper.class);
 //        return paper;
 
-        return paperRepository.findById(id).orElse(new Paper());
+        return paperRepository.findByPaperid(id);
 
     }
 

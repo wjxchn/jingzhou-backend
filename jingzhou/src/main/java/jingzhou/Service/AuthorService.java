@@ -28,7 +28,7 @@ public class AuthorService {
 
 
         /*这个地方可能会有问题*/
-        return authorRepository.findById(id).orElse(new Author());
+        return authorRepository.findByAuthorid(id);
     }
 
 

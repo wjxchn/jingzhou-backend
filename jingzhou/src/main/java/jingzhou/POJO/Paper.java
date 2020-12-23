@@ -7,6 +7,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
+import javax.persistence.Column;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -17,7 +18,8 @@ public class Paper implements Serializable {
     private ObjectId _id;
 
     @Field(analyzer = "ik_smart", type = FieldType.Text)
-    private String id;
+    @Column(name = "id")
+    private String paperid;
 
     @Field(analyzer = "ik_smart", type = FieldType.Text)
     private String title;
