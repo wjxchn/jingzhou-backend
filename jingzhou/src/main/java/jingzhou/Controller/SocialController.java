@@ -5,6 +5,7 @@
 
 package jingzhou.Controller;
 
+import jingzhou.MySQLTable.AuthUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import java.util.ArrayList;
@@ -33,7 +34,8 @@ public class SocialController {
     private FollowService followService;
     @Autowired
     private MessageService messageService;
-
+    @Autowired
+    private AuthUserService authUserservice;
     public SocialController() {
     }
 
@@ -117,7 +119,7 @@ public class SocialController {
     @PostMapping("cancelfollow")
     public Result cancelfollow(@RequestBody Map<String, Object> map)
     {
-        int followername = Integer.parseInt(map.get("followerid").toString());
+        int follower = Integer.parseInt(map.get("followerid").toString());
         int researcher = Integer.parseInt(map.get("researcherid").toString());
         Follow follow = new Follow(follower,researcher);
         followService.disfollows(follow);
@@ -128,7 +130,7 @@ public class SocialController {
     @PostMapping("isfollow")
     public Result isfollow(@RequestBody Map<String, Object> map)
     {
-        int followername = Integer.parseInt(map.get("followerid").toString());
+        int follower = Integer.parseInt(map.get("followerid").toString());
         int researcher = Integer.parseInt(map.get("researcherid").toString());
         Follow follow = new Follow(follower,researcher);
         if(follow != null){
@@ -142,7 +144,7 @@ public class SocialController {
     public Result getpersonalinfo(@RequestBody Map<String, Object> map)
     {
         int id = Integer.parseInt(map.get("userid").toString()),
-        AuthUser user = AuthUserService.getAuthUserByUserID(id);
+        AuthUser user = authUserService.getAuthUserByUserID(id);
 
         Result result = new Result("获取成功",200);
         result.getData().put("user",user);
