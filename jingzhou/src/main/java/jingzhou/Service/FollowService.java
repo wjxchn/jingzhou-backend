@@ -1,52 +1,54 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by Fernflower decompiler)
+//
+
 package jingzhou.Service;
 
+import java.util.List;
 import jingzhou.MySQLTable.Follow;
 import jingzhou.MySQLTable.User;
 import jingzhou.repository.FollowRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
 public class FollowService {
-
     @Autowired
     FollowRepository followRepository;
 
-    //添加一条记录
+    public FollowService() {
+    }
+
     public void follows(Follow follow) {
-        followRepository.save(follow);
+        this.followRepository.save(follow);
     }
 
     public void disfollow(Follow follow) {
-        followRepository.removeByFolloweridAndResearcherid(follow.getFollowerid(), follow.getResearcherid());
+        this.followRepository.removeByFolloweridAndResearcherid(follow.getFollowerid(), follow.getResearcherid());
     }
 
     public List<Follow> getByResearcherID(int researcherid) {
-        return followRepository.getFollowsByResearcherid(researcherid);
+        return this.followRepository.getFollowsByResearcherid(researcherid);
     }
 
     public List<Follow> getByFollowerID(int followerid) {
-        return followRepository.getFollowsByFollowerid(followerid);
+        return this.followRepository.getFollowsByFollowerid(followerid);
     }
 
-    //获取我关注的人数
-    public int getFollowNum(int follow){
-        return followRepository.countByFollowerid(follow);
+    public int getFollowNum(int follow) {
+        return this.followRepository.countByFollowerid(follow);
     }
 
-    //我关注的列表
-    public List<User> getResearcherList(int follow){
-        return followRepository.getResearchers(follow);
+    public List<User> getResearcherList(int follow) {
+        return this.followRepository.getResearchers(follow);
     }
 
-    //被关注的人数
-    public int getFollowerNum(int researcher){
-        return followRepository.countByResearcherid(researcher);
+    public int getFollowerNum(int researcher) {
+        return this.followRepository.countByResearcherid(researcher);
     }
 
-    public List<User> getFollowerList(int researcher){
-        return followRepository.getFollows(researcher);
+    public List<User> getFollowerList(int researcher) {
+        return this.followRepository.getFollows(researcher);
     }
 }
