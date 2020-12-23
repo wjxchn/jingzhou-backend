@@ -58,4 +58,13 @@ public class SearchController {
         return result;
     }
 
+     /* 模糊查找 */
+     @GetMapping("byinstitutionname")
+     @ApiOperation(value = "通过name模糊查找机构")
+     private List<Institution> findInstitutionByname(@RequestParam("name") String name){
+ 
+         List<Institution> Institutions = Institution.getBykeyword(name);
+         return Institutions;
+     }
+
 }

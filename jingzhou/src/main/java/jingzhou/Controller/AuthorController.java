@@ -39,4 +39,14 @@ public class AuthorController {
         System.out.println("------id:"+author.getId());
         return author;
     }
+
+    /* 模糊查找 */
+    @GetMapping("author/byrealname")
+    @ApiOperation(value = "通过姓名模糊查找作者")
+    private List<Author> findAuthorByRealname(@RequestParam("name") String name){
+
+        List<Author> authors = authorService.getByRealname(name);
+        return authors;
+    }
+
 }

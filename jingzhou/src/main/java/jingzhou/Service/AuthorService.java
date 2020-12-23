@@ -24,5 +24,19 @@ public class AuthorService {
         return mongoTemplate.findOne(query,Author.class);
     }
 
+    public List<Author> getByRealname(String realname){
+
+        String realnames="^.*"+realname+".*$";
+        System.out.println("service : get by realname");
+        
+        Criteria criteria = new Criteria();
+        criteria.and("name").regex(realnames);
+        
+        Query query = new Query();
+        query.addCriteria(Criteria.where("name").regex(realnames));
+        List<Author> Authors = mongoTemplate.find(query, Author.class);
+
+        return Authors;
+    }
 
 }

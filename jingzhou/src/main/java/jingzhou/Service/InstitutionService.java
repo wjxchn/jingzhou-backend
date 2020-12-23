@@ -22,4 +22,19 @@ public class InstitutionService {
     public Institution getByName(String institutionname){
         return institutionRepository.findInstitutionByInstitutionname(institutionname);
     }
+
+    public List<Institution> getBykeyword(String institutionname){
+
+        String institutionnames="^.*"+Institutionname+".*$";
+        System.out.println("service : get by institutionname");
+            
+        Criteria criteria = new Criteria();
+        criteria.and("institutionname").regex(institutionnames);
+            
+        Query query = new Query();
+        query.addCriteria(Criteria.where("institutionname").regex(institutionnames));
+        List<Institution> Institutions = mongoTemplate.find(query, Institution.class);
+    
+        return Institutions;
+    }
 }
