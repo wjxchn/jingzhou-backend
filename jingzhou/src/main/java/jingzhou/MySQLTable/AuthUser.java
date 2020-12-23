@@ -32,5 +32,4 @@ public class AuthUser implements Serializable {
     //研究领域
     private String field;
 
-    private String realname;
 }
