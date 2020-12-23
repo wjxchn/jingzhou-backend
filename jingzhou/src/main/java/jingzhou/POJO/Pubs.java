@@ -1,5 +1,6 @@
 package jingzhou.POJO;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -18,9 +19,9 @@ public class Pubs implements Serializable {
      */
 
     //论文id
-    @Field(name = "i")
+    @Field(name = "i")@JsonProperty("i")
     private String i;//paperid
     //0作，1作，2作
-    @Field(name = "r")
+    @Field(name = "r")@JsonProperty("r")
     private int r;//order
 }

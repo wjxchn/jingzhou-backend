@@ -3,7 +3,6 @@ package jingzhou.POJO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;

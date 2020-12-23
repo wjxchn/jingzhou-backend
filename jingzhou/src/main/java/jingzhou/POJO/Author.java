@@ -1,5 +1,6 @@
 package jingzhou.POJO;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -14,24 +15,25 @@ import java.util.ArrayList;
 @Document(indexName = "jingzhou.author")
 public class Author implements Serializable {
 
-    @Id
+    @Id @JsonProperty("id")
     private String id;
 
-    @Field(name = "authorid", analyzer = "ik_smart", type = FieldType.Text)
+    @Field(name = "authorid", analyzer = "ik_smart", type = FieldType.Text)@JsonProperty("authorid")
     private String authorid;
 
-    @Field(name = "pubs")
+    @Field(name = "pubs")@JsonProperty("pubsList")
     private ArrayList<Pubs> pubsList;
 
     //发表总数
-    @Field(name = "n_pubs")
+    @Field(name = "n_pubs")@JsonProperty("pubnum")
     private int pubnum;
 
-    @Field(analyzer = "ik_smart", type = FieldType.Text)
+    @Field(analyzer = "ik_smart", type = FieldType.Text)@JsonProperty("name")
     private String name;
 
-    @Field(analyzer = "ik_smart", type = FieldType.Text)
+    @Field(analyzer = "ik_smart", type = FieldType.Text)@JsonProperty("normalized_name")
     private String normalized_name;
 
+    @JsonProperty("n_citation")
     private int n_citation;
 }
