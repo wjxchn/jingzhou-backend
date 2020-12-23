@@ -2,22 +2,19 @@ package jingzhou.Controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import jingzhou.MySQLTable.InstitutionRank;
 import jingzhou.MySQLTable.PaperRank;
-import jingzhou.POJO.Result;
 import jingzhou.POJO.Paper;
+import jingzhou.POJO.Result;
 import jingzhou.Service.PaperService;
 import jingzhou.repository.InstitutionRankRepository;
 import jingzhou.repository.PaperRankRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @Api(value = "热点信息管理子系统")
 @RestController
@@ -35,7 +32,7 @@ public class HotController {
     @GetMapping("paperamountrank")
     public Result PaperRank(){
         List<PaperRank> allpaperrank = paperRankRepository.findAll();
-        List<Paper> paperlist = new List<Paper>();
+        List<Paper> paperlist = new ArrayList<>();
         for(PaperRank paperrank : allpaperrank){
             String paper_id = paperrank.getPaperid();
             Paper paper = paperservice.getById(paper_id);
