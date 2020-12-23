@@ -112,4 +112,39 @@ public class SocialController {
         result.getData().put("followerlist", userList);
         return result;
     }
+
+    @ApiOperation(value = "取消关注接口")
+    @PostMapping("cancelfollow")
+    public Result cancelfollow(@RequestBody Map<String, Object> map)
+    {
+        int followername = Integer.parseInt(map.get("followerid").toString());
+        int researcher = Integer.parseInt(map.get("researcherid").toString());
+        Follow follow = new Follow(follower,researcher);
+        followService.disfollows(follow);
+        return new Result("取消关注成功", 200);
+    }
+
+    @ApiOperation(value = "判断是否已关注接口")
+    @PostMapping("isfollow")
+    public Result isfollow(@RequestBody Map<String, Object> map)
+    {
+        int followername = Integer.parseInt(map.get("followerid").toString());
+        int researcher = Integer.parseInt(map.get("researcherid").toString());
+        Follow follow = new Follow(follower,researcher);
+        if(follow != null){
+            return new Result("已关注", 1);
+        }
+        else return new Result("已关注", 0);
+    }
+
+    @ApiOperation(value = "获取个人主页数据")
+    @PostMapping("getpersonalinfo")
+    public Result getpersonalinfo(@RequestBody Map<String, Object> map)
+    {
+        int id = Integer.parseInt(map.get("userid").toString()),
+        AuthUser user = AuthUserService.getAuthUserByUserID(id);
+
+        Result result = new Result("获取成功",200);
+        result.getData().put("user",user);
+    }
 }
