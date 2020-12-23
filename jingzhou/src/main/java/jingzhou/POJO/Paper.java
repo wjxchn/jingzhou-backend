@@ -15,7 +15,7 @@ public class Paper implements Serializable {
     @MongoId
     private ObjectId _id;
 
-    @Field("id")
+    @Field("paperid")
     private String id;
 
     @Field("title")

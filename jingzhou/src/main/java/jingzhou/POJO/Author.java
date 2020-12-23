@@ -15,7 +15,7 @@ public class Author implements Serializable {
     @MongoId
     private ObjectId _id;
 
-    @Field("id")
+    @Field("authorid")
     private long id;
 
     @Field("pubs")

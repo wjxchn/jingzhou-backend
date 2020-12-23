@@ -3,7 +3,6 @@ package jingzhou.POJO;
 
 import lombok.Data;
 import org.bson.types.ObjectId;
-import org.hibernate.annotations.FetchProfile;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.MongoId;
@@ -14,7 +13,7 @@ public class Venue {
     @MongoId
     ObjectId _id;
 
-    @Field("id")
+    @Field("venueid")
     String id;
 
     @Field("DisplayName")
