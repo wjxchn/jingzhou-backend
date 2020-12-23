@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig authType="PASSWORD" id="26fb1708-54ff-4fa7-b6f2-74368583b0b2" port="22" customName="jingzhou-aliyun" nameFormat="CUSTOM">
+        <option name="customName" value="jingzhou-aliyun" />
+      </sshConfig>
+    </configs>
+  </component>
+</project>
