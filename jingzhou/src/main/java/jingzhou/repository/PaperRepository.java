@@ -12,7 +12,9 @@ public interface PaperRepository extends ElasticsearchRepository<Paper, Long> {
 
     Page<Paper> findAllByTitleLike(String title, Pageable page);
 
-    Page<Paper> findAllByKeywordsLike(String keywords, Pageable page);
+    Page<Paper> findAllByKeywordsLikeAndKeywordsLike(String keyword1, String keyword2, Pageable page);
+
+    Page<Paper> findAllByKeywordsLike(String keyword, Pageable page);
 
     Page<Paper> findAllByAuthorsLike(String author, Pageable page);
 
