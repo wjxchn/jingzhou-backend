@@ -13,6 +13,7 @@ import jingzhou.Service.PaperService;
 import org.apache.lucene.search.TotalHits;
 import org.bson.types.ObjectId;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -93,10 +94,9 @@ public class PaperController {
     private Result elasticsearchFuzzyKeyword(@RequestParam("keyword") String keyword, @RequestParam("pagenum") int pagenum) throws IOException {
         Result result = new Result();
         SearchResponse searchResponse = paperService.getByFuzzyKeyword(keyword,pagenum);
-        System.out.println(searchResponse.status());
-
+        if (searchResponse.status() != RestStatus.OK)
+            return new Result("没有搜索结果", 400);
         SearchHits hits = searchResponse.getHits();
-
         TotalHits totalHits = hits.getTotalHits();
         result.getData().put("total",totalHits.value);
         List<Paper>  paperList= new ArrayList<Paper>();
@@ -104,40 +104,16 @@ public class PaperController {
         int i = 1;
         for (SearchHit hit:searchHits
              ) {
-
             Map<String,Object> map = hit.getSourceAsMap();
-
-            System.out.println(i++ +"-------------"+hit.getSourceAsMap());
             String jsonString = JSON.toJSONString(map, SerializerFeature.WriteMapNullValue,SerializerFeature.WriteNullListAsEmpty);
             jsonString = jsonString.replace("\\", "").replace("\"{", "{").replace("}\"", "}");
-            System.out.println(jsonString);
             Paper paper = JSON.parseObject(jsonString,Paper.class);
-//            paper.set_id(new ObjectId());
-//            paper.setPaperid(map.get("paperid").toString());
-//            paper.setTitle(map.get("title").toString());
-//            paper.setAuthors((ArrayList<Paper_Author>) map.get("authors"));
-//            paper.setVenue((Paper_venue) map.get("venue"));
-//            paper.setYear((Integer) map.get("year"));
-//            paper.setKeywords((ArrayList<String>) map.get("keywords"));
-//            paper.setN_citation((Integer) map.get("n_citation"));
-//            paper.setPage_start((String) map.get("page_start"));
-//            paper.setPage_end((String) map.get("page_end"));
-//            paper.setDoc_type((String) map.get("doc_type"));
-//            paper.setLang((String) map.get("lang"));
-//            paper.setPublisher((String) map.get("publisher"));
-//            paper.setVolume((String) map.get("volume"));
-//            paper.setIssue((String) map.get("issue"));
-//            paper.setIssn((String) map.get("issn"));
-//            paper.setIsbn((String) map.get("isbn"));
-//            paper.setDoi((String) map.get("doi"));
-//            paper.setUrl((ArrayList<String>) map.get("url"));
-//            paper.setPdf((String) map.get("pdf"));
-//            paper.setAbstracts((String) map.get("abstract"));
+
             paperList.add(paper);
         }
         result.getData().put("paperlist",paperList);
-
         if (paperList == null || paperList.size()==0)return new Result("没有搜索结果", 400);
+
         return result;
     }
 }
