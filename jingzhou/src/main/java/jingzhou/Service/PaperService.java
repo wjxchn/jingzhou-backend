@@ -4,6 +4,8 @@ import jingzhou.POJO.Paper;
 import jingzhou.POJO.Result;
 import jingzhou.repository.PaperRepository;
 import org.apache.http.HttpHost;
+import org.elasticsearch.action.search.MultiSearchRequest;
+import org.elasticsearch.action.search.MultiSearchResponse;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
@@ -187,5 +189,24 @@ public class PaperService {
         MatchPhraseQueryBuilder matchPhraseQueryBuilder = new MatchPhraseQueryBuilder("issn", issn);
         searchSourceBuilder.query(matchPhraseQueryBuilder);
         return client.search(searchRequest,RequestOptions.DEFAULT);
+    }
+
+    public MultiSearchResponse getByAnId(String id) throws IOException {
+        RestHighLevelClient client = new RestHighLevelClient(
+                RestClient.builder(
+                        new HttpHost("106.14.12.11", 9200, "http")));
+        MultiSearchRequest request = new MultiSearchRequest();
+        SearchRequest firstSearchRequest = new SearchRequest();
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        searchSourceBuilder.query(QueryBuilders.termsQuery("_id", id));
+        firstSearchRequest.source(searchSourceBuilder);
+        request.add(firstSearchRequest);
+        SearchRequest secondSearchRequest = new SearchRequest();
+        searchSourceBuilder = new SearchSourceBuilder();
+        searchSourceBuilder.query(QueryBuilders.termsQuery("id", id));
+        secondSearchRequest.source(searchSourceBuilder);
+        request.add(secondSearchRequest);
+
+        return client.msearch(request, RequestOptions.DEFAULT);
     }
 }

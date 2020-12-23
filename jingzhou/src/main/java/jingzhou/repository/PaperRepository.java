@@ -8,7 +8,7 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PaperRepository extends ElasticsearchRepository<Paper, Long> {
+public interface PaperRepository extends ElasticsearchRepository<Paper, String> {
 
     Page<Paper> findAllByTitleLike(String title, Pageable page);
 

@@ -11,6 +11,7 @@ import jingzhou.POJO.Result;
 import jingzhou.Service.PaperService;
 import org.apache.lucene.search.TotalHits;
 import org.bson.types.ObjectId;
+import org.elasticsearch.action.search.MultiSearchResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.search.SearchHit;
@@ -225,5 +226,35 @@ public class PaperController {
         if (paperList == null || paperList.size()==0)return new Result("没有搜索结果", 400);
 
         return result;
+    }
+
+    @GetMapping("paper/idorpaperid")
+    @ApiOperation(value = "通过_id或者paperid查询paper")
+    private Result elasticsearchIssn(@RequestParam("id") String id) throws IOException {
+        Result result = new Result();
+        MultiSearchResponse response = paperService.getByAnId(id);
+        MultiSearchResponse.Item firstResponse = response.getResponses()[0];
+        SearchResponse searchResponse1 = firstResponse.getResponse();
+        MultiSearchResponse.Item secondResponse = response.getResponses()[1];
+        SearchResponse searchResponse2 = secondResponse.getResponse();
+        if (searchResponse2.status() != RestStatus.OK && searchResponse1.status() != RestStatus.OK)
+            return new Result("没有搜索结果", 400);
+        System.out.println("searchResponse ok");
+        SearchHit[] hit1 = searchResponse1.getHits().getHits();
+        SearchHit[] hit2 = searchResponse2.getHits().getHits();
+        Paper paper = null;
+        ObjectMapper objectMapper = new ObjectMapper();
+        if (hit1.length != 0){
+            Map<String, Object> map = hit1[0].getSourceAsMap();
+            paper = objectMapper.convertValue(map, Paper.class);
+        } else if (hit2.length != 0){
+            Map<String, Object> map = hit2[0].getSourceAsMap();
+            paper = objectMapper.convertValue(map, Paper.class);
+        }
+        if (paper != null){
+            result.getData().put("paper", paper);
+            return result;
+        }
+        else return new Result("没有搜索结果", 400);
     }
 }
