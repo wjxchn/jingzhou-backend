@@ -5,6 +5,9 @@
       <sshConfig authType="PASSWORD" id="26fb1708-54ff-4fa7-b6f2-74368583b0b2" port="22" customName="jingzhou-aliyun" nameFormat="CUSTOM">
         <option name="customName" value="jingzhou-aliyun" />
       </sshConfig>
+      <sshConfig authType="PASSWORD" id="37c7ce3d-2537-4638-9ada-50dec5cdfa3e" port="22" customName="jingzhou-aliyun" nameFormat="CUSTOM">
+        <option name="customName" value="jingzhou-aliyun" />
+      </sshConfig>
     </configs>
   </component>
 </project>

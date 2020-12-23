@@ -71,9 +71,7 @@ public class UserController {
     public Result showuserinfo(@RequestParam("username") String username){
         User user = userService.getUserByName(username);
         if(user!=null){
-            Result result = new Result();
-            result.setCode(200);
-            result.setMsg("已显示用户信息");
+            Result result = new Result("已显示用户信息", 200);
             //直接放对象是否可行？
             result.getData().put("user", user);
             return result;
