@@ -2,7 +2,7 @@
 <project version="4">
   <component name="SshConfigs">
     <configs>
-      <sshConfig authType="PASSWORD" host="106.14.12.11" id="7a67f9d9-421e-4b6d-89de-0b8c903e38e2" port="22" customName="jingzhou-aliyun" nameFormat="CUSTOM">
+      <sshConfig authType="PASSWORD" host="106.14.12.11" id="f822e2f8-50e1-4334-adf3-37eafdeaef6f" port="22" customName="jingzhou-aliyun" nameFormat="CUSTOM">
         <option name="customName" value="jingzhou-aliyun" />
       </sshConfig>
     </configs>

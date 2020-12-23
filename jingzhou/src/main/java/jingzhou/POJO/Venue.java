@@ -11,7 +11,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import javax.persistence.Column;
 
 @Data
-@Document(indexName = "testdoct", indexStoreType = "venue")
+@Document(indexName = "jingzhou.venue")
 public class Venue {
     @Id
     ObjectId _id;

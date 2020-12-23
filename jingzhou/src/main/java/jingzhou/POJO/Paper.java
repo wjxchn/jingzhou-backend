@@ -12,7 +12,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 @Data
-@Document(indexName = "testdoct", indexStoreType = "paper")
+@Document(indexName = "jingzhou.paper")
 public class Paper implements Serializable {
     @Id
     private ObjectId _id;
@@ -24,14 +24,14 @@ public class Paper implements Serializable {
     @Field(analyzer = "ik_smart", type = FieldType.Text)
     private String title;
 
-    @Field(analyzer = "ik_smart", type = FieldType.Text)
+    @Field(name = "authors", analyzer = "ik_smart", type = FieldType.Nested)
     private ArrayList<Paper_Author>authors;
 
     private Paper_venue venue;
 
     private int year;
 
-    @Field(analyzer = "ik_smart", type = FieldType.Text)
+    @Field(analyzer = "ik_smart", type = FieldType.Nested)
     ArrayList<String> keywords;
 
     private int n_citation;
@@ -66,11 +66,12 @@ public class Paper implements Serializable {
     @Field(analyzer = "ik_smart", type = FieldType.Text)
     private String doi;
 
+    @Field(name = "url", analyzer = "ik_smart", type = FieldType.Nested)
     private ArrayList<String> url;
 
     @Field(analyzer = "ik_smart", type = FieldType.Text)
     private String pdf;
 
-    @Field(analyzer = "ik_smart", type = FieldType.Text)
+    @Field(name = "abstract", analyzer = "ik_smart", type = FieldType.Text)
     private String abstracts;
 }

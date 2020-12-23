@@ -35,7 +35,7 @@ public class AuthorController {
     private Author findAuthorByRealId(@RequestParam("id") String id){
 
         Author author = authorService.getByRealId(id);
-        System.out.println("------id:"+author.getAuthorid());
+        //System.out.println("------id:"+author.getAuthorid());
         return author;
     }
 }
