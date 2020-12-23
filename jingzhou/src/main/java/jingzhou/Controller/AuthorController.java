@@ -4,9 +4,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jingzhou.POJO.Author;
 import jingzhou.Service.AuthorService;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  *
@@ -45,8 +49,7 @@ public class AuthorController {
     @ApiOperation(value = "通过姓名模糊查找作者")
     private List<Author> findAuthorByRealname(@RequestParam("name") String name){
 
-        List<Author> authors = authorService.getByRealname(name);
-        return authors;
+        return (List<Author>) authorService.getByRealname(name);
     }
 
 }
