@@ -16,6 +16,7 @@ import jingzhou.MySQLTable.Follow;
 import jingzhou.MySQLTable.Message;
 import jingzhou.MySQLTable.User;
 import jingzhou.POJO.Result;
+import jingzhou.Service.AuthUserService;
 import jingzhou.Service.FollowService;
 import jingzhou.Service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -122,7 +123,7 @@ public class SocialController {
         int follower = Integer.parseInt(map.get("followerid").toString());
         int researcher = Integer.parseInt(map.get("researcherid").toString());
         Follow follow = new Follow(follower,researcher);
-        followService.disfollows(follow);
+        followService.disfollow(follow);
         return new Result("取消关注成功", 200);
     }
 
@@ -143,10 +144,11 @@ public class SocialController {
     @PostMapping("getpersonalinfo")
     public Result getpersonalinfo(@RequestBody Map<String, Object> map)
     {
-        int id = Integer.parseInt(map.get("userid").toString()),
-        AuthUser user = authUserService.getAuthUserByUserID(id);
+        int id = Integer.parseInt(map.get("userid").toString());
+        AuthUser user = authUserservice.getAuthUserByUserID(id);
 
         Result result = new Result("获取成功",200);
         result.getData().put("user",user);
+        return result;
     }
 }

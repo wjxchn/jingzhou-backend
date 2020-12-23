@@ -1,6 +1,7 @@
 package jingzhou.Service;
 
 import jingzhou.POJO.Paper;
+import jingzhou.POJO.Result;
 import jingzhou.repository.PaperRepository;
 import org.apache.http.HttpHost;
 import org.elasticsearch.action.search.SearchRequest;
@@ -8,8 +9,12 @@ import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.unit.Fuzziness;
+import org.elasticsearch.common.unit.TimeValue;
+import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.SortBuilders;
 import org.elasticsearch.search.sort.SortOrder;
@@ -25,6 +30,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class PaperService {
@@ -182,5 +188,23 @@ public class PaperService {
         Page<Paper> paperPage = paperRepository.findAllByAuthorsLike(auhtorname, pageable);
 
         return paperPage.getContent();
+    }
+
+
+    public SearchResponse getByFuzzyKeyword(String keyword, int pagenum) throws IOException {
+
+        RestHighLevelClient client = new RestHighLevelClient(
+                RestClient.builder(
+                        new HttpHost("106.14.12.11", 9200, "http")));
+        SearchRequest searchRequest = new SearchRequest("jingzhou.paper");
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        searchSourceBuilder.from(pagenum*20);
+        searchSourceBuilder.size(20);
+        searchSourceBuilder.timeout(new TimeValue(30, TimeUnit.SECONDS));
+        searchRequest.source(searchSourceBuilder);
+        MatchQueryBuilder matchQueryBuilder = new MatchQueryBuilder("keywords", keyword).fuzziness(Fuzziness.AUTO).maxExpansions(10);
+        searchSourceBuilder.query(matchQueryBuilder);
+        SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
+        return searchResponse;
     }
 }

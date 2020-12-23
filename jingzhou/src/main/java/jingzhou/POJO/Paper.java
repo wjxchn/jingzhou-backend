@@ -1,5 +1,6 @@
 package jingzhou.POJO;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -14,19 +15,19 @@ import java.util.ArrayList;
 @Data
 @Document(indexName = "jingzhou.paper")
 public class Paper implements Serializable {
-    @Id
-    private ObjectId _id;
+    @Id @JSONField(name = "id")
+    private String _id;
 
-    @Field(analyzer = "ik_smart", type = FieldType.Text)
-    @Column(name = "id")
+    @Field(analyzer = "ik_smart", type = FieldType.Text)@JSONField(name = "paperid")
+    @Column(name = "paperid")
     private String paperid;
 
-    @Field(analyzer = "ik_smart", type = FieldType.Text)
+    @Field(analyzer = "ik_smart", type = FieldType.Text)@JSONField(name = "title")
     private String title;
 
-    @Field(name = "authors", analyzer = "ik_smart", type = FieldType.Nested)
+    @Field(name = "authors", analyzer = "ik_smart", type = FieldType.Nested)@JSONField(name = "authors")
     private ArrayList<Paper_Author>authors;
-
+    @JSONField(name = "venue")
     private Paper_venue venue;
 
     private int year;
@@ -72,6 +73,6 @@ public class Paper implements Serializable {
     @Field(analyzer = "ik_smart", type = FieldType.Text)
     private String pdf;
 
-    @Field(name = "abstract", analyzer = "ik_smart", type = FieldType.Text)
+    @Field(name = "abstract", analyzer = "ik_smart", type = FieldType.Text)@JSONField(name = "abstract")
     private String abstracts;
 }

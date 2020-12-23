@@ -1,6 +1,7 @@
 package jingzhou.POJO;
 
 import lombok.Data;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
@@ -13,8 +14,10 @@ import java.util.ArrayList;
 @Document(indexName = "jingzhou.author")
 public class Author implements Serializable {
 
+    @Id
+    private String id;
 
-    @Field(name = "id", analyzer = "ik_smart", type = FieldType.Text)
+    @Field(name = "authorid", analyzer = "ik_smart", type = FieldType.Text)
     private String authorid;
 
     @Field(name = "pubs")

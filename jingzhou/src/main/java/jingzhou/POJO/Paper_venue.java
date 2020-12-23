@@ -1,6 +1,7 @@
 package jingzhou.POJO;
 
 
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -11,10 +12,10 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Data
 public class Paper_venue {
 
-    @Field("raw")
+    @Field("raw")@JSONField(name = "venue.raw")
     private String raw;
 
-    @Field("id")
+    @Field("id")@JSONField(name = "venue.id")
     private String id;
 
 }

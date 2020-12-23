@@ -18,5 +18,5 @@ public class Result implements Serializable {
         this.data = new HashMap<String, Object>();
     }
 
-    public Result(){}
+    public Result(){this.data = new HashMap<String, Object>();}
 }

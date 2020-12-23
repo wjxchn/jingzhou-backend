@@ -17,7 +17,7 @@ public class Venue {
     ObjectId _id;
 
     @Field(analyzer = "ik_smart", type = FieldType.Text)
-    @Column(name = "id")
+    @Column(name = "venueid")
     String venueid;
 
     @Field(analyzer = "ik_smart", type = FieldType.Text)
