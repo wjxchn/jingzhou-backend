@@ -172,4 +172,20 @@ public class PaperService {
         SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
         return searchResponse;
     }
+
+    public SearchResponse getIssn(String issn, int pagenum) throws IOException {
+
+        RestHighLevelClient client = new RestHighLevelClient(
+                RestClient.builder(
+                        new HttpHost("106.14.12.11", 9200, "http")));
+        SearchRequest searchRequest = new SearchRequest("jingzhou.paper");
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        searchSourceBuilder.from(pagenum*20);
+        searchSourceBuilder.size(20);
+        searchSourceBuilder.timeout(new TimeValue(30, TimeUnit.SECONDS));
+        searchRequest.source(searchSourceBuilder);
+        MatchPhraseQueryBuilder matchPhraseQueryBuilder = new MatchPhraseQueryBuilder("issn", issn);
+        searchSourceBuilder.query(matchPhraseQueryBuilder);
+        return client.search(searchRequest,RequestOptions.DEFAULT);
+    }
 }

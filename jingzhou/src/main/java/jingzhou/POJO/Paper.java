@@ -60,7 +60,7 @@ public class Paper implements Serializable {
     @Field(analyzer = "ik_smart", type = FieldType.Text)
     private String issue;
 
-    @Field(analyzer = "ik_smart", type = FieldType.Text)
+    @Field(type = FieldType.Keyword)
     private String issn;
 
     @Field(analyzer = "ik_smart", type = FieldType.Text)

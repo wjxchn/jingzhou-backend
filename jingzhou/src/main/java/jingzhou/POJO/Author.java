@@ -43,7 +43,7 @@ public class Author implements Serializable {
     private List<String> orgs;
     @JsonProperty("org")@Field(analyzer = "ik_smart", type = FieldType.Text)
     private List<String> org;
-    @JsonProperty("position")@Field(analyzer = "ik_smart", type = FieldType.Keyword)
+    @JsonProperty("position")@Field(analyzer = "ik_smart", type = FieldType.Text)
     private String position;
     @JsonProperty("tags")
     private List<Tag> tags;

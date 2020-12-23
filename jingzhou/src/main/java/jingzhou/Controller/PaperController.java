@@ -198,4 +198,32 @@ public class PaperController {
 
         return result;
     }
+
+    @GetMapping("paper/issn")
+    @ApiOperation(value = "通过issn模糊查询paper")
+    private Result elasticsearchIssn(@RequestParam("issn") String issn, @RequestParam("pagenum") int pagenum) throws IOException {
+        Result result = new Result();
+        SearchResponse searchResponse = paperService.getIssn(issn,pagenum);
+        ;
+        if (searchResponse.status() != RestStatus.OK)
+            return new Result("没有搜索结果", 400);
+        System.out.println("searchResponse ok");
+        SearchHits hits = searchResponse.getHits();
+        TotalHits totalHits = hits.getTotalHits();
+        result.getData().put("total",totalHits.value);
+        List<Paper>  paperList= new ArrayList<Paper>();
+        SearchHit[] searchHits = hits.getHits();
+        int i = 1;
+        for (SearchHit hit:searchHits
+        ) {
+            Map<String,Object> map = hit.getSourceAsMap();
+            ObjectMapper objectMapper = new ObjectMapper();
+            Paper paper = objectMapper.convertValue(map,Paper.class);
+            paperList.add(paper);
+        }
+        result.getData().put("paperlist",paperList);
+        if (paperList == null || paperList.size()==0)return new Result("没有搜索结果", 400);
+
+        return result;
+    }
 }
