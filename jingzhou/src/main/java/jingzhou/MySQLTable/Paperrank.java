@@ -5,10 +5,10 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Entity @Data
-public class PaperRank {
+public class Paperrank {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int rankid;
-    private int amount;
+    private int citation;
     private String paperid;
     private String authorid;
     private String papername;
