@@ -1,8 +1,7 @@
 package jingzhou.Controller;
 
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jingzhou.POJO.Paper;
@@ -57,20 +56,59 @@ public class PaperController {
     * 通过title获取paper
     * */
     @GetMapping("paper/title")
-    @ApiOperation(value = "通过title精确查询paper")
-    private Paper findPaperByTitle(@RequestParam("title") String title){
+    @ApiOperation(value = "通过titlp匹配查询paper(title中有关键词全匹配则获取)")
+    private Result findPaperByTitle(@RequestParam("title") String title, @RequestParam("pagenum") int pagenum) throws IOException {
+        Result result = new Result();
 
-        System.out.println("------try to get paper with title:"+title);
-        Paper paper = paperService.getByTitle(title);
-        return paper;
+        SearchResponse searchResponse = paperService.getByTitleExact(title,pagenum);
+        if (searchResponse.status() != RestStatus.OK)
+            return new Result("没有搜索结果", 400);
+        System.out.println("searchresponse返回");
+        SearchHits hits = searchResponse.getHits();
+        TotalHits totalHits = hits.getTotalHits();
+        result.getData().put("total",totalHits.value);
+        List<Paper>  paperList= new ArrayList<Paper>();
+        SearchHit[] searchHits = hits.getHits();
+        int i = 1;
+        for (SearchHit hit:searchHits
+        ) {
+            Map<String,Object> map = hit.getSourceAsMap();
+            ObjectMapper objectMapper = new ObjectMapper();
+            Paper paper = objectMapper.convertValue(map,Paper.class);
+            paperList.add(paper);
+        }
+        result.getData().put("paperlist",paperList);
+        if (paperList == null || paperList.size()==0)return new Result("没有搜索结果", 400);
+
+        return result;
     }
 
     @GetMapping("paper/fuzzytitle")
     @ApiOperation(value = "通过title模糊查询paper")
-    private List<Paper> findPaperByTitleFuzzy(@RequestParam("title") String title, @RequestParam("pagenum") int pagenum){
-        System.out.println("------try to get paper with title: "+title);
-        List<Paper> papers = paperService.getByFuzzyTitle(title, pagenum);
-        return papers;
+    private Result findPaperByTitleFuzzy(@RequestParam("title") String title, @RequestParam("pagenum") int pagenum) throws IOException {
+        Result result = new Result();
+
+        SearchResponse searchResponse = paperService.getTitleFuzzy(title,pagenum);
+        if (searchResponse.status() != RestStatus.OK)
+            return new Result("没有搜索结果", 400);
+        System.out.println("searchresponse返回");
+        SearchHits hits = searchResponse.getHits();
+        TotalHits totalHits = hits.getTotalHits();
+        result.getData().put("total",totalHits.value);
+        List<Paper>  paperList= new ArrayList<Paper>();
+        SearchHit[] searchHits = hits.getHits();
+        int i = 1;
+        for (SearchHit hit:searchHits
+        ) {
+            Map<String,Object> map = hit.getSourceAsMap();
+            ObjectMapper objectMapper = new ObjectMapper();
+            Paper paper = objectMapper.convertValue(map,Paper.class);
+            paperList.add(paper);
+        }
+        result.getData().put("paperlist",paperList);
+        if (paperList == null || paperList.size()==0)return new Result("没有搜索结果", 400);
+
+        return result;
     }
 
     @GetMapping("paper/keyword")
@@ -83,10 +121,30 @@ public class PaperController {
 
     @GetMapping("paper/authorname")
     @ApiOperation(value = "通过authorname精确查询paper")
-    private List<Paper> findPaperByauthorname(@RequestParam("authorname") String author, @RequestParam("pagenum") int pagenum){
-        System.out.println("------try to get paper with keyword: "+author);
-        List<Paper> papers = paperService.getByAuthor(author, pagenum);
-        return papers;
+    private Result findPaperByauthorname(@RequestParam("authorname") String author, @RequestParam("pagenum") int pagenum) throws IOException {
+        Result result = new Result();
+
+        SearchResponse searchResponse = paperService.getByAuthornameExact(author,pagenum);
+        if (searchResponse.status() != RestStatus.OK)
+            return new Result("没有搜索结果", 400);
+        System.out.println("searchresponse返回");
+        SearchHits hits = searchResponse.getHits();
+        TotalHits totalHits = hits.getTotalHits();
+        result.getData().put("total",totalHits.value);
+        List<Paper>  paperList= new ArrayList<Paper>();
+        SearchHit[] searchHits = hits.getHits();
+        int i = 1;
+        for (SearchHit hit:searchHits
+        ) {
+            Map<String,Object> map = hit.getSourceAsMap();
+            ObjectMapper objectMapper = new ObjectMapper();
+            Paper paper = objectMapper.convertValue(map,Paper.class);
+            paperList.add(paper);
+        }
+        result.getData().put("paperlist",paperList);
+        if (paperList == null || paperList.size()==0)return new Result("没有搜索结果", 400);
+
+        return result;
     }
 
     @GetMapping("paper/fuzzykeyword")
@@ -105,10 +163,8 @@ public class PaperController {
         for (SearchHit hit:searchHits
              ) {
             Map<String,Object> map = hit.getSourceAsMap();
-            String jsonString = JSON.toJSONString(map, SerializerFeature.WriteMapNullValue,SerializerFeature.WriteNullListAsEmpty);
-            jsonString = jsonString.replace("\\", "").replace("\"{", "{").replace("}\"", "}");
-            Paper paper = JSON.parseObject(jsonString,Paper.class);
-
+            ObjectMapper objectMapper = new ObjectMapper();
+            Paper paper = objectMapper.convertValue(map,Paper.class);
             paperList.add(paper);
         }
         result.getData().put("paperlist",paperList);
@@ -133,10 +189,8 @@ public class PaperController {
         for (SearchHit hit:searchHits
         ) {
             Map<String,Object> map = hit.getSourceAsMap();
-            String jsonString = JSON.toJSONString(map, SerializerFeature.WriteMapNullValue,SerializerFeature.WriteNullListAsEmpty);
-            jsonString = jsonString.replace("\\", "").replace("\"{", "{").replace("}\"", "}");
-            Paper paper = JSON.parseObject(jsonString,Paper.class);
-
+            ObjectMapper objectMapper = new ObjectMapper();
+            Paper paper = objectMapper.convertValue(map,Paper.class);
             paperList.add(paper);
         }
         result.getData().put("paperlist",paperList);

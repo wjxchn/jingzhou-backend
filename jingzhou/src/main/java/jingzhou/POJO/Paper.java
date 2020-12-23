@@ -1,6 +1,7 @@
 package jingzhou.POJO;
 
-import com.alibaba.fastjson.annotation.JSONField;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
@@ -15,26 +16,28 @@ import java.util.ArrayList;
 @Data
 @Document(indexName = "jingzhou.paper")
 public class Paper implements Serializable {
-    @Id @JSONField(name = "id")
+    @Id @JsonProperty("id")
     private String _id;
 
-    @Field(analyzer = "ik_smart", type = FieldType.Text)@JSONField(name = "paperid")
-    @Column(name = "paperid")
+    @Field(analyzer = "ik_smart", type = FieldType.Text)
+    @Column(name = "paperid")@JsonProperty("paperid")
     private String paperid;
 
-    @Field(analyzer = "ik_smart", type = FieldType.Text)@JSONField(name = "title")
+    @Field(analyzer = "ik_smart", type = FieldType.Text)@JsonProperty("title")
     private String title;
 
-    @Field(name = "authors", analyzer = "ik_smart", type = FieldType.Nested)@JSONField(name = "authors")
+    @Field(name = "authors", analyzer = "ik_smart", type = FieldType.Nested)@JsonProperty("authors")
     private ArrayList<Paper_Author>authors;
-    @JSONField(name = "venue")
+    @JsonProperty("venue")
     private Paper_venue venue;
 
+    @JsonProperty("year")
     private int year;
 
-    @Field(analyzer = "ik_smart", type = FieldType.Nested)
+    @Field(analyzer = "ik_smart", type = FieldType.Nested)@JsonProperty("keywords")
     ArrayList<String> keywords;
 
+    @JsonProperty("n_citation")
     private int n_citation;
 
     @Field(analyzer = "ik_smart", type = FieldType.Text)
@@ -73,6 +76,6 @@ public class Paper implements Serializable {
     @Field(analyzer = "ik_smart", type = FieldType.Text)
     private String pdf;
 
-    @Field(name = "abstract", analyzer = "ik_smart", type = FieldType.Text)@JSONField(name = "abstract")
+    @Field(name = "abstract", analyzer = "ik_smart", type = FieldType.Text)@JsonProperty("abstract")
     private String abstracts;
 }

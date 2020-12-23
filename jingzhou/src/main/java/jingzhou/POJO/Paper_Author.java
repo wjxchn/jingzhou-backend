@@ -1,6 +1,7 @@
 package jingzhou.POJO;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Field;
 
@@ -13,12 +14,12 @@ import org.springframework.data.mongodb.core.mapping.Field;
 @Data
 public class Paper_Author {
 
-    @Field("name")
+    @Field("name")@JsonProperty("name")
     private String name;
 
-    @Field("id")
+    @Field("id")@JsonProperty("id")
     private String id;
 
-    @Field("org")
+    @Field("org")@JsonProperty("org")
     private String affiliation;
 }
