@@ -11,13 +11,13 @@ import jingzhou.Service.AuthUserService;
 import jingzhou.Service.AuthorService;
 import jingzhou.Service.InstitutionService;
 import jingzhou.Service.UserService;
-import jingzhou.repository.AuthUserRepository;
-import jingzhou.repository.InstitutionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 @Api(value = "信息检索子系统")
 @RestController
@@ -63,7 +63,7 @@ public class SearchController {
      @ApiOperation(value = "通过name模糊查找机构")
      private List<Institution> findInstitutionByname(@RequestParam("name") String name){
  
-         List<Institution> Institutions = Institution.getBykeyword(name);
+         List<Institution> Institutions = institutionService.getBykeyword(name);
          return Institutions;
      }
 

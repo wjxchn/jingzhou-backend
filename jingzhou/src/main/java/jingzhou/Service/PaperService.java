@@ -4,16 +4,13 @@ import jingzhou.POJO.Paper;
 import jingzhou.mongodbdao.PaperDao;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 @Service
 public class PaperService {
@@ -116,7 +113,7 @@ public class PaperService {
 
     public List<Paper> getByCitation(){
         Query query = new Query();
-        query.with(new Sort(Sort.Direction.DESC, "n_citation")).limit(20);
+        query.with(Sort.by(Sort.Direction.DESC,"n_citation")).limit(20);
         List<Paper> paperlist = mongoTemplate.find(query, Paper.class);
         return paperlist;
     }
