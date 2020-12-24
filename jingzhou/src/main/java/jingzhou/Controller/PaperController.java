@@ -257,4 +257,14 @@ public class PaperController {
         }
         else return new Result("没有搜索结果", 400);
     }
+
+    @GetMapping("paper/addclick")
+    @ApiOperation(value = "访问paper时点击数+1")
+    private paperrank addclick(@RequestParam("paperid") int paperid) throws IOException {
+
+        Paper paperrank = paperService.getByid(paperid);
+        paperrank.setamount(getamount()+1);
+        PaperRankRepository.saveAndFlush(paperrank);
+        return paperrank;
+    }
 }
