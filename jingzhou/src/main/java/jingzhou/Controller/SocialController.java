@@ -7,6 +7,7 @@ package jingzhou.Controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import jingzhou.MySQLTable.AuthUser;
 import jingzhou.MySQLTable.Follow;
 import jingzhou.MySQLTable.Message;
 import jingzhou.MySQLTable.User;
@@ -14,11 +15,10 @@ import jingzhou.POJO.Result;
 import jingzhou.Service.AuthUserService;
 import jingzhou.Service.FollowService;
 import jingzhou.Service.MessageService;
-import jingzhou.Service.SessionService;
+import jingzhou.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +33,8 @@ public class SocialController {
     @Autowired
     private AuthUserService authUserservice;
     @Autowired
-    private SessionService sessionService;
+    private UserService userService;
+
     @ApiOperation("关注接口")
     @PostMapping({"follow"})
     public Result follow(@RequestBody Map<String, Object> map) {
@@ -92,6 +93,26 @@ public class SocialController {
         return result;
     }
 
+    @ApiOperation("我的关注人数")
+    @GetMapping("follow/num/self")
+    public Result followNumSelf(@RequestParam("username") String username) {
+        Result result = new Result("查看关注成功", 200);
+        int id = this.userService.getUserByName(username).getUserid();
+        int num = this.followService.getFollowNum(id);
+        result.getData().put("cnt", num);
+        return result;
+    }
+
+    @ApiOperation("我的被关注人数")
+    @GetMapping("follower/num/self")
+    public Result followerNumSelf(@RequestParam("username") String username) {
+        Result result = new Result("返回人数", 200);
+        int id = this.userService.getUserByName(username).getUserid();
+        int num = this.followService.getFollowerNum(id);
+        result.getData().put("cnt", num);
+        return result;
+    }
+
     @ApiOperation("关注列表")
     @GetMapping("follow/list")
     public Result myFollow(@RequestParam("userid") int follow) {
@@ -136,12 +157,10 @@ public class SocialController {
 
     @ApiOperation(value = "获取个人主页数据")
     @PostMapping("getpersonalinfo")
-    public Result getpersonalinfo(@RequestBody Map<String, Object> map, HttpServletRequest request)
+    public Result getpersonalinfo(@RequestBody Map<String, Object> map)
     {
-
-        User user = sessionService.getCurrentUser(request);
-        if (user == null)return new Result("请登录后查看",400);
-
+        int id = Integer.parseInt(map.get("userid").toString());
+        AuthUser user = authUserservice.getAuthUserByUserID(id);
 
         Result result = new Result("获取成功",200);
         result.getData().put("user",user);
