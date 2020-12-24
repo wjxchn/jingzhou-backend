@@ -1,7 +1,6 @@
 jingzhou\POJO\Pubs.class
 jingzhou\Config\SwaggerConfig.class
 jingzhou\POJO\Paper_venue.class
-jingzhou\MySQLTable\PaperRank.class
 jingzhou\Controller\AuthorController.class
 jingzhou\MySQLTable\Follow.class
 jingzhou\Service\UserService.class
@@ -30,6 +29,7 @@ jingzhou\MySQLTable\AuthUser.class
 jingzhou\Controller\UserController.class
 jingzhou\MySQLTable\InstitutionRank.class
 jingzhou\MySQLTable\Project.class
+jingzhou\MySQLTable\Paperrank.class
 jingzhou\repository\MessageRepository.class
 jingzhou\Intercepter\LoginInterceptor.class
 jingzhou\Service\AuthUserService.class

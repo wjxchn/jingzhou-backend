@@ -11,6 +11,9 @@ import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -22,14 +25,19 @@ public class AuthorService {
     @Autowired
     AuthorRepository authorRepository;
 
-   @Autowired
-   RestHighLevelClient client;
+    @Autowired
+    RestHighLevelClient client;
+
+    @Autowired
+    MongoTemplate mongoTemplate;
 
     public Author getByName(String name) {
-//        Query query = new Query(Criteria.where("name").is(name));
-//        return mongoTemplate.findOne(query,Author.class);
-        return authorRepository.findByName(name);
+        Query query = new Query(Criteria.where("name").is(name));
+        return mongoTemplate.findOne(query,Author.class);
+//        return authorRepository.findByName(name);
     }
+
+
 
 
     public Author getByRealId(String id) {

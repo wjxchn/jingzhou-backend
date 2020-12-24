@@ -4,13 +4,15 @@ package jingzhou.Controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import jingzhou.MySQLTable.AuthUser;
+import jingzhou.POJO.Author;
 import jingzhou.POJO.Paper;
-import jingzhou.POJO.Paper_Author;
-import jingzhou.POJO.Paper_venue;
+import jingzhou.POJO.Pubs;
 import jingzhou.POJO.Result;
+import jingzhou.Service.AuthUserService;
+import jingzhou.Service.AuthorService;
 import jingzhou.Service.PaperService;
 import org.apache.lucene.search.TotalHits;
-import org.bson.types.ObjectId;
 import org.elasticsearch.action.search.MultiSearchResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.rest.RestStatus;
@@ -38,6 +40,11 @@ public class PaperController {
     @Autowired
     PaperService paperService;
 
+    @Autowired
+    AuthUserService authUserService;
+
+    @Autowired
+    AuthorService authorService;
     /*
     * 可用
     * 通过mongodb的[_id]字段查找
@@ -253,6 +260,27 @@ public class PaperController {
         }
         if (paper != null){
             result.getData().put("paper", paper);
+            return result;
+        }
+        else return new Result("没有搜索结果", 400);
+    }
+
+    @GetMapping("paper/username")
+    @ApiOperation(value = "通过用户名查询paper")
+    private Result mySqlUsernameToElasticsearchPaper(@RequestParam("username") String username) throws IOException {
+        Result result = new Result();
+        AuthUser authUser = authUserService.getAuthUserByUsername(username);
+        Author author = authorService.getByName(authUser.getRealname());
+        ArrayList<Pubs> pubs = author.getPubsList();
+        List<Paper> papers = new ArrayList<>();
+        if (papers != null){
+            for (Pubs pub: pubs){
+                Paper paper = findPaperById(pub.getI());
+                papers.add(paper);
+            }
+            result.setMsg("搜索成功");
+            result.setCode(200);
+            result.getData().put("papers",papers);
             return result;
         }
         else return new Result("没有搜索结果", 400);
