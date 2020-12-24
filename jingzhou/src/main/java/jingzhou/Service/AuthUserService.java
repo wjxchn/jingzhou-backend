@@ -2,6 +2,7 @@ package jingzhou.Service;
 
 import jingzhou.MySQLTable.AuthUser;
 import jingzhou.repository.AuthUserRepository;
+import jingzhou.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,5 +17,13 @@ public class AuthUserService {
 
     public AuthUser getAuthUserByUsername(String username){
         return authUserRepository.findAuthUserByUsername(username);
+    }
+
+    public void insertAuthUser(AuthUser user){
+        authUserRepository.save(user);
+    }
+
+    public void updateAuthUser(AuthUser user){
+        authUserRepository.saveAndFlush(user);
     }
 }
