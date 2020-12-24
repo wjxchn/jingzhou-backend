@@ -5,8 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jingzhou.MySQLTable.AuthUser;
-import jingzhou.POJO.Author;
 import jingzhou.MySQLTable.Paperrank;
+import jingzhou.POJO.Author;
 import jingzhou.POJO.Paper;
 import jingzhou.POJO.Pubs;
 import jingzhou.POJO.Result;
@@ -15,7 +15,6 @@ import jingzhou.Service.AuthorService;
 import jingzhou.Service.PaperService;
 import jingzhou.repository.PaperRankRepository;
 import org.apache.lucene.search.TotalHits;
-import org.bson.types.ObjectId;
 import org.elasticsearch.action.search.MultiSearchResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.rest.RestStatus;
@@ -55,8 +54,8 @@ public class PaperController {
     * 通过mongodb的[_id]字段查找
     * 精确查询
     * */
-    @GetMapping("paper/id")
-    @ApiOperation(value = "通过ID精确查询paper")
+//    @GetMapping("paper/id")
+//    @ApiOperation(value = "通过ID精确查询paper")
     private Paper findPaperById(@RequestParam("id") String id){
 
         System.out.println("------try to get paper with id: "+id);
@@ -126,10 +125,16 @@ public class PaperController {
 
     @GetMapping("paper/keyword")
     @ApiOperation(value = "通过keyword精确查询paper")
-    private List<Paper> findPaperByKeyword(@RequestParam("keyword") String keyword, @RequestParam("pagenum") int pagenum) throws IOException {
+    private Result findPaperByKeyword(@RequestParam("keyword") String keyword, @RequestParam("pagenum") int pagenum) throws IOException {
         System.out.println("------try to get paper with keyword: "+keyword);
+
+        Result result = new Result("获取信息成功", 200);
         List<Paper> papers = paperService.getByKeyword(keyword, pagenum);
-        return papers;
+        if (papers != null){
+            result.getData().put("papers", papers);
+            return result;
+        }
+        return new Result("获取信息失败", 400);
     }
 
     @GetMapping("paper/authorname")

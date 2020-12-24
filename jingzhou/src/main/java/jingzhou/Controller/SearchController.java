@@ -68,10 +68,15 @@ public class SearchController {
      /* 模糊查找 */
      @GetMapping("byinstitutionname")
      @ApiOperation(value = "通过name模糊查找机构")
-     private List<Institution> findInstitutionByname(@RequestParam("name") String name){
- 
+     private Result findInstitutionByname(@RequestParam("name") String name){
+
+         Result result = new Result("获取信息成功", 200);
          List<Institution> Institutions = institutionService.getBykeyword(name);
-         return Institutions;
+         if (Institutions != null){
+             result.getData().put("institutions", Institutions);
+             return result;
+         }
+         return new Result("获取信息失败", 400);
      }
 
 }
