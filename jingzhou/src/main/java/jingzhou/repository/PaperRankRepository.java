@@ -6,6 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PaperRankRepository extends JpaRepository<Paperrank, Integer> {
-    findPaperrankByPaperid(int paperid);
-
+    Paperrank findPaperrankByPaperid(String paperid);
 }

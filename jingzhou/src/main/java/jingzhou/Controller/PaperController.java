@@ -4,11 +4,13 @@ package jingzhou.Controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import jingzhou.MySQLTable.Paperrank;
 import jingzhou.POJO.Paper;
 import jingzhou.POJO.Paper_Author;
 import jingzhou.POJO.Paper_venue;
 import jingzhou.POJO.Result;
 import jingzhou.Service.PaperService;
+import jingzhou.repository.PaperRankRepository;
 import org.apache.lucene.search.TotalHits;
 import org.bson.types.ObjectId;
 import org.elasticsearch.action.search.MultiSearchResponse;
@@ -38,6 +40,8 @@ public class PaperController {
     @Autowired
     PaperService paperService;
 
+    @Autowired
+    PaperRankRepository paperRankRepository;
     /*
     * 可用
     * 通过mongodb的[_id]字段查找
@@ -260,11 +264,19 @@ public class PaperController {
 
     @GetMapping("paper/addclick")
     @ApiOperation(value = "访问paper时点击数+1")
-    private paperrank addclick(@RequestParam("paperid") int paperid) throws IOException {
+    private Paperrank addclick(@RequestParam("paperid") String paperid) throws IOException {
 
-        Paper paperrank = paperService.getByid(paperid);
-        paperrank.setamount(getamount()+1);
-        PaperRankRepository.saveAndFlush(paperrank);
+        Paperrank paperrank = paperRankRepository.findPaperrankByPaperid(paperid);
+        if(paperrank!=null){
+            paperrank.setAmount(paperrank.getAmount()+1);
+            paperRankRepository.saveAndFlush(paperrank);
+        }
+        else{
+            Paperrank new_paperrank = new Paperrank();
+            new_paperrank.setPaperid(paperid);
+            new_paperrank.setAmount(1);
+            paperRankRepository.save(new_paperrank);
+        }
         return paperrank;
     }
 }
