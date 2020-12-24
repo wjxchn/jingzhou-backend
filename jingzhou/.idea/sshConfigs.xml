@@ -2,10 +2,13 @@
 <project version="4">
   <component name="SshConfigs">
     <configs>
-      <sshConfig authType="PASSWORD" id="26fb1708-54ff-4fa7-b6f2-74368583b0b2" port="22" customName="jingzhou-aliyun" nameFormat="CUSTOM">
+      <sshConfig authType="PASSWORD" host="localhost" id="26fb1708-54ff-4fa7-b6f2-74368583b0b2" port="22" customName="jingzhou-aliyun" nameFormat="CUSTOM">
         <option name="customName" value="jingzhou-aliyun" />
       </sshConfig>
-      <sshConfig authType="PASSWORD" id="37c7ce3d-2537-4638-9ada-50dec5cdfa3e" port="22" customName="jingzhou-aliyun" nameFormat="CUSTOM">
+      <sshConfig authType="PASSWORD" host="localhost" id="37c7ce3d-2537-4638-9ada-50dec5cdfa3e" port="22" customName="jingzhou-aliyun" nameFormat="CUSTOM">
+        <option name="customName" value="jingzhou-aliyun" />
+      </sshConfig>
+      <sshConfig authType="PASSWORD" host="106.14.12.11" id="dc3c87c1-fc75-48ef-852c-88e11e8e3672" port="22" customName="jingzhou-aliyun" nameFormat="CUSTOM" username="root">
         <option name="customName" value="jingzhou-aliyun" />
       </sshConfig>
     </configs>

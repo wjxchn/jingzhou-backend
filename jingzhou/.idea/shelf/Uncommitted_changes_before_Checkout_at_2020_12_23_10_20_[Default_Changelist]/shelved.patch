@@ -1,0 +1,19 @@
+Index: .idea/sshConfigs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/sshConfigs.xml	(date 1608688982828)
++++ .idea/sshConfigs.xml	(date 1608688982828)
+@@ -0,0 +1,10 @@
++<?xml version="1.0" encoding="UTF-8"?>
++<project version="4">
++  <component name="SshConfigs">
++    <configs>
++      <sshConfig authType="PASSWORD" host="106.14.12.11" id="f822e2f8-50e1-4334-adf3-37eafdeaef6f" port="22" customName="jingzhou-aliyun" nameFormat="CUSTOM">
++        <option name="customName" value="jingzhou-aliyun" />
++      </sshConfig>
++    </configs>
++  </component>
++</project>
+\ No newline at end of file
