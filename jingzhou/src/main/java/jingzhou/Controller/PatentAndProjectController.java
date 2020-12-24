@@ -8,6 +8,8 @@ import jingzhou.POJO.Result;
 import jingzhou.repository.PatentRepository;
 import jingzhou.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -77,10 +79,11 @@ public class PatentAndProjectController {
 
     @GetMapping("/api/fuzzysearchpatent")
     @ApiOperation(value = "模糊查找专利")
-    private Result fuzzySearchPatent(@RequestParam("keywords") String keywords){
+    private Result fuzzySearchPatent(@RequestParam("keywords") String keywords, @RequestParam("pagenum") int pagenum){
 
         Result result = new Result("获取信息成功", 200);
-        List<Patent> patents = patentRepository.getPatentsByPatentnameContains(keywords);
+        Pageable pageable = PageRequest.of(pagenum, 20);
+        List<Patent> patents = patentRepository.getPatentsByPatentnameContains(keywords, pageable);
         if (patents != null){
             result.getData().put("patents", patents);
             return result;
@@ -90,10 +93,11 @@ public class PatentAndProjectController {
 
     @GetMapping("/api/fuzzysearchproject")
     @ApiOperation(value = "模糊查找成果")
-    private Result fuzzySearchProject(@RequestParam("keywords") String keywords){
+    private Result fuzzySearchProject(@RequestParam("keywords") String keywords, @RequestParam("pagenum") int pagenum){
 
         Result result = new Result("获取信息成功", 200);
-        List<Project> projects = projectRepository.getProjectsByProjectnameContains(keywords);
+        Pageable pageable = PageRequest.of(pagenum, 20);
+        List<Project> projects = projectRepository.getProjectsByProjectnameContains(keywords, pageable);
         if (projects != null){
             result.getData().put("projects", projects);
             return result;
