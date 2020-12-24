@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface MessageRepository extends JpaRepository<Message, Integer> {
-    List<Message> findMessageByReceiverid(int receiverid);
+    List<Message> findMessageByReceiverusername(String receiverusername);
 }

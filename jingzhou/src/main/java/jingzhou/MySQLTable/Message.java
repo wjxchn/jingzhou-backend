@@ -12,8 +12,8 @@ import java.util.Date;
 public class Message {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer messageid;
-    private int senderid;
-    private int receiverid;
+    private String senderusername;
+    private String receiverusername;
     private String content;
 
 }

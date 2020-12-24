@@ -45,7 +45,7 @@ public class SocialController {
         this.followService.follows(follow);
         return new Result("关注成功", 200);
     }
-
+/*
     @ApiOperation("生成消息")
     @PostMapping({"generatemessage"})
     public Result generatemessage(@RequestBody Map<String, Object> map) {
@@ -66,10 +66,10 @@ public class SocialController {
         this.messageService.insertMessageList(messageList);
         return new Result("发布消息成功", 200);
     }
-
+*/
     @ApiOperation("接收动态")
     @GetMapping({"receivemessage"})
-    public Result receivemessage(@RequestParam("receiver") int receiver) {
+    public Result receivemessage(@RequestParam("receiver") String receiver) {
         Result result = new Result("查看消息成功", 200);
         List<Message> messages = this.messageService.getMessagesByReceiver(receiver);
         result.getData().put("message", messages);
