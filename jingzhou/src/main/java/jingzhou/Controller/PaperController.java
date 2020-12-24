@@ -130,7 +130,7 @@ public class PaperController {
 
         Result result = new Result("获取信息成功", 200);
         List<Paper> papers = paperService.getByKeyword(keyword, pagenum);
-        if (papers != null){
+        if (papers != null && papers.size() != 0){
             result.getData().put("papers", papers);
             return result;
         }
@@ -301,7 +301,7 @@ public class PaperController {
         Author author = authorService.getByName(authUser.getRealname());
         ArrayList<Pubs> pubs = author.getPubsList();
         List<Paper> papers = new ArrayList<>();
-        if (papers != null){
+        if (papers != null && papers.size() != 0){
             for (Pubs pub: pubs){
                 Paper paper = findPaperById(pub.getI());
                 papers.add(paper);

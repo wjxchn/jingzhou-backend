@@ -84,7 +84,7 @@ public class PatentAndProjectController {
         Result result = new Result("获取信息成功", 200);
         Pageable pageable = PageRequest.of(pagenum, 20);
         List<Patent> patents = patentRepository.getPatentsByPatentnameContains(keywords, pageable);
-        if (patents != null){
+        if (patents != null && patents.size() != 0){
             result.getData().put("patents", patents);
             return result;
         }
@@ -98,7 +98,7 @@ public class PatentAndProjectController {
         Result result = new Result("获取信息成功", 200);
         Pageable pageable = PageRequest.of(pagenum, 20);
         List<Project> projects = projectRepository.getProjectsByProjectnameContains(keywords, pageable);
-        if (projects != null){
+        if (projects != null && projects.size() != 0){
             result.getData().put("projects", projects);
             return result;
         }

@@ -72,7 +72,7 @@ public class SearchController {
 
          Result result = new Result("获取信息成功", 200);
          List<Institution> Institutions = institutionService.getBykeyword(name);
-         if (Institutions != null){
+         if (Institutions != null && Institutions.size() != 0){
              result.getData().put("institutions", Institutions);
              return result;
          }
