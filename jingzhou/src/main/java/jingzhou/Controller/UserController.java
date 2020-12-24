@@ -85,6 +85,21 @@ public class UserController {
             return new Result("显示用户信息失败", 400);
     }
 
+    @ApiOperation(value = "认证用户显示接口")
+    @GetMapping("showauthuserinfo")
+    public Result showauthuserinfo(@RequestParam("username") String username){
+        User user = userService.getUserByName(username);
+        AuthUser authuser = authuserService.getAuthUserByUsername(username);
+        if(user != null && authuser != null){
+            Result result = new Result("已显示用户信息", 200);
+            //直接放对象是否可行？
+            result.getData().put("user", user);
+            result.getData().put("authuser", authuser);
+            return result;
+        }
+        else return new Result("显示认证用户信息失败", 400);
+    }
+    
     @ApiOperation(value = "修改用户密码")
     @PostMapping("changeuserinfo/password")
     public Result changeuserpassword(@RequestBody Map<String, Object> map){

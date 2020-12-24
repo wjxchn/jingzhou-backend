@@ -3,11 +3,13 @@ package jingzhou.Controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jingzhou.MySQLTable.AuthUser;
+import jingzhou.MySQLTable.User;
 import jingzhou.POJO.Result;
 import jingzhou.Service.AuthUserService;
 import jingzhou.Service.InstitutionService;
 import jingzhou.repository.AuthUserRepository;
 import jingzhou.repository.InstitutionRepository;
+import jingzhou.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,20 +26,24 @@ public class GovernController {
     @Autowired
     InstitutionService institutionService;
 
+    @Autowired
+    UserRepository userRepository;
+
     @ApiOperation(value = "认领门户接口")
     @PostMapping("claimportal")
     public Result claimportal(@RequestParam("username") String username,@RequestParam("institutionname") String institutionname, @RequestParam("realname") String realname){
 
         User user;
         AuthUser authUser = new AuthUser();
-        if(user = UserRepository.findUserByUsername()!=null)
-            authUser.setUserid(user.userid);
+        user = userRepository.findUserByUsername(username);
+        if(user!=null)
+            authUser.setUserid(user.getUserid());
         else return new Result("用户名错误",400);
 
         authUser.setUsername(username);
         authUser.setInstitution(institutionname);
         authUser.setRealname(realname);
-        authUserService.insertAuthUser();
+        authUserService.insertAuthUser(authUser);
         
         Result result = new Result("认证成功", 200);
         result.getData().put("authUser", authUser);
