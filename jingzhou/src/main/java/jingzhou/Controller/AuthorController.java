@@ -58,7 +58,7 @@ public class AuthorController {
     @ApiOperation(value = "通过数据集自带id精确查询author")
     private Result findAuthorByFuzzyName(@RequestParam("name") String name, @RequestParam("pagenum") int pagenum) throws IOException {
 
-        Result result = new Result();
+        Result result = new Result("搜索成功", 200);
         SearchResponse searchResponse = authorService.getByFuzzyName(name,pagenum);
         if (searchResponse.status() != RestStatus.OK)
             return new Result("没有搜索结果", 400);

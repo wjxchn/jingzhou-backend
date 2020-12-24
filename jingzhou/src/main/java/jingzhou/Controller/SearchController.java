@@ -43,19 +43,26 @@ public class SearchController {
         Author author = authorService.getByRealId(authuserobject.getAuthorid());
         Result result = new Result("获取信息成功", 200);
         User user = userService.getUserById(userid);
-        result.getData().put("user", user);
-        result.getData().put("author",author);
-        return result;
+        if (user != null){
+            result.getData().put("user", user);
+            result.getData().put("author",author);
+            return result;
+        }
+        return new Result("获取信息失败", 400);
     }
 
     @ApiOperation(value = "获取科研机构信息接口")
     @GetMapping("showinstitution")
     public Result showinstitution(@RequestParam("institutionid") int instituteid){
 
+        Result result = new Result("获取信息成功", 200);
         Institution institutionobject = institutionService.getByID(instituteid);
-        Result result = new Result();
-        result.getData().put("institution",institutionobject);
-        return result;
+        if (institutionobject != null){
+            result.getData().put("institution",institutionobject);
+            return result;
+        }
+
+        return new Result("获取信息失败", 400);
     }
 
      /* 模糊查找 */

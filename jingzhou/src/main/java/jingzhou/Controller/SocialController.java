@@ -18,8 +18,6 @@ import jingzhou.Service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -33,8 +31,6 @@ public class SocialController {
     private MessageService messageService;
     @Autowired
     private AuthUserService authUserservice;
-    public SocialController() {
-    }
 
     @ApiOperation("关注接口")
     @PostMapping({"follow"})
