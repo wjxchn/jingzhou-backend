@@ -73,7 +73,7 @@ public class SocialController {
     }
 
     @ApiOperation("关注人数")
-    @GetMapping({"follow/num"})
+    @GetMapping("follow/num")
     public Result followNum(@RequestParam("userid") int follower) {
         Result result = new Result("查看关注成功", 200);
         int num = this.followService.getFollowNum(follower);
@@ -82,7 +82,7 @@ public class SocialController {
     }
 
     @ApiOperation("被关注人数")
-    @GetMapping({"follower/num"})
+    @GetMapping("follower/num")
     public Result followerNum(@RequestParam("userid") int follow) {
         Result result = new Result("返回人数", 200);
         int num = this.followService.getFollowerNum(follow);
@@ -91,7 +91,7 @@ public class SocialController {
     }
 
     @ApiOperation("关注列表")
-    @GetMapping({"follow/list"})
+    @GetMapping("follow/list")
     public Result myFollow(@RequestParam("userid") int follow) {
         Result result = new Result("查看消息成功", 200);
         List<User> userList = this.followService.getResearcherList(follow);
@@ -100,7 +100,7 @@ public class SocialController {
     }
 
     @ApiOperation("被关注列表")
-    @GetMapping({"follower/list"})
+    @GetMapping("follower/list")
     public Result myResearchers(@RequestParam("userid") int follow) {
         Result result = new Result("查看消息成功", 200);
         List<User> userList = this.followService.getFollowerList(follow);

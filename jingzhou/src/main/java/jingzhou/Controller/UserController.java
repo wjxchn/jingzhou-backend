@@ -3,11 +3,9 @@ package jingzhou.Controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jingzhou.MySQLTable.User;
-import jingzhou.MySQLTable.AuthUser;
 import jingzhou.POJO.Result;
 import jingzhou.Service.SessionService;
 import jingzhou.Service.UserService;
-import jingzhou.Service.AuthUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -28,9 +26,6 @@ public class UserController {
 
     @Autowired
     private SessionService sessionService;
-
-    @Autowired
-    private AuthUserService authuserService;
 
     @ApiOperation(value = "注册接口")
     @PostMapping("register")
@@ -73,8 +68,8 @@ public class UserController {
 
     @ApiOperation(value = "用户信息显示接口")
     @GetMapping("showuserinfo")
-    public Result showuserinfo(@RequestParam("username") String username){
-        User user = userService.getUserByName(username);
+    public Result showuserinfo(HttpServletRequest request){
+        User user = sessionService.getCurrentUser(request);
         if(user!=null){
             Result result = new Result("已显示用户信息", 200);
             //直接放对象是否可行？
@@ -83,21 +78,6 @@ public class UserController {
         }
         else
             return new Result("显示用户信息失败", 400);
-    }
-
-    @ApiOperation(value = "认证用户显示接口")
-    @GetMapping("showauthuserinfo")
-    public Result showauthuserinfo(@RequestParam("username") String username){
-        User user = userService.getUserByName(username);
-        AuthUser authuser = authuserService.getAuthUserByUsername(username);
-        if(user != null && authuser != null){
-            Result result = new Result("已显示用户信息", 200);
-            //直接放对象是否可行？
-            result.getData().put("user", user);
-            result.getData().put("authuser", authuser);
-            return result;
-        }
-        else return new Result("显示认证用户信息失败", 400);
     }
 
     @ApiOperation(value = "修改用户密码")
@@ -118,11 +98,9 @@ public class UserController {
 
     @ApiOperation(value = "修改用户邮箱")
     @PostMapping("changeuserinfo/email")
-    public Result changeuseremail(@RequestBody Map<String, Object> map){
+    public Result changeuseremail(@RequestBody Map<String, Object> map, HttpServletRequest request){
         String email = map.get("email").toString();
-        int userid = Integer.parseInt(map.get("userid").toString());
-
-        User user = userService.getUserById(userid);
+        User user = sessionService.getCurrentUser(request);
         if (user == null)return new Result("用户不存在", 200);
 
         user.setEmail(email);
@@ -130,39 +108,16 @@ public class UserController {
         return new Result("修改用户邮箱成功", 200);
     }
 
-    @ApiOperation(value = "修改用户科研机构")
-    @PostMapping("changeuserinfo/institution")
-    public Result changeuserinstitution(@RequestBody Map<String ,Object> map){
-        String institution = map.get("institution").toString();
-        int userid = Integer.parseInt(map.get("userid").toString());
-        
-        AuthUser authuser = authuserService.getAuthUserByUserID(userid);
-        if(authuser == null) return new Result("修改信息失败", 400);
-        authuser.setInstitution(institution);
-        authuserService.updateAuthUser(authuser);
-        return new Result("修改科研机构成功", 200);
-    }
-
-    @ApiOperation(value = "修改用户领域")
-    @PostMapping("changeuserinfo/field")
-    public Result changeuserfield(@RequestBody Map<String ,Object> map){
-        String field = map.get("field").toString();
-        int userid = Integer.parseInt(map.get("userid").toString());
-        
-        AuthUser authuser = authuserService.getAuthUserByUserID(userid);
-        if(authuser == null) return new Result("修改信息失败", 400);
-        authuser.setField(field);
-        authuserService.updateAuthUser(authuser);
-        return new Result("修改领域成功", 200);
-    }
-
-
     @ApiOperation(value = "修改用户头像")
     @PostMapping("changeuserinfo/Userpic")
-    public Result changeuserpic(@RequestBody Map<String, Object> map){
+    public Result changeuserpic(@RequestBody Map<String, Object> map, HttpServletRequest request){
         MultipartFile userpic =(MultipartFile) map.get("userpic");
         int userid = Integer.parseInt(map.get("userid").toString());
 
+        User user1 = sessionService.getCurrentUser(request);
+        if (user1.getUserid() != userid){
+            return new Result("非当前登录用户", 400);
+        }
         User user = userService.getUserById(userid);
         if (user == null)return new Result("用户不存在", 200);
 
