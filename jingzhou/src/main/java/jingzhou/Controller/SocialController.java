@@ -7,7 +7,6 @@ package jingzhou.Controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import jingzhou.MySQLTable.AuthUser;
 import jingzhou.MySQLTable.Follow;
 import jingzhou.MySQLTable.Message;
 import jingzhou.MySQLTable.User;
@@ -15,9 +14,11 @@ import jingzhou.POJO.Result;
 import jingzhou.Service.AuthUserService;
 import jingzhou.Service.FollowService;
 import jingzhou.Service.MessageService;
+import jingzhou.Service.SessionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -31,7 +32,8 @@ public class SocialController {
     private MessageService messageService;
     @Autowired
     private AuthUserService authUserservice;
-
+    @Autowired
+    private SessionService sessionService;
     @ApiOperation("关注接口")
     @PostMapping({"follow"})
     public Result follow(@RequestBody Map<String, Object> map) {
@@ -134,10 +136,12 @@ public class SocialController {
 
     @ApiOperation(value = "获取个人主页数据")
     @PostMapping("getpersonalinfo")
-    public Result getpersonalinfo(@RequestBody Map<String, Object> map)
+    public Result getpersonalinfo(@RequestBody Map<String, Object> map, HttpServletRequest request)
     {
-        int id = Integer.parseInt(map.get("userid").toString());
-        AuthUser user = authUserservice.getAuthUserByUserID(id);
+
+        User user = sessionService.getCurrentUser(request);
+        if (user == null)return new Result("请登录后查看",400);
+
 
         Result result = new Result("获取成功",200);
         result.getData().put("user",user);
