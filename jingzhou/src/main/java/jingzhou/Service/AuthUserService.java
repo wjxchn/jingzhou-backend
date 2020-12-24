@@ -17,4 +17,12 @@ public class AuthUserService {
     public AuthUser getAuthUserByUsername(String username){
         return authUserRepository.findAuthUserByUsername(username);
     }
+
+    public void insertAuthUser(AuthUser user){
+        userRepository.save(user);
+    }
+
+    public void updateAuthUser(AuthUser user){
+        userRepository.saveAndFlush(user);
+    }
 }

@@ -26,15 +26,20 @@ public class GovernController {
 
     @ApiOperation(value = "认领门户接口")
     @PostMapping("claimportal")
-    public Result claimportal(@RequestParam("username") String username,@RequestParam("institutionname") String institutionname, @RequestParam("researchfield") String researchfield, @RequestParam("realname") String realname){
+    public Result claimportal(@RequestParam("username") String username,@RequestParam("institutionname") String institutionname, @RequestParam("realname") String realname){
 
+        User user;
         AuthUser authUser = new AuthUser();
-        authUser.setUsername(username);
-        authUser.setInstitutionid(institutionService.getByName(institutionname).getInstitutionid());
-        authUser.setResearchfield(researchfield);
-        authUser.setRealname(realname);
+        if(user = UserRepository.findUserByUsername()!=null)
+            authUser.setUserid(user.userid);
+        else return new Result("用户名错误",400);
 
-        Result result = new Result("获取信息成功", 200);
+        authUser.setUsername(username);
+        authUser.setInstitution(institutionname);
+        authUser.setRealname(realname);
+        authUserService.insertAuthUser();
+        
+        Result result = new Result("认证成功", 200);
         result.getData().put("authUser", authUser);
 
         return result;

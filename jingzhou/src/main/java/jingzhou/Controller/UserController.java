@@ -3,9 +3,11 @@ package jingzhou.Controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jingzhou.MySQLTable.User;
+import jingzhou.MySQLTable.AuthUser;
 import jingzhou.POJO.Result;
 import jingzhou.Service.SessionService;
 import jingzhou.Service.UserService;
+import jingzhou.Service.AuthUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -26,6 +28,9 @@ public class UserController {
 
     @Autowired
     private SessionService sessionService;
+
+    @Autowired
+    private AuthUserService authuserService;
 
     @ApiOperation(value = "注册接口")
     @PostMapping("register")
@@ -109,6 +114,33 @@ public class UserController {
         userService.updateUser(user);
         return new Result("修改用户邮箱成功", 200);
     }
+
+    @ApiOperation(value = "修改用户科研机构")
+    @PostMapping("changeuserinfo/institution")
+    public Result changeuserinstitution(@RequestBody Map<String ,Object> map){
+        String institution = map.get("institution").toString();
+        int userid = Integer.parseInt(map.get("userid").toString());
+        
+        AuthUser authuser = authuserService.getAuthUserByUserID(userid);
+        if(authuser == null) return new Result("修改信息失败", 400);
+        authuser.setInstitution(institution);
+        authuserService.updateAuthUser(authuser);
+        return new Result("修改科研机构成功", 200);
+    }
+
+    @ApiOperation(value = "修改用户领域")
+    @PostMapping("changeuserinfo/field")
+    public Result changeuserfield(@RequestBody Map<String ,Object> map){
+        String field = map.get("field").toString();
+        int userid = Integer.parseInt(map.get("userid").toString());
+        
+        AuthUser authuser = authuserService.getAuthUserByUserID(userid);
+        if(authuser == null) return new Result("修改信息失败", 400);
+        authuser.setField(field);
+        authuserService.updateAuthUser(authuser);
+        return new Result("修改领域成功", 200);
+    }
+
 
     @ApiOperation(value = "修改用户头像")
     @PostMapping("changeuserinfo/Userpic")
