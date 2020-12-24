@@ -3,11 +3,10 @@
   <component name="WebServers">
     <option name="servers">
       <webServer id="0257de05-03af-4f66-b04e-0b850cebbdbb" name="jingzhou-aliyun" url="http://106.14.12.11">
-        <fileTransfer host="" port="22" rootFolder="/root" accessType="SFTP">
+        <fileTransfer rootFolder="/root" accessType="SFTP" host="106.14.12.11" port="22" sshConfigId="dc3c87c1-fc75-48ef-852c-88e11e8e3672" sshConfig="jingzhou-aliyun">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>
-          <option name="port" value="22" />
         </fileTransfer>
       </webServer>
     </option>

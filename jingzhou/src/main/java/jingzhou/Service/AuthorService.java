@@ -2,18 +2,15 @@ package jingzhou.Service;
 
 import jingzhou.POJO.Author;
 import jingzhou.repository.AuthorRepository;
-import org.apache.http.HttpHost;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
-import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.common.unit.TimeValue;
 import org.elasticsearch.index.query.MatchQueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -25,7 +22,8 @@ public class AuthorService {
     @Autowired
     AuthorRepository authorRepository;
 
-    private MongoTemplate mongoTemplate;
+   @Autowired
+   RestHighLevelClient client;
 
     public Author getByName(String name) {
 //        Query query = new Query(Criteria.where("name").is(name));
@@ -46,9 +44,9 @@ public class AuthorService {
 
     public SearchResponse getByFuzzyName(String name, int pagenum) throws IOException {
 
-        RestHighLevelClient client = new RestHighLevelClient(
-                RestClient.builder(
-                        new HttpHost("106.14.12.11", 9200, "http")));
+//        RestHighLevelClient client = new RestHighLevelClient(
+//                RestClient.builder(
+//                        new HttpHost("106.14.12.11", 9200, "http")));
         SearchRequest searchRequest = new SearchRequest("jingzhou.author");
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
         searchSourceBuilder.from(pagenum*20);

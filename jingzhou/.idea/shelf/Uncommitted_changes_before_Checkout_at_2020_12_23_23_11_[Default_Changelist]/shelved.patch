@@ -1,0 +1,21 @@
+Index: .idea/sshConfigs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"SshConfigs\">\r\n    <configs>\r\n      <sshConfig authType=\"PASSWORD\" host=\"106.14.12.11\" id=\"f822e2f8-50e1-4334-adf3-37eafdeaef6f\" port=\"22\" customName=\"jingzhou-aliyun\" nameFormat=\"CUSTOM\">\r\n        <option name=\"customName\" value=\"jingzhou-aliyun\" />\r\n      </sshConfig>\r\n    </configs>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/sshConfigs.xml	(revision 4d1af6fe0d10a00adf4038f3d4b3374d425571da)
++++ .idea/sshConfigs.xml	(date 1608736152101)
+@@ -2,7 +2,10 @@
+ <project version="4">
+   <component name="SshConfigs">
+     <configs>
+-      <sshConfig authType="PASSWORD" host="106.14.12.11" id="f822e2f8-50e1-4334-adf3-37eafdeaef6f" port="22" customName="jingzhou-aliyun" nameFormat="CUSTOM">
++      <sshConfig authType="PASSWORD" id="e998538a-0888-441a-8ab5-f3c5b86818a8" port="22" customName="jingzhou-aliyun" nameFormat="CUSTOM">
++        <option name="customName" value="jingzhou-aliyun" />
++      </sshConfig>
++      <sshConfig authType="PASSWORD" host="106.14.12.11" id="95633247-c589-4aad-9ac9-5bdfb29f0b4a" port="22" customName="jingzhou-aliyun" nameFormat="CUSTOM">
+         <option name="customName" value="jingzhou-aliyun" />
+       </sshConfig>
+     </configs>
