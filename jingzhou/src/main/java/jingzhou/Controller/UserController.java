@@ -99,7 +99,7 @@ public class UserController {
         }
         else return new Result("显示认证用户信息失败", 400);
     }
-    
+
     @ApiOperation(value = "修改用户密码")
     @PostMapping("changeuserinfo/password")
     public Result changeuserpassword(@RequestBody Map<String, Object> map){

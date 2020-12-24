@@ -20,7 +20,7 @@ public class MessageService {
         messageRepository.saveAll(messageList);
     }
 
-    public List<Message> getMessagesByReceiver(int receiver){
-     return messageRepository.findMessageByReceiverid(receiver);
+    public List<Message> getMessagesByReceiver(String receiver){
+     return messageRepository.findMessageByReceiverusername(receiver);
     }
 }

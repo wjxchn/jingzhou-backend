@@ -8,10 +8,9 @@ import javax.persistence.*;
 public class Paperrank {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int rankid;
-    private int citation;
+    private int amount;
     private String paperid;
     private String authorid;
     private String papername;
     private String field;
-
 }
