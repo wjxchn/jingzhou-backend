@@ -162,6 +162,18 @@ public class PaperController {
         result.getData().put("paperlist",paperList);
         if (paperList == null || paperList.size()==0)return new Result("没有搜索结果", 400);
 
+//        Result result = new Result();
+//
+//        List<Paper> paperList = paperService.getByAuthornameExactEx(author, pagenum);
+//
+//        System.out.println("searchresponse返回");
+//
+//        if (paperList == null || paperList.size()==0)return new Result("没有搜索结果", 400);
+//
+//        result.getData().put("paperlist",paperList);
+//        result.setCode(200);
+//        result.setMsg("搜索成功！");
+
         return result;
     }
 

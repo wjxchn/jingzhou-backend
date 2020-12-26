@@ -18,6 +18,8 @@ public interface PaperRepository extends ElasticsearchRepository<Paper, String> 
 
     Page<Paper> findAllByAuthorsLike(String author, Pageable page);
 
+    Page<Paper> findAllByAuthors(String keyword, Pageable page);
+
     Paper findByTitle(String title);
 
     Paper findByPaperid(String id);

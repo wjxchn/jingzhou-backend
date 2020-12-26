@@ -10,10 +10,7 @@ import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.unit.Fuzziness;
 import org.elasticsearch.common.unit.TimeValue;
-import org.elasticsearch.index.query.MatchPhraseQueryBuilder;
-import org.elasticsearch.index.query.MatchQueryBuilder;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.index.query.TermQueryBuilder;
+import org.elasticsearch.index.query.*;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.elasticsearch.search.sort.SortOrder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +19,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -110,6 +109,17 @@ public class PaperService {
         return searchResponse;
     }
 
+    public List<Paper> getByAuthornameExactEx(String name, int pagenum){
+
+        System.out.println("开始查询");
+        // 第一个参数是页数page，第二个参数是每页数据数量pageSize
+        Pageable pageable = PageRequest.of(pagenum, 20);
+
+        Query query = new Query(Criteria.where("authors.name").is(name)).with(pageable);
+
+        return mongoTemplate.find(query, Paper.class);
+    }
+
     public SearchResponse getByAuthornameExact(String name, int pagenum) throws IOException {
 
 //        RestHighLevelClient client = new RestHighLevelClient(
@@ -121,8 +131,9 @@ public class PaperService {
         searchSourceBuilder.size(20);
         searchSourceBuilder.timeout(new TimeValue(30, TimeUnit.SECONDS));
         searchRequest.source(searchSourceBuilder);
-        TermQueryBuilder termQueryBuilder = new TermQueryBuilder("authors.name", name).caseInsensitive(false);
-        searchSourceBuilder.query(termQueryBuilder);
+//        TermQueryBuilder termQueryBuilder = new TermQueryBuilder("authors.name", name).caseInsensitive(false);
+        QueryBuilder queryBuilder = QueryBuilders.matchPhraseQuery("authors.name", name);
+        searchSourceBuilder.query(queryBuilder);
         SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
         return searchResponse;
     }
