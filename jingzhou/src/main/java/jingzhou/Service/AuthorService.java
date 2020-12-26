@@ -11,8 +11,6 @@ import org.elasticsearch.index.query.MatchPhraseQueryBuilder;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -30,10 +28,16 @@ public class AuthorService {
     @Autowired
     MongoTemplate mongoTemplate;
 
-    public Author getByName(String name) {
-        Query query = new Query(Criteria.where("name").is(name));
-        return mongoTemplate.findOne(query,Author.class);
-//        return authorRepository.findByName(name);
+    public SearchResponse getByName(String name) throws IOException {
+
+        SearchRequest searchRequest = new SearchRequest("jingzhou.author");
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        searchSourceBuilder.timeout(new TimeValue(30, TimeUnit.SECONDS));
+        searchRequest.source(searchSourceBuilder);
+        MatchPhraseQueryBuilder matchPhraseQueryBuilder = new MatchPhraseQueryBuilder("name.keyword", name);
+        searchSourceBuilder.query(matchPhraseQueryBuilder);
+        SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
+        return searchResponse;
     }
 
 

@@ -364,10 +364,29 @@ public class PaperController {
     @GetMapping("paper/username")
     @ApiOperation(value = "通过用户名查询paper")
     private Result mySqlUsernameToElasticsearchPaper(@RequestParam("username") String username) throws IOException {
-        Result result = new Result();
+        Result result = new Result("搜索成功", 200);
         AuthUser authUser = authUserService.getAuthUserByUsername(username);
-        Author author = authorService.getByName(authUser.getRealname());
-        ArrayList<Pubs> pubs = author.getPubsList();
+
+        SearchResponse searchResponse = authorService.getByName(authUser.getRealname());
+        if (searchResponse.status() != RestStatus.OK)
+            return new Result("没有搜索结果", 400);
+        SearchHits hits = searchResponse.getHits();
+        TotalHits totalHits = hits.getTotalHits();
+        result.getData().put("total",totalHits.value);
+        List<Author> authorList= new ArrayList<Author>();
+        SearchHit[] searchHits = hits.getHits();
+        int i = 1;
+        for (SearchHit hit:searchHits
+        ) {
+            Map<String,Object> map = hit.getSourceAsMap();
+            ObjectMapper objectMapper = new ObjectMapper();
+            Author author = objectMapper.convertValue(map,Author.class);
+            authorList.add(author);
+        }
+        result.getData().put("author",authorList.get(0));
+        if (authorList == null || authorList.size()==0)return new Result("没有搜索结果", 400);
+
+        ArrayList<Pubs> pubs = authorList.get(0).getPubsList();
         List<Paper> papers = new ArrayList<>();
         if (papers != null && papers.size() != 0){
             for (Pubs pub: pubs){

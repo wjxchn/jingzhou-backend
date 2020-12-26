@@ -38,8 +38,28 @@ public class AuthorController {
     /*精确查找*/
     @GetMapping("author/byname")
     @ApiOperation(value = "通过name精确查询author")
-    private Author findByName(@RequestParam("name") String name){
-        return authorService.getByName(name);
+    private Result findByName(@RequestParam("name") String name) throws IOException {
+        Result result = new Result("搜索成功", 200);
+        SearchResponse searchResponse = authorService.getByName(name);
+        if (searchResponse.status() != RestStatus.OK)
+            return new Result("没有搜索结果", 400);
+        SearchHits hits = searchResponse.getHits();
+        TotalHits totalHits = hits.getTotalHits();
+        result.getData().put("total",totalHits.value);
+        List<Author> authorList= new ArrayList<Author>();
+        SearchHit[] searchHits = hits.getHits();
+        int i = 1;
+        for (SearchHit hit:searchHits
+        ) {
+            Map<String,Object> map = hit.getSourceAsMap();
+            ObjectMapper objectMapper = new ObjectMapper();
+            Author author = objectMapper.convertValue(map,Author.class);
+            authorList.add(author);
+        }
+        result.getData().put("author",authorList.get(0));
+        if (authorList == null || authorList.size()==0)return new Result("没有搜索结果", 400);
+
+        return result;
     }
 
     /*精确查找
