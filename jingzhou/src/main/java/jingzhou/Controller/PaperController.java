@@ -398,22 +398,31 @@ public class PaperController {
 
     @GetMapping("paper/username")
     @ApiOperation(value = "通过用户名查询paper")
-    private Result mySqlUsernameToElasticsearchPaper(@RequestParam("username") String username) throws IOException {
+    private Result mySqlUsernameToElasticsearchPaper(@RequestParam("authorusername") String authorusername) throws IOException {
         Result result = new Result();
-        AuthUser authUser = authUserService.getAuthUserByUsername(username);
-        Author author = authorService.getByName(authUser.getRealname());
-        ArrayList<Pubs> pubs = author.getPubsList();
-        List<Paper> papers = new ArrayList<>();
-        if (papers != null && papers.size() != 0){
-            for (Pubs pub: pubs){
-                Paper paper = findPaperById(pub.getI());
-                papers.add(paper);
-            }
-            result.setMsg("搜索成功");
-            result.setCode(200);
-            result.getData().put("papers",papers);
-            return result;
+        int total = 0;
+        AuthUser authUser = authUserService.getAuthUserByUsername(authorusername);
+        String authorrealname = authUser.getRealname();
+        SearchResponse searchResponse = paperService.getByAuthornameExactRank(authorrealname);
+        if (searchResponse.status() != RestStatus.OK)
+            return new Result("没有搜索结果", 400);
+        System.out.println("searchresponse返回");
+        SearchHits hits = searchResponse.getHits();
+        TotalHits totalHits = hits.getTotalHits();
+        result.getData().put("total",totalHits.value);
+        List<Paper>  paperList= new ArrayList<Paper>();
+        SearchHit[] searchHits = hits.getHits();
+        int i = 1;
+        for (SearchHit hit:searchHits
+        ) {
+            Map<String,Object> map = hit.getSourceAsMap();
+            ObjectMapper objectMapper = new ObjectMapper();
+            Paper paper = objectMapper.convertValue(map,Paper.class);
+            paperList.add(paper);
         }
-        else return new Result("没有搜索结果", 400);
+        if (paperList == null || paperList.size()==0)
+            return new Result("没有搜索结果", 400);
+            result.getData().put("paperlist",paperList);
+        return result;
     }
 }
