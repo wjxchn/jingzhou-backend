@@ -266,6 +266,8 @@ public class PaperController {
         SearchResponse searchResponse1 = firstResponse.getResponse();
         MultiSearchResponse.Item secondResponse = response.getResponses()[1];
         SearchResponse searchResponse2 = secondResponse.getResponse();
+//        System.out.println(searchResponse1);
+//        System.out.println(searchResponse2);
         if (searchResponse2.status() != RestStatus.OK && searchResponse1.status() != RestStatus.OK)
             return new Result("没有搜索结果", 400);
         System.out.println("searchResponse ok");
@@ -289,7 +291,7 @@ public class PaperController {
 
     @GetMapping("paper/addclick")
     @ApiOperation(value = "访问paper时点击数+1")
-    private Paperrank addclick(@RequestParam("paperid") String paperid) throws IOException {
+    private Result addclick(@RequestParam("paperid") String paperid) throws IOException {
 
         Paperrank paperrank = paperRankRepository.findPaperrankByPaperid(paperid);
         if(paperrank!=null){
@@ -302,7 +304,7 @@ public class PaperController {
             new_paperrank.setAmount(1);
             paperRankRepository.save(new_paperrank);
         }
-        return paperrank;
+        return new Result("添加点击次数成功", 200);
     }
 
     @GetMapping("paper/username")
