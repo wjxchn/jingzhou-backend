@@ -6,6 +6,7 @@ import jingzhou.MySQLTable.User;
 import jingzhou.POJO.Result;
 import jingzhou.Service.SessionService;
 import jingzhou.Service.UserService;
+import jingzhou.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -54,7 +55,9 @@ public class UserController {
         User user = userService.login(username,password);
         if(user != null){
             sessionService.setCurrentUser(request, user);
-            return new Result("登录成功",200);
+            Result res = new Result("登录成功",200);
+            res.getData().put("user",user);
+            return res;
         }
         else return new Result("登陆失败",400);
     }

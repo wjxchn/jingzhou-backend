@@ -49,7 +49,8 @@ public class GovernController {
         authUser.setRealname(realname);
         authUser.setField(field);
         authUserService.insertAuthUser(authUser);
-        
+        user.setIsauth(1);
+        userRepository.save(user);
         Result result = new Result("认证成功", 200);
         result.getData().put("authUser", authUser);
 

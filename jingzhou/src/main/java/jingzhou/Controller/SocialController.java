@@ -159,11 +159,11 @@ public class SocialController {
     @PostMapping("getpersonalinfo")
     public Result getpersonalinfo(@RequestBody Map<String, Object> map)
     {
-        int id = Integer.parseInt(map.get("userid").toString());
-        AuthUser user = authUserservice.getAuthUserByUserID(id);
+        String username = map.get("username").toString();
+        AuthUser authuser = authUserservice.getAuthUserByUsername(username);
 
         Result result = new Result("获取成功",200);
-        result.getData().put("user",user);
+        result.getData().put("user",authuser);
         return result;
     }
 }
