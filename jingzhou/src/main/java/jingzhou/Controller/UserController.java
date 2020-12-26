@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
@@ -28,6 +29,9 @@ public class UserController {
     @Autowired
     private SessionService sessionService;
 
+    @Autowired
+    private UserRepository userRepository;
+
     @ApiOperation(value = "注册接口")
     @PostMapping("register")
     public Result register(@RequestBody Map<String,Object>map){
@@ -42,7 +46,7 @@ public class UserController {
         user.setUsername(username);user.setPassword(password);
         user.setIsauth(0);user.setDownloadauth(0);user.setEmail(email);
         user.setTime(new Date());user.setPhone(null);
-        user.setPic("/root/accessory/pic.jpg");
+        user.setPic("pic.jpg");
         userService.insertUser(user);
         return new Result("注册成功",200);
     }
@@ -88,11 +92,14 @@ public class UserController {
     public Result changeuserpassword(@RequestBody Map<String, Object> map){
         String origin = map.get("password1").toString();
         String password = map.get("password2").toString();
-        int userid = Integer.parseInt(map.get("userid").toString());
+        String verifypassword = map.get("password3").toString();
+        String username = map.get("username").toString();
 
-        if (!origin.equals(password))return new Result("原密码错误", 400);
-        User user = userService.getUserById(userid);
-        if (user == null)return new Result("用户不存在", 200);
+        if (origin.equals(password))return new Result("原密码不能和新密码完全一致", 400);
+        if (origin.equals(verifypassword))return new Result("原密码不能和新密码完全一致", 400);
+        if (!verifypassword.equals(password))return new Result("新密码要和验证密码一致", 400);
+        User user = userRepository.findUserByUsername(username);
+        if (user == null)return new Result("用户不存在", 400);
 
         user.setPassword(password);
         userService.updateUser(user);
