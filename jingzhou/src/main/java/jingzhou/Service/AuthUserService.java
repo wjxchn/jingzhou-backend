@@ -18,6 +18,9 @@ public class AuthUserService {
     public AuthUser getAuthUserByUsername(String username){
         return authUserRepository.findAuthUserByUsername(username);
     }
+    public AuthUser getAuthUserByRealname(String name){
+        return authUserRepository.findByRealname(name);
+    }
 
     public void insertAuthUser(AuthUser user){
         authUserRepository.save(user);
