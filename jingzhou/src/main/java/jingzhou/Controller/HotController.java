@@ -9,10 +9,13 @@ import jingzhou.POJO.Result;
 import jingzhou.Service.PaperService;
 import jingzhou.repository.InstitutionRankRepository;
 import jingzhou.repository.PaperRankRepository;
+import org.elasticsearch.action.search.MultiSearchResponse;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.rest.RestStatus;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,16 +41,43 @@ public class HotController {
 
     @ApiOperation(value = "获取论文点击次数排名接口")
     @GetMapping("paper/amount/rank")
-    public Result PaperRank(){
-        List<Paperrank> allpaperrank = paperRankRepository.findAll();
+    public Result PaperRank(@RequestParam("pagenum") int pagenum) throws IOException{
+        Sort sort = Sort.by(Sort.Direction.DESC, "amount");
+        List<Paperrank> allpaperrank = paperRankRepository.findAll(sort);
+        List<Integer> amountlist = new ArrayList<Integer>();
         List<Paper> paperlist = new ArrayList<>();
-        for(Paperrank paperrank : allpaperrank){
+        for(int i = pagenum * 20; i < (pagenum + 1) * 20 && i < allpaperrank.size(); i++){
+            Paperrank paperrank = allpaperrank.get(i);
             String paper_id = paperrank.getPaperid();
-            Paper paper = paperservice.getById(paper_id);
-            paperlist.add(paper);
+            MultiSearchResponse response = paperservice.getByAnId(paper_id);
+            MultiSearchResponse.Item firstResponse = response.getResponses()[0];
+            SearchResponse searchResponse1 = firstResponse.getResponse();
+            MultiSearchResponse.Item secondResponse = response.getResponses()[1];
+            SearchResponse searchResponse2 = secondResponse.getResponse();
+  //        System.out.println(searchResponse1);
+  //        System.out.println(searchResponse2);
+            if (searchResponse2.status() != RestStatus.OK && searchResponse1.status() != RestStatus.OK)
+                return new Result("查询失败", 400);
+            System.out.println("searchResponse ok");
+            SearchHit[] hit1 = searchResponse1.getHits().getHits();
+            SearchHit[] hit2 = searchResponse2.getHits().getHits();
+            Paper paper = null;
+            ObjectMapper objectMapper = new ObjectMapper();
+            if (hit1.length != 0){
+                Map<String, Object> map = hit1[0].getSourceAsMap();
+                paper = objectMapper.convertValue(map, Paper.class);
+            } else if (hit2.length != 0){
+                Map<String, Object> map = hit2[0].getSourceAsMap();
+                paper = objectMapper.convertValue(map, Paper.class);
+            }
+            if (paper != null){
+                paperlist.add(paper);
+                amountlist.add(paperrank.getAmount());
+            }
         }
         Result result = new Result("获取热点论文排名成功",200);
         result.getData().put("paperlist", paperlist);
+        result.getData().put("amountlist", amountlist);
         return result;
     }
 

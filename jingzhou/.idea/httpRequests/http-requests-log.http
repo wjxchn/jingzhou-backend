@@ -1,0 +1,88 @@
+GET http://localhost:8443/data/paper/authorname?authorname=Javed Khan&pagenum=1
+Accept: */*
+Cache-Control: no-cache
+
+<> 2020-12-26T113403.200.json
+
+###
+
+GET http://localhost:8443/data/paper/authorname?authorname=Javed Khan
+Accept: */*
+Cache-Control: no-cache
+
+<> 2020-12-26T113342-1.400.json
+
+###
+
+GET http://localhost:8443/data/paper/authorname?authorname=Javed Khan
+Accept: */*
+Cache-Control: no-cache
+
+<> 2020-12-26T113342.400.json
+
+###
+
+GET http://localhost:8443/data/paper/authorname?authorname=Javed Khan
+Accept: */*
+Cache-Control: no-cache
+
+<> 2020-12-26T113341-2.400.json
+
+###
+
+GET http://localhost:8443/data/paper/authorname?authorname=Javed Khan
+Accept: */*
+Cache-Control: no-cache
+
+<> 2020-12-26T113341-1.400.json
+
+###
+
+GET http://localhost:8443/data/paper/authorname?authorname=Javed Khan
+Accept: */*
+Cache-Control: no-cache
+
+<> 2020-12-26T113341.400.json
+
+###
+
+GET http://localhost:8443/data/paper/authorname?authorname=Javed Khan
+Accept: */*
+Cache-Control: no-cache
+
+<> 2020-12-26T113340.400.json
+
+###
+
+GET http://localhost:8443/data/paper/authorname?authorname=Javed Khan
+Accept: */*
+Cache-Control: no-cache
+
+<> 2020-12-26T113339.400.json
+
+###
+
+GET http://localhost:8443/data/paper/authorname?authorname=Javed Khan
+Accept: */*
+Cache-Control: no-cache
+
+<> 2020-12-26T113337.400.json
+
+###
+
+GET http://localhost:8443/data/paper/authorname?username=wer
+Accept: */*
+Cache-Control: no-cache
+
+<> 2020-12-26T113301.400.json
+
+###
+
+GET http://localhost:8443/data/paper/username?username=wer
+Accept: */*
+Cache-Control: no-cache
+
+<> 2020-12-26T113235.200.json
+
+###
+

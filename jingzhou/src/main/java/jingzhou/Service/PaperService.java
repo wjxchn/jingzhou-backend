@@ -183,12 +183,12 @@ public class PaperService {
         MultiSearchRequest request = new MultiSearchRequest();
         SearchRequest firstSearchRequest = new SearchRequest();
         SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-        searchSourceBuilder.query(QueryBuilders.termsQuery("_id", id));
+        searchSourceBuilder.query(QueryBuilders.termsQuery("id", id));
         firstSearchRequest.source(searchSourceBuilder);
         request.add(firstSearchRequest);
         SearchRequest secondSearchRequest = new SearchRequest();
         searchSourceBuilder = new SearchSourceBuilder();
-        searchSourceBuilder.query(QueryBuilders.termsQuery("id", id));
+        searchSourceBuilder.query(QueryBuilders.termsQuery("paperid", id));
         secondSearchRequest.source(searchSourceBuilder);
         request.add(secondSearchRequest);
 
