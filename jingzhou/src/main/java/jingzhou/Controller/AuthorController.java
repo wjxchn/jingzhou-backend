@@ -55,7 +55,7 @@ public class AuthorController {
     }
 
     @GetMapping("author/byfuzzyname")
-    @ApiOperation(value = "通过数据集自带id精确查询author")
+    @ApiOperation(value = "通过name模糊查询author")
     private Result findAuthorByFuzzyName(@RequestParam("name") String name, @RequestParam("pagenum") int pagenum) throws IOException {
 
         Result result = new Result("搜索成功", 200);

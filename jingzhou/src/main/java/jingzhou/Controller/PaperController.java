@@ -6,10 +6,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import jingzhou.MySQLTable.AuthUser;
 import jingzhou.MySQLTable.Paperrank;
-import jingzhou.POJO.Author;
-import jingzhou.POJO.Paper;
-import jingzhou.POJO.Pubs;
-import jingzhou.POJO.Result;
+import jingzhou.POJO.*;
 import jingzhou.Service.AuthUserService;
 import jingzhou.Service.AuthorService;
 import jingzhou.Service.PaperService;
@@ -161,6 +158,63 @@ public class PaperController {
         }
         result.getData().put("paperlist",paperList);
         if (paperList == null || paperList.size()==0)return new Result("没有搜索结果", 400);
+
+//        Result result = new Result();
+//
+//        List<Paper> paperList = paperService.getByAuthornameExactEx(author, pagenum);
+//
+//        System.out.println("searchresponse返回");
+//
+//        if (paperList == null || paperList.size()==0)return new Result("没有搜索结果", 400);
+//
+//        result.getData().put("paperlist",paperList);
+//        result.setCode(200);
+//        result.setMsg("搜索成功！");
+
+        return result;
+    }
+
+    @GetMapping("paper/authorname/rank")
+    @ApiOperation(value = "通过authorname精确获取最高引用")
+    private Result findPaperByauthornameRank(@RequestParam("authorname") String author) throws IOException {
+        Result result = new Result();
+        int total = 0;
+
+        SearchResponse searchResponse = paperService.getByAuthornameExactRank(author);
+        if (searchResponse.status() != RestStatus.OK)
+            return new Result("没有搜索结果", 400);
+        System.out.println("searchresponse返回");
+        SearchHits hits = searchResponse.getHits();
+        TotalHits totalHits = hits.getTotalHits();
+        result.getData().put("total",totalHits.value);
+        List<Paper>  paperList= new ArrayList<Paper>();
+        SearchHit[] searchHits = hits.getHits();
+        int i = 1;
+        for (SearchHit hit:searchHits
+        ) {
+            Map<String,Object> map = hit.getSourceAsMap();
+            ObjectMapper objectMapper = new ObjectMapper();
+            Paper paper = objectMapper.convertValue(map,Paper.class);
+            paperList.add(paper);
+        }
+        if (paperList == null || paperList.size()==0)return new Result("没有搜索结果", 400);
+//        List<Paper> paperList1 = new ArrayList<>();
+//        for (Paper paper : paperList){
+//            for (Paper_Author paper_author : paper.getAuthors()){
+//                if (paper_author.getName().equals(author)){
+//                    paperList1.add(paper);
+//                    total++;
+//                    break;
+//                }
+//            }
+//        }
+//        result.getData().put("total",total);
+        if (paperList.size()<=5){
+            result.getData().put("paperlist",paperList);
+        }
+        else {
+            result.getData().put("paperlist",paperList.subList(0,5));
+        }
 
 //        Result result = new Result();
 //

@@ -132,11 +132,29 @@ public class PaperService {
         searchSourceBuilder.timeout(new TimeValue(30, TimeUnit.SECONDS));
         searchRequest.source(searchSourceBuilder);
 //        TermQueryBuilder termQueryBuilder = new TermQueryBuilder("authors.name", name).caseInsensitive(false);
-        QueryBuilder queryBuilder = QueryBuilders.matchPhraseQuery("authors.name", name);
+        QueryBuilder queryBuilder = QueryBuilders.matchPhraseQuery("authors.name.keyword", name);
         searchSourceBuilder.query(queryBuilder);
         SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
         return searchResponse;
     }
+
+    public SearchResponse getByAuthornameExactRank(String name) throws IOException {
+
+//        RestHighLevelClient client = new RestHighLevelClient(
+//                RestClient.builder(
+//                        new HttpHost("106.14.12.11", 9200, "http")));
+        SearchRequest searchRequest = new SearchRequest("jingzhou.paper");
+        SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+        searchSourceBuilder.sort("n_citation", SortOrder.DESC);
+        searchSourceBuilder.timeout(new TimeValue(30, TimeUnit.SECONDS));
+        searchRequest.source(searchSourceBuilder);
+//        TermQueryBuilder termQueryBuilder = new TermQueryBuilder("authors.name", name).caseInsensitive(false);
+        QueryBuilder queryBuilder = QueryBuilders.matchPhraseQuery("authors.name.keyword", name);
+        searchSourceBuilder.query(queryBuilder);
+        SearchResponse searchResponse = client.search(searchRequest,RequestOptions.DEFAULT);
+        return searchResponse;
+    }
+
     public SearchResponse getByTitleExact(String title, int pagenum) throws IOException {
 
 //        RestHighLevelClient client = new RestHighLevelClient(
