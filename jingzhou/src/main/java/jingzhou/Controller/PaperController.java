@@ -231,6 +231,41 @@ public class PaperController {
         return result;
     }
 
+    @GetMapping("paper/authorusername/rank")
+    @ApiOperation(value = "通过authorusername精确获取最高引用")
+    private Result findPaperByauthorusernameRank(@RequestParam("authorusername") String authorusername) throws IOException {
+        Result result = new Result();
+        int total = 0;
+        AuthUser authUser = authUserService.getAuthUserByUsername(authorusername);
+        String authorrealname = authUser.getRealname();
+        SearchResponse searchResponse = paperService.getByAuthornameExactRank(authorrealname);
+        if (searchResponse.status() != RestStatus.OK)
+            return new Result("没有搜索结果", 400);
+        System.out.println("searchresponse返回");
+        SearchHits hits = searchResponse.getHits();
+        TotalHits totalHits = hits.getTotalHits();
+        result.getData().put("total",totalHits.value);
+        List<Paper>  paperList= new ArrayList<Paper>();
+        SearchHit[] searchHits = hits.getHits();
+        int i = 1;
+        for (SearchHit hit:searchHits
+        ) {
+            Map<String,Object> map = hit.getSourceAsMap();
+            ObjectMapper objectMapper = new ObjectMapper();
+            Paper paper = objectMapper.convertValue(map,Paper.class);
+            paperList.add(paper);
+        }
+        if (paperList == null || paperList.size()==0)
+            return new Result("没有搜索结果", 400);
+        if (paperList.size()<=5){
+            result.getData().put("paperlist",paperList);
+        }
+        else {
+            result.getData().put("paperlist",paperList.subList(0,5));
+        }
+        return result;
+    }
+
     @GetMapping("paper/fuzzykeyword")
     @ApiOperation(value = "通过keyword模糊查询paper")
     private Result elasticsearchFuzzyKeyword(@RequestParam("keyword") String keyword, @RequestParam("pagenum") int pagenum) throws IOException {
