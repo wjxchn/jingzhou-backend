@@ -29,20 +29,25 @@ public class GovernController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    AuthUserRepository authUserRepository;
+
     @ApiOperation(value = "认领门户接口")
     @PostMapping("claimportal")
-    public Result claimportal(@RequestParam("username") String username,@RequestParam("institutionname") String institutionname, @RequestParam("realname") String realname){
+    public Result claimportal(@RequestParam("username") String username,@RequestParam("institutionname") String institutionname,
+                              @RequestParam("realname") String realname,@RequestParam("field") String field){
 
-        User user;
         AuthUser authUser = new AuthUser();
-        user = userRepository.findUserByUsername(username);
+        User user = userRepository.findUserByUsername(username);
         if(user!=null)
             authUser.setUserid(user.getUserid());
         else return new Result("用户名错误",400);
-
+        if(authUserRepository.findAuthUserByUsername(username)!=null)
+            return new Result("用户已认证",500);
         authUser.setUsername(username);
         authUser.setInstitution(institutionname);
         authUser.setRealname(realname);
+        authUser.setField(field);
         authUserService.insertAuthUser(authUser);
         
         Result result = new Result("认证成功", 200);
