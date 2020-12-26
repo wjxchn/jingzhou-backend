@@ -16,6 +16,7 @@ import jingzhou.Service.AuthUserService;
 import jingzhou.Service.FollowService;
 import jingzhou.Service.MessageService;
 import jingzhou.Service.UserService;
+import jingzhou.repository.FollowRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,12 +35,19 @@ public class SocialController {
     private AuthUserService authUserservice;
     @Autowired
     private UserService userService;
+    @Autowired
+    private FollowRepository followRepository;
 
     @ApiOperation("关注接口")
-    @PostMapping({"follow"})
-    public Result follow(@RequestBody Map<String, Object> map) {
-        int follower = Integer.parseInt(map.get("followerid").toString());
-        int researcher = Integer.parseInt(map.get("researcherid").toString());
+    @GetMapping({"follow"})
+    public Result follow(@RequestParam("followername") String followername, @RequestParam("researchername") String researchername) {
+        AuthUser authuser = authUserservice.getAuthUserByRealname(researchername);
+        User user = userService.getUserByName(followername);
+        if(authuser == null || user == null){
+            return new Result("error", 400);
+        }
+        int follower = user.getUserid();
+        int researcher = authuser.getUserid();
         Follow follow = new Follow(follower, researcher);
         this.followService.follows(follow);
         return new Result("关注成功", 200);
@@ -132,38 +140,51 @@ public class SocialController {
     }
 
     @ApiOperation(value = "取消关注接口")
-    @PostMapping("cancelfollow")
-    public Result cancelfollow(@RequestBody Map<String, Object> map)
+    @GetMapping("cancelfollow")
+    public Result cancelfollow(@RequestParam("followername") String followername, @RequestParam("researchername") String researchername)
     {
-        int follower = Integer.parseInt(map.get("followerid").toString());
-        int researcher = Integer.parseInt(map.get("researcherid").toString());
+        AuthUser authuser = authUserservice.getAuthUserByRealname(researchername);
+        User user = userService.getUserByName(followername);
+        if(authuser == null || user == null){
+            return new Result("error", 400);
+        }
+        int follower = user.getUserid();
+        int researcher = authuser.getUserid();
         Follow follow = new Follow(follower,researcher);
         followService.disfollow(follow);
         return new Result("取消关注成功", 200);
     }
 
     @ApiOperation(value = "判断是否已关注接口")
-    @PostMapping("isfollow")
-    public Result isfollow(@RequestBody Map<String, Object> map)
+    @GetMapping("isfollow")
+    public Result isfollow(@RequestParam("followername") String followername, @RequestParam("researchername") String researchername)
     {
-        int follower = Integer.parseInt(map.get("followerid").toString());
-        int researcher = Integer.parseInt(map.get("researcherid").toString());
-        Follow follow = new Follow(follower,researcher);
-        if(follow != null){
-            return new Result("已关注", 1);
+        AuthUser authuser = authUserservice.getAuthUserByRealname(researchername);
+        if(authuser != null){
+            User user = userService.getUserByName(followername);
+            if(user == null){
+                return new Result("发生错误", 404);
+            }
+            int follower = user.getUserid();
+            int researcher = authuser.getUserid();
+            Follow follow = followRepository.getByFolloweridAndResearcherid(follower, researcher);
+            if(follow != null){
+                return new Result("已关注", 200);
+            }
+            else return new Result("未关注", 402);
         }
-        else return new Result("已关注", 0);
+        return new Result("未认证", 401);
     }
 
     @ApiOperation(value = "获取个人主页数据")
     @PostMapping("getpersonalinfo")
     public Result getpersonalinfo(@RequestBody Map<String, Object> map)
     {
-        int id = Integer.parseInt(map.get("userid").toString());
-        AuthUser user = authUserservice.getAuthUserByUserID(id);
+        String username = map.get("username").toString();
+        AuthUser authuser = authUserservice.getAuthUserByUsername(username);
 
         Result result = new Result("获取成功",200);
-        result.getData().put("user",user);
+        result.getData().put("user",authuser);
         return result;
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import java.util.List;
 public interface FollowRepository extends JpaRepository<Follow,String> {
     Follow getByFolloweridAndResearcherid(int followerid, int researcherid);
     List<Follow> getFollowsByResearcherid(int researcherid);
+    @Transactional
     void removeByFolloweridAndResearcherid(int followerid, int researcherid);
     List<Follow> getFollowsByFollowerid(int follower);
 
@@ -31,4 +33,6 @@ public interface FollowRepository extends JpaRepository<Follow,String> {
     //获取关注的学者列表
     @Query(value = "select * from user,follow where follow.followerid=follow and follow.researcherid=user.userid", nativeQuery = true)
     List<User> getResearchers(@Param("follow")int follow);
+
+
 }

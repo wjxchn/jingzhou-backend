@@ -10,4 +10,5 @@ import java.util.List;
 public interface AuthUserRepository extends JpaRepository<AuthUser,String> {
     AuthUser findAuthUserByUsername(String username);
     AuthUser findByUserid(int userid);
+    AuthUser findByRealname(String name);
 }
