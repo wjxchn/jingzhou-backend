@@ -174,6 +174,44 @@ public class PaperController {
         return result;
     }
 
+    @GetMapping("paper/realname")
+    @ApiOperation(value = "通过真实姓名查询paper")
+    private Result findPaperByrealname(@RequestParam("realname") String realname) throws IOException {
+        Result result = new Result("搜索成功", 200);
+        SearchResponse searchResponse = authorService.getByName(realname);
+        if (searchResponse.status() != RestStatus.OK)
+            return new Result("没有搜索结果", 400);
+        SearchHits hits = searchResponse.getHits();
+        TotalHits totalHits = hits.getTotalHits();
+        result.getData().put("total",totalHits.value);
+        List<Author> authorList= new ArrayList<Author>();
+        SearchHit[] searchHits = hits.getHits();
+        int i = 1;
+        for (SearchHit hit:searchHits
+        ) {
+            Map<String,Object> map = hit.getSourceAsMap();
+            ObjectMapper objectMapper = new ObjectMapper();
+            Author author = objectMapper.convertValue(map,Author.class);
+            authorList.add(author);
+        }
+        result.getData().put("author",authorList.get(0));
+        if (authorList == null || authorList.size()==0)return new Result("没有搜索结果", 400);
+
+        ArrayList<Pubs> pubs = authorList.get(0).getPubsList();
+        List<Paper> papers = new ArrayList<>();
+        if (papers != null && papers.size() != 0){
+            for (Pubs pub: pubs){
+                Paper paper = findPaperById(pub.getI());
+                papers.add(paper);
+            }
+            result.setMsg("搜索成功");
+            result.setCode(200);
+            result.getData().put("papers",papers);
+            return result;
+        }
+        else return new Result("没有搜索结果", 400);
+    }
+
     @GetMapping("paper/authorname/rank")
     @ApiOperation(value = "通过authorname精确获取最高引用")
     private Result findPaperByauthornameRank(@RequestParam("authorname") String author) throws IOException {
