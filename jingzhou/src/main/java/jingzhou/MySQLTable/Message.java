@@ -8,7 +8,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Date;
 
-@Entity @Data
+@Entity
+@Data
 public class Message {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer messageid;

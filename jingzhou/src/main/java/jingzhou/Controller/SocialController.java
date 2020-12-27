@@ -17,6 +17,7 @@ import jingzhou.Service.FollowService;
 import jingzhou.Service.MessageService;
 import jingzhou.Service.UserService;
 import jingzhou.repository.FollowRepository;
+import jingzhou.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,6 +39,8 @@ public class SocialController {
     private UserService userService;
     @Autowired
     private FollowRepository followRepository;
+    @Autowired
+    private MessageRepository messageRepository;
 
     @ApiOperation("关注接口")
     @GetMapping({"follow"})
@@ -56,7 +59,8 @@ public class SocialController {
         message.setSenderusername("GuanZhu");
         message.setReceiverusername(researchername);
         message.setContent("您收到了来自 "+researchername+" 的关注");
-        messageService.insertMessage(message);
+        System.out.println(message);
+        messageRepository.save(message);
 
         return new Result("关注成功", 200);
     }
