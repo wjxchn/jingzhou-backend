@@ -133,9 +133,9 @@ public class UserController {
             String filename = userpic.getOriginalFilename();
             String suffixName = filename.substring(filename.lastIndexOf("."));  // 后缀名
 
-            //String path = "/root/accessory/";//图片要上传到哪个文件夹，部署时注意
+            String path = "/root/accessory/";//图片要上传到哪个文件夹，部署时注意
             //String path = "/img/";
-            String path ="/static/img/";
+            //String path ="/static/img/";
             //String path = "F://test";
             filename = UUID.randomUUID() + suffixName;// 新文件名
 
