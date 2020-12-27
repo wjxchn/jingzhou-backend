@@ -56,9 +56,9 @@ public class SocialController {
         this.followService.follows(follow);
 
         Message message = new Message();
-        message.setSenderusername("GuanZhu");
+        message.setSenderusername(followername);
         message.setReceiverusername(researchername);
-        message.setContent("您收到了来自 "+researchername+" 的关注");
+        message.setContent(followername+",您收到了来自 "+researchername+" 的关注");
         System.out.println(message);
         messageRepository.save(message);
 
