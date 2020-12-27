@@ -135,8 +135,8 @@ public class UserController {
 
             //String path = "/root/accessory/";//图片要上传到哪个文件夹，部署时注意
             //String path = "/img/";
-            //String path ="/static/img/";
-            String path = "F://test";
+            String path ="/static/img/";
+            //String path = "F://test";
             filename = UUID.randomUUID() + suffixName;// 新文件名
 
             // 新建文件
