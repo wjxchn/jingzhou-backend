@@ -20,6 +20,7 @@ import jingzhou.repository.FollowRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -50,6 +51,13 @@ public class SocialController {
         int researcher = authuser.getUserid();
         Follow follow = new Follow(follower, researcher);
         this.followService.follows(follow);
+
+        Message message = new Message();
+        message.setSenderusername("GuanZhu");
+        message.setReceiverusername(researchername);
+        message.setContent("您收到了来自 "+researchername+" 的关注");
+        messageService.insertMessage(message);
+
         return new Result("关注成功", 200);
     }
 /*
@@ -159,7 +167,7 @@ public class SocialController {
     @GetMapping("isfollow")
     public Result isfollow(@RequestParam("followername") String followername, @RequestParam("researchername") String researchername)
     {
-        AuthUser authuser = authUserservice.getAuthUserByRealname(researchername);
+        AuthUser authuser = authUserservice.getAuthUserByUsername(researchername);
         if(authuser != null){
             User user = userService.getUserByName(followername);
             if(user == null){
@@ -187,4 +195,16 @@ public class SocialController {
         result.getData().put("user",authuser);
         return result;
     }
+
+    @ApiOperation(value = "获取收到的关注消息")
+    @PostMapping("getfollowmessage")
+    public Result getfollowmessage(@RequestParam("receivername") String receivername)
+    {
+        List<Message> mlist = messageService.getMessagesBySenderAndReceiver("GuanZhu",receivername);
+
+        Result result = new Result("获取成功",200);
+        result.getData().put("messages",mlist);
+        return result;
+    }
+
 }
