@@ -97,18 +97,18 @@ public class SocialController {
 
     @ApiOperation("关注人数")
     @GetMapping("follow/num")
-    public Result followNum(@RequestParam("userid") int follower) {
+    public Result followNum(@RequestParam("userrealname") String userrealname) {
         Result result = new Result("查看关注成功", 200);
-        int num = this.followService.getFollowNum(follower);
+        int num = this.followService.getFollowNum(authUserservice.getAuthUserByRealname(userrealname).getUserid());
         result.getData().put("cnt", num);
         return result;
     }
 
     @ApiOperation("被关注人数")
     @GetMapping("follower/num")
-    public Result followerNum(@RequestParam("userid") int follow) {
+    public Result followerNum(@RequestParam("userrealname") String userrealname) {
         Result result = new Result("返回人数", 200);
-        int num = this.followService.getFollowerNum(follow);
+        int num = this.followService.getFollowerNum(authUserservice.getAuthUserByRealname(userrealname).getUserid());
         result.getData().put("cnt", num);
         return result;
     }
