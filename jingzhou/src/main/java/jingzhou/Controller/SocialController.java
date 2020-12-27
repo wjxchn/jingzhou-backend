@@ -90,7 +90,8 @@ public class SocialController {
     @GetMapping({"receivemessage"})
     public Result receivemessage(@RequestParam("receiver") String receiver) {
         Result result = new Result("查看消息成功", 200);
-        List<Message> messages = this.messageService.getMessagesByReceiver(receiver);
+        AuthUser authuser = authUserservice.getAuthUserByUsername(receiver);
+        List<Message> messages = this.messageService.getMessagesByReceiver(authuser.getRealname());
         result.getData().put("message", messages);
         return result;
     }
