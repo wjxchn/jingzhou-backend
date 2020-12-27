@@ -58,7 +58,7 @@ public class SocialController {
         Message message = new Message();
         message.setSenderusername(followername);
         message.setReceiverusername(researchername);
-        message.setContent(followername+",您收到了来自 "+researchername+" 的关注");
+        message.setContent(researchername+",您收到了来自 "+followername+" 的关注");
         System.out.println(message);
         messageRepository.save(message);
 
@@ -197,17 +197,6 @@ public class SocialController {
 
         Result result = new Result("获取成功",200);
         result.getData().put("user",authuser);
-        return result;
-    }
-
-    @ApiOperation(value = "获取收到的关注消息")
-    @PostMapping("getfollowmessage")
-    public Result getfollowmessage(@RequestParam("receivername") String receivername)
-    {
-        List<Message> mlist = messageService.getMessagesBySenderAndReceiver("GuanZhu",receivername);
-
-        Result result = new Result("获取成功",200);
-        result.getData().put("messages",mlist);
         return result;
     }
 
