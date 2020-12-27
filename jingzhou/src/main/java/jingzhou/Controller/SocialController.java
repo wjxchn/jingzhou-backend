@@ -171,7 +171,7 @@ public class SocialController {
     @GetMapping("isfollow")
     public Result isfollow(@RequestParam("followername") String followername, @RequestParam("researchername") String researchername)
     {
-        AuthUser authuser = authUserservice.getAuthUserByUsername(researchername);
+        AuthUser authuser = authUserservice.getAuthUserByRealname(researchername);
         if(authuser != null){
             User user = userService.getUserByName(followername);
             if(user == null){
