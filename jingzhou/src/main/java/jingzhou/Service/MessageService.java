@@ -23,4 +23,8 @@ public class MessageService {
     public List<Message> getMessagesByReceiver(String receiver){
      return messageRepository.findMessageByReceiverusername(receiver);
     }
+
+    public List<Message> getMessagesBySenderAndReceiver(String sender, String receiver){
+        return messageRepository.findMessageBySenderusernameAndReceiverusername(sender,receiver);
+    }
 }
