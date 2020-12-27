@@ -177,39 +177,30 @@ public class PaperController {
     @GetMapping("paper/realname")
     @ApiOperation(value = "通过真实姓名查询paper")
     private Result findPaperByrealname(@RequestParam("realname") String realname) throws IOException {
-        Result result = new Result("搜索成功", 200);
-        SearchResponse searchResponse = authorService.getByName(realname);
+        Result result = new Result();
+        int total = 0;
+        SearchResponse searchResponse = paperService.getByAuthornameExactRank(realname);
         if (searchResponse.status() != RestStatus.OK)
             return new Result("没有搜索结果", 400);
+        System.out.println("searchresponse返回");
         SearchHits hits = searchResponse.getHits();
         TotalHits totalHits = hits.getTotalHits();
         result.getData().put("total",totalHits.value);
-        List<Author> authorList= new ArrayList<Author>();
+        List<Paper>  paperList= new ArrayList<Paper>();
         SearchHit[] searchHits = hits.getHits();
         int i = 1;
         for (SearchHit hit:searchHits
         ) {
             Map<String,Object> map = hit.getSourceAsMap();
             ObjectMapper objectMapper = new ObjectMapper();
-            Author author = objectMapper.convertValue(map,Author.class);
-            authorList.add(author);
+            Paper paper = objectMapper.convertValue(map,Paper.class);
+            paperList.add(paper);
         }
-        result.getData().put("author",authorList.get(0));
-        if (authorList == null || authorList.size()==0)return new Result("没有搜索结果", 400);
+        if (paperList == null || paperList.size()==0)
+            return new Result("没有搜索结果", 400);
+        result.getData().put("paperlist",paperList);
 
-        ArrayList<Pubs> pubs = authorList.get(0).getPubsList();
-        List<Paper> papers = new ArrayList<>();
-        if (papers != null && papers.size() != 0){
-            for (Pubs pub: pubs){
-                Paper paper = findPaperById(pub.getI());
-                papers.add(paper);
-            }
-            result.setMsg("搜索成功");
-            result.setCode(200);
-            result.getData().put("papers",papers);
-            return result;
-        }
-        else return new Result("没有搜索结果", 400);
+        return result;
     }
 
     @GetMapping("paper/authorname/rank")
@@ -437,40 +428,31 @@ public class PaperController {
     @GetMapping("paper/username")
     @ApiOperation(value = "通过用户名查询paper")
     private Result mySqlUsernameToElasticsearchPaper(@RequestParam("username") String username) throws IOException {
-        Result result = new Result("搜索成功", 200);
+        Result result = new Result();
+        int total = 0;
         AuthUser authUser = authUserService.getAuthUserByUsername(username);
-
-        SearchResponse searchResponse = authorService.getByName(authUser.getRealname());
+        String authorrealname = authUser.getRealname();
+        SearchResponse searchResponse = paperService.getByAuthornameExactRank(authorrealname);
         if (searchResponse.status() != RestStatus.OK)
             return new Result("没有搜索结果", 400);
+        System.out.println("searchresponse返回");
         SearchHits hits = searchResponse.getHits();
         TotalHits totalHits = hits.getTotalHits();
         result.getData().put("total",totalHits.value);
-        List<Author> authorList= new ArrayList<Author>();
+        List<Paper>  paperList= new ArrayList<Paper>();
         SearchHit[] searchHits = hits.getHits();
         int i = 1;
         for (SearchHit hit:searchHits
         ) {
             Map<String,Object> map = hit.getSourceAsMap();
             ObjectMapper objectMapper = new ObjectMapper();
-            Author author = objectMapper.convertValue(map,Author.class);
-            authorList.add(author);
+            Paper paper = objectMapper.convertValue(map,Paper.class);
+            paperList.add(paper);
         }
-        result.getData().put("author",authorList.get(0));
-        if (authorList == null || authorList.size()==0)return new Result("没有搜索结果", 400);
+        if (paperList == null || paperList.size()==0)
+            return new Result("没有搜索结果", 400);
+        result.getData().put("paperlist",paperList);
 
-        ArrayList<Pubs> pubs = authorList.get(0).getPubsList();
-        List<Paper> papers = new ArrayList<>();
-        if (papers != null && papers.size() != 0){
-            for (Pubs pub: pubs){
-                Paper paper = findPaperById(pub.getI());
-                papers.add(paper);
-            }
-            result.setMsg("搜索成功");
-            result.setCode(200);
-            result.getData().put("papers",papers);
-            return result;
-        }
-        else return new Result("没有搜索结果", 400);
+        return result;
     }
 }

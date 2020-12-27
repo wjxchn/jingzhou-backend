@@ -119,15 +119,11 @@ public class UserController {
     }
 
     @ApiOperation(value = "修改用户头像")
-    @PostMapping("changeuserinfo/Userpic")
-    public Result changeuserpic(@RequestBody Map<String, Object> map, HttpServletRequest request){
-        MultipartFile userpic =(MultipartFile) map.get("userpic");
-        int userid = Integer.parseInt(map.get("userid").toString());
+    @PostMapping("changeuserinfo/userpic/{username}")
+    public Result changeuserpic(@RequestParam("userpic") MultipartFile userpic, @PathVariable("username") String username, HttpServletRequest request){
+        int userid = userRepository.findUserByUsername(username).getUserid();
 
         User user1 = sessionService.getCurrentUser(request);
-        if (user1.getUserid() != userid){
-            return new Result("非当前登录用户", 400);
-        }
         User user = userService.getUserById(userid);
         if (user == null)return new Result("用户不存在", 200);
 
@@ -136,9 +132,11 @@ public class UserController {
             //图片命名
             String filename = userpic.getOriginalFilename();
             String suffixName = filename.substring(filename.lastIndexOf("."));  // 后缀名
-            String path = "/root/accessory/";//图片要上传到哪个文件夹，部署时注意
+
+            //String path = "/root/accessory/";//图片要上传到哪个文件夹，部署时注意
             //String path = "/img/";
             //String path ="/static/img/";
+            String path = "F://test";
             filename = UUID.randomUUID() + suffixName;// 新文件名
 
             // 新建文件
@@ -162,7 +160,7 @@ public class UserController {
                 return new Result("上传失败", 400);
             }
             System.out.println(path+filename);
-            user.setPic(path+filename);
+            user.setPic(filename);
             userService.updateUser(user);
             return new Result("修改头像成功", 200);
         }
