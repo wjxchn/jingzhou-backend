@@ -75,8 +75,8 @@ public class UserController {
 
     @ApiOperation(value = "用户信息显示接口")
     @GetMapping("showuserinfo")
-    public Result showuserinfo(HttpServletRequest request){
-        User user = sessionService.getCurrentUser(request);
+    public Result showuserinfo(@RequestParam("username") String username){
+        User user = userRepository.findUserByUsername(username);
         if(user!=null){
             Result result = new Result("已显示用户信息", 200);
             //直接放对象是否可行？
